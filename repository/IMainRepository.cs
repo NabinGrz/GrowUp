@@ -37,6 +37,9 @@ namespace Growup.repository
         void DeleteVideo(int id);
         List<Videos> GetVidoesOfSkill(int id);
 
+        UserResponse SaveVideoRating(VideoRating videoRating);
+        float GetAverageVideoRating(int videoId);
+
 
 
     }

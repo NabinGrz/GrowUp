@@ -282,8 +282,46 @@ namespace Growup.repository
         {
             return _db.Videos.Where(m => m.SkillId == id).ToList();
         }
-
         
+        public UserResponse SaveVideoRating(VideoRating videoRating)
+        {
+            try
+            {
+                var videoRatingInDb = _db.VideoRatings
+                    .SingleOrDefault(m => m.ApplicationUserId == videoRating.ApplicationUserId && m.VideoId == videoRating.VideoId);
+                if(videoRatingInDb == null)
+                {
+                    _db.VideoRatings.Add(videoRating);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    videoRatingInDb.Rating = videoRating.Rating;
+                    _db.SaveChanges();
+                }
+                return new UserResponse()
+                {
+                    Message = "User Saved Successfully",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception)
+            {
+                return new UserResponse()
+                {
+                    Message = "Something went wrong",
+                    IsSuccess = false
+                };
+            }
+        }
+        
+
+        public float GetAverageVideoRating(int videoId)
+        {
+            var ratingOfVideo = _db.VideoRatings.Where(m => m.VideoId == videoId);
+            var average = ratingOfVideo.Average(m => m.Rating);
+            return average;
+        }
 
     }
 }

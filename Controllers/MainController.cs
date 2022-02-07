@@ -396,6 +396,31 @@ namespace Growup.Controllers
             return Ok(_repo.GetVidoesOfSkill(id));
         }
 
+        [HttpPost("/api/v1/AddVideoRating")]
+        [Authorize]
+        public IActionResult SaveRating(VideoRating model)
+        {
+            model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                var result = _repo.SaveVideoRating(model);
+                
+                return Ok(result);
+            }
+            else
+            {
+               return BadRequest("Some properties are missing");
+            }
+        }
+
+        [HttpGet("/api/v1/GetAverageVideoRating")]
+        [Authorize]
+        public IActionResult GetAverageVideoRating(int videoId)
+        {
+            var average = _repo.GetAverageVideoRating(videoId);
+            return Ok(new { average = average });
+        }
+
 
     }
 }
