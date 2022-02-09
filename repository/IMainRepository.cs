@@ -40,6 +40,9 @@ namespace Growup.repository
         UserResponse SaveVideoRating(VideoRating videoRating);
         float GetAverageVideoRating(int videoId);
 
+        UserResponse SaveTeacherRating(TeacherRating teacherRating);
+        float GetAverageTeacherRating(int teacherId);
+
 
 
     }

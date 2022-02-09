@@ -323,5 +323,45 @@ namespace Growup.repository
             return average;
         }
 
+        public UserResponse SaveTeacherRating(TeacherRating teacherRating)
+        {
+            try
+            {
+                var teacherRatingInDb = _db.TeacherRating
+                    .SingleOrDefault(m => m.StudentId == teacherRating.StudentId && m.TeacherId == teacherRating.TeacherId);
+                if (teacherRatingInDb == null)
+                {
+                    _db.TeacherRating.Add(teacherRating);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    teacherRatingInDb.Rating = teacherRating.Rating;
+                    _db.SaveChanges();
+                }
+                return new UserResponse()
+                {
+                    Message = "User Saved Successfully",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception)
+            {
+                return new UserResponse()
+                {
+                    Message = "Something went wrong",
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        public float GetAverageTeacherRating(int teacherId)
+        {
+            var ratingOfTeacher = _db.VideoRatings.Where(m => m.Id == teacherId);
+            var average = ratingOfTeacher.Average(m => m.Rating);
+            return average;
+        }
+
     }
 }

@@ -398,7 +398,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/AddVideoRating")]
         [Authorize]
-        public IActionResult SaveRating(VideoRating model)
+        public IActionResult SaveVideoRating(VideoRating model)
         {
             model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -422,5 +422,29 @@ namespace Growup.Controllers
         }
 
 
+        [HttpPost("/api/v1/AddTeacherRating")]
+        [Authorize]
+        public IActionResult SaveTeacherRating(TeacherRating model)
+        {
+            model.StudentId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                var result = _repo.SaveTeacherRating(model);
+
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Some properties are missing");
+            }
+        }
+
+        [HttpGet("/api/v1/GetAverageTeacherRating")]
+        [Authorize]
+        public IActionResult GetAverageTeacherRating(int teacherId)
+        {
+            var average = _repo.GetAverageTeacherRating(teacherId);
+            return Ok(new { average = average });
+        }
     }
 }
