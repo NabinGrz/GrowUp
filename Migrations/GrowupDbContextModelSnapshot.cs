@@ -145,12 +145,36 @@ namespace Growup.Migrations
                     b.ToTable("NewsFeeds");
                 });
 
+            modelBuilder.Entity("Growup.Models.NewsFeedRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NewsFeedId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("newsFeedRatings");
+                });
+
             modelBuilder.Entity("Growup.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SkillCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -160,7 +184,24 @@ namespace Growup.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SkillCategoryId");
+
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("Growup.Models.SkillCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SkillCateogries");
                 });
 
             modelBuilder.Entity("Growup.Models.TeacherRating", b =>
@@ -385,6 +426,15 @@ namespace Growup.Migrations
                     b.Navigation("Application");
                 });
 
+            modelBuilder.Entity("Growup.Models.Skill", b =>
+                {
+                    b.HasOne("Growup.Models.SkillCategory", null)
+                        .WithMany("Skills")
+                        .HasForeignKey("SkillCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Growup.Models.Videos", b =>
                 {
                     b.HasOne("Growup.Models.Skill", "Skill")
@@ -450,6 +500,11 @@ namespace Growup.Migrations
             modelBuilder.Entity("Growup.Models.Skill", b =>
                 {
                     b.Navigation("Videos");
+                });
+
+            modelBuilder.Entity("Growup.Models.SkillCategory", b =>
+                {
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

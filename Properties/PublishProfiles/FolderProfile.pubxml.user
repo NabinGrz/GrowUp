@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\inetpub\wwwroot\Growup</_PublishTargetUrl>
+    <History>True|2022-02-12T07:17:28.2325641Z;True|2022-02-12T12:58:48.2048712+05:45;True|2022-02-12T12:39:13.4427235+05:45;False|2022-02-12T12:38:58.6947684+05:45;True|2022-02-12T12:31:51.4661606+05:45;True|2022-02-12T12:25:12.5432514+05:45;False|2022-02-12T12:24:07.8628321+05:45;True|2022-02-11T21:36:21.8511824+05:45;False|2022-02-11T21:36:02.6953275+05:45;False|2022-02-11T21:35:49.1656047+05:45;True|2022-02-11T20:49:08.0058863+05:45;True|2022-02-11T20:29:54.3583403+05:45;True|2022-02-11T20:29:25.6911461+05:45;False|2022-02-11T20:29:08.2726937+05:45;True|2022-02-11T20:16:32.5997553+05:45;False|2022-02-11T20:16:20.9528310+05:45;True|2022-02-11T20:07:01.9146144+05:45;True|2022-02-11T20:06:20.7316931+05:45;True|2022-02-11T19:47:40.7083923+05:45;True|2022-02-10T20:39:40.5336488+05:45;True|2022-02-10T20:38:42.2910496+05:45;True|2022-02-10T20:31:28.4226062+05:45;True|2022-02-10T20:23:57.9959508+05:45;False|2022-02-10T20:22:22.0679811+05:45;True|2022-02-10T20:20:36.3064843+05:45;False|2022-02-10T20:19:47.8682177+05:45;True|2022-02-10T20:14:44.4426367+05:45;True|2022-02-10T20:11:51.3129679+05:45;False|2022-02-10T20:10:06.3417658+05:45;False|2022-02-10T20:09:47.1993995+05:45;True|2022-02-10T20:00:26.5458847+05:45;True|2022-02-10T19:52:46.6210824+05:45;True|2022-02-10T19:51:57.4804301+05:45;</History>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=SACHINMAHARJAN-%3bInitial Catalog=GrowupDb%3bIntegrated Security=False%3bUser ID=sachin%3bPassword=password</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="Growup.Data.GrowupDbContext">
+      <Value>Server=.%3bDatabase=GrowupDb%3b Integrated Security=True%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

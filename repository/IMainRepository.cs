@@ -42,8 +42,19 @@ namespace Growup.repository
 
         UserResponse SaveTeacherRating(TeacherRating teacherRating);
         float GetAverageTeacherRating(int teacherId);
+        int CountVideoRating(int videoRatingId);
+        int CountTeacherRating(string teacherId);
 
+        //skill Categories
+        void AddSkillCategory(SkillCategory model);
+        void UpdateSkillCategory(SkillCategory model);
+        SkillCategory GetSingleSkillCategory(int id);
+        List<SkillCategory> GetAllSkillCategoriesWithSkill();
+        void DeleteSkillCategories(int id);
+        int VidoesCountInSkill(int id);
 
-
+        public int CountNewsFeedRating(int newsFeedId);
+        public float GetAverageNewsFeedRating(int newsFeedId);
+        public UserResponse SaveNewsFeedRating(NewsFeedRating newsFeedRating);
     }
 }

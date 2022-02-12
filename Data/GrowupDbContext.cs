@@ -15,8 +15,10 @@ namespace Growup.Data
         public DbSet<Videos> Videos{ get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<NewsFeed> NewsFeeds { get; set; }
+        public DbSet<NewsFeedRating> newsFeedRatings { get; set; }
 
         public DbSet<VideoRating> VideoRatings { get; set; }
         public DbSet<TeacherRating> TeacherRating { get; set; }
+        public DbSet<SkillCategory> SkillCateogries { get; set; }
     }
 }

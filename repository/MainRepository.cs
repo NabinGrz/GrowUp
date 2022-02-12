@@ -190,6 +190,7 @@ namespace Growup.repository
                 var skillInDb = _db.Skills.SingleOrDefault(m => m.Id == model.Id);
                 skillInDb.Title = model.Title;
                 skillInDb.TitleImage = model.TitleImage;
+                skillInDb.SkillCategoryId = model.SkillCategoryId;
                 _db.SaveChanges();
                 return new UserResponse()
                 {
@@ -301,7 +302,7 @@ namespace Growup.repository
                 }
                 return new UserResponse()
                 {
-                    Message = "User Saved Successfully",
+                    Message = "Video rating Saved Successfully",
                     IsSuccess = true
                 };
             }
@@ -341,7 +342,7 @@ namespace Growup.repository
                 }
                 return new UserResponse()
                 {
-                    Message = "User Saved Successfully",
+                    Message = "Teacher Saved Successfully",
                     IsSuccess = true
                 };
             }
@@ -361,6 +362,101 @@ namespace Growup.repository
             var ratingOfTeacher = _db.VideoRatings.Where(m => m.Id == teacherId);
             var average = ratingOfTeacher.Average(m => m.Rating);
             return average;
+        }
+
+
+        public int CountTeacherRating(string teacherId)
+        {
+            var teacherRatingCount = _db.TeacherRating.Where(m => m.TeacherId == teacherId).Count();
+            return teacherRatingCount;
+        }
+
+        public int CountVideoRating(int videoId)
+        {
+            var videoRatingCount = _db.VideoRatings.Where(m => m.VideoId == videoId).Count();
+            return videoRatingCount;
+        }
+
+        public void AddSkillCategory(SkillCategory model)
+        {
+            _db.SkillCateogries.Add(model);
+            _db.SaveChanges();
+        }
+
+        public void UpdateSkillCategory(SkillCategory model)
+        {
+            var categoryInDb = _db.SkillCateogries.SingleOrDefault(m => m.Id == model.Id);
+            categoryInDb.Name = model.Name;
+            _db.SaveChanges();
+        }
+
+        public SkillCategory GetSingleSkillCategory(int id)
+        {
+            return _db.SkillCateogries.SingleOrDefault(m => m.Id == id);
+        }
+
+        public List<SkillCategory> GetAllSkillCategoriesWithSkill()
+        {
+            return _db.SkillCateogries.Include("Skills").ToList();
+        }
+
+        public void DeleteSkillCategories(int id)
+        {
+            var category = _db.SkillCateogries.SingleOrDefault(m => m.Id == id);
+            _db.SkillCateogries.Remove(category);
+            _db.SaveChanges();
+        }
+
+        public int VidoesCountInSkill(int id)
+        {
+            return _db.Videos.Where(m => m.SkillId == id).Count();
+        }
+
+
+        public UserResponse SaveNewsFeedRating(NewsFeedRating newsFeedRating)
+        {
+            try
+            {
+                var newsFeedRatingInDb = _db.newsFeedRatings
+                    .SingleOrDefault(m => m.ApplicationUserId == newsFeedRating.ApplicationUserId && m.NewsFeedId == newsFeedRating.NewsFeedId);
+                if (newsFeedRatingInDb == null)
+                {
+                    _db.newsFeedRatings.Add(newsFeedRating);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    newsFeedRatingInDb.Rating = newsFeedRating.Rating;
+                    _db.SaveChanges();
+                }
+                return new UserResponse()
+                {
+                    Message = "NewsFeedRating Saved Successfully",
+                    IsSuccess = true
+                };
+            }
+            catch (Exception)
+            {
+                return new UserResponse()
+                {
+                    Message = "Something went wrong",
+                    IsSuccess = false
+                };
+            }
+        }
+
+
+        public float GetAverageNewsFeedRating(int newsFeedId)
+        {
+            var ratingOfNewsFeed= _db.newsFeedRatings.Where(m => m.NewsFeedId == newsFeedId);
+            var average = ratingOfNewsFeed.Average(m => m.Rating);
+            return average;
+        }
+
+        public int CountNewsFeedRating(int newsFeedId)
+        {
+            var newsFeedRatingCount = _db.newsFeedRatings.Where(m => m.NewsFeedId == newsFeedId).Count();
+            return newsFeedRatingCount;
         }
 
     }

@@ -19,5 +19,7 @@ namespace Growup.Models
         public IFormFile  ImageFile { get; set; }
 
         public List<Videos> Videos { get; set; }
+
+        public int SkillCategoryId { get; set; }
     }
 }

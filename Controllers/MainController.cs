@@ -446,5 +446,107 @@ namespace Growup.Controllers
             var average = _repo.GetAverageTeacherRating(teacherId);
             return Ok(new { average = average });
         }
+
+        [HttpGet("/api/v1/category")]
+        [Authorize]
+        public IActionResult GetSingleSkillCategory(int id)
+        {
+            return Ok(_repo.GetSingleSkillCategory(id));
+        }
+
+
+        [HttpPost("/api/v1/category")]
+        [Authorize]
+        public IActionResult AddSkillCategory(SkillCategory model)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.AddSkillCategory(model);
+                return Ok(new { msg = "category added successfully!" });
+            }
+            return BadRequest("Some properties are missing");
+        }
+        [HttpPut("/api/v1/category")]
+        [Authorize]
+        public IActionResult UpdateSkillCategory(SkillCategory model)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.UpdateSkillCategory(model);
+                return Ok(new { msg = "category updated successfully!" });
+            }
+            return BadRequest("Some properties are missing");
+        }
+
+        [HttpDelete("/api/v1/category")]
+        [Authorize]
+        public IActionResult DeleteCateogry(int id)
+        {
+            _repo.DeleteSkillCategories(id);
+            return Ok(new { msg = "Ok Deleted" });
+        }
+
+        [HttpGet("/api/v1/categorylist")]
+        [Authorize]
+        public IActionResult GetAllCategoriesWithSkill()
+        {
+            return Ok(_repo.GetAllSkillCategoriesWithSkill());
+        }
+
+        [HttpGet("/api/v1/video/count")]
+        [Authorize]
+        public IActionResult GetVideoCountOfSkill(int id)
+        {
+            return Ok(_repo.VidoesCountInSkill(id));
+        }
+
+
+        [HttpGet("/api/v1/video/rating/count")]
+        [Authorize]
+        public IActionResult GetVideoRatingCount(int id)
+        {
+            return Ok(_repo.CountVideoRating(id));
+        }
+
+        [HttpGet("/api/v1/teacher/rating/count")]
+        [Authorize]
+        public IActionResult GetTeacherRatingCount(string id)
+        {
+            return Ok(_repo.CountTeacherRating(id));
+        }
+
+
+        [HttpPost("/api/v1/AddTeacherRating")]
+        [Authorize]
+        public IActionResult SaveNewsFeedRating(NewsFeedRating model)
+        {
+            model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                var result = _repo.SaveNewsFeedRating(model);
+
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Some properties are missing");
+            }
+        }
+
+        [HttpGet("/api/v1/GetAverageNewsFeedRating")]
+        [Authorize]
+        public IActionResult GetAverageNewsFeedRating(int id)
+        {
+            var average = _repo.GetAverageNewsFeedRating(id);
+            return Ok(new { average = average });
+        }
+
+        [HttpGet("/api/v1/newsfeed/rating/count")]
+        [Authorize]
+        public IActionResult GetNewsFeedRatingCount(int id) 
+        {
+            return Ok(_repo.CountNewsFeedRating(id));
+        }
+
     }
 }

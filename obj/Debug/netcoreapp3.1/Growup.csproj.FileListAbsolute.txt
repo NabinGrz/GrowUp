@@ -1,3 +1,4 @@
+D:\C#\Growup\bin\Debug\netcoreapp3.1\web.config
 D:\C#\Growup\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\C#\Growup\bin\Debug\netcoreapp3.1\appsettings.json
 D:\C#\Growup\bin\Debug\netcoreapp3.1\Growup.exe
@@ -56,6 +57,7 @@ D:\C#\Growup\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlC
 D:\C#\Growup\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 D:\C#\Growup\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\C#\Growup\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.csproj.AssemblyReference.cache
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.GeneratedMSBuildEditorConfig.editorconfig
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.AssemblyInfoInputs.cache
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.AssemblyInfo.cs
@@ -77,5 +79,3 @@ D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.csproj.CopyComplete
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.dll
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.pdb
 D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.genruntimeconfig.cache
-D:\C#\Growup\obj\Debug\netcoreapp3.1\Growup.csproj.AssemblyReference.cache
-D:\C#\Growup\bin\Debug\netcoreapp3.1\web.config

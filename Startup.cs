@@ -93,7 +93,7 @@ namespace Growup
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseDeveloperExceptionPage();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
