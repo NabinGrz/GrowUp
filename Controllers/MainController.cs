@@ -516,7 +516,7 @@ namespace Growup.Controllers
         }
 
 
-        [HttpPost("/api/v1/AddTeacherRating")]
+        [HttpPost("/api/v1/AddNewsFeedRating")]
         [Authorize]
         public IActionResult SaveNewsFeedRating(NewsFeedRating model)
         {
