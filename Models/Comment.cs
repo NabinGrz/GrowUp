@@ -13,7 +13,7 @@ namespace Growup.Models
         public int NewsFeedId { get; set; }
         public NewsFeed NewsFeed {get; set;}
 
-        public int ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
     }

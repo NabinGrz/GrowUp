@@ -56,5 +56,6 @@ namespace Growup.repository
         public int CountNewsFeedRating(int newsFeedId);
         public float GetAverageNewsFeedRating(int newsFeedId);
         public UserResponse SaveNewsFeedRating(NewsFeedRating newsFeedRating);
+        public void SaveBooking(Booking booking);
     }
 }

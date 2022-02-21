@@ -44,7 +44,7 @@ namespace Growup.repository
         //returns single news feed
         public NewsFeed GetSingleNewsFeed(int id)
         {
-            return _db.NewsFeeds.Include("ApplicationUser").SingleOrDefault(m => m.Id == id);
+            return _db.NewsFeeds.Include("ApplicationUser").Include("NewsFeedRatings").SingleOrDefault(m => m.Id == id);
         }
 
         //return list of news feed
@@ -457,6 +457,12 @@ namespace Growup.repository
         {
             var newsFeedRatingCount = _db.newsFeedRatings.Where(m => m.NewsFeedId == newsFeedId).Count();
             return newsFeedRatingCount;
+        }
+
+        public void SaveBooking (Booking booking)
+        {
+            _db.Bookings.Add(booking);
+            _db.SaveChanges();
         }
 
     }

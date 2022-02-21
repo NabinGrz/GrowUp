@@ -25,5 +25,6 @@ namespace Growup.Models
         public string ApplicationUserId { get; set; }
 
         public ApplicationUser Application { get; set; }
+        public List<NewsFeedRating> NewsFeedRatings { get; set; }
     }
 }

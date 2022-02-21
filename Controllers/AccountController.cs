@@ -1,9 +1,12 @@
-﻿using Growup.DTOs;
+﻿using Growup.Data;
+using Growup.DTOs;
 using Growup.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Growup.Controllers
@@ -12,11 +15,14 @@ namespace Growup.Controllers
     {
         private IUserService _userService;
         private IMailService _mailService;
+        private GrowupDbContext _db;
         public AccountController(IUserService userService,
-                                 IMailService mailService)
+                                 IMailService mailService,
+                                 GrowupDbContext db)
         {
             _userService = userService;
             _mailService = mailService;
+            _db = db;
         }
       
         // /api/account/register
@@ -102,7 +108,60 @@ namespace Growup.Controllers
         }
 
 
+        [HttpPost("/api/v1/account/update/account")]
+        [Authorize]
+        public IActionResult UpdateAccount(AccountUpdateVM model)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userInDb = _db.Users.SingleOrDefault(m => m.Id == userId);
+                userInDb.Email = model.Email;
+                userInDb.PhoneNumber = model.PhoneNumber;
+                _db.SaveChanges();
+                return Ok(new { message = "Account Updated Successfully!" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Internal server error"});
+            }
+            
+        }
 
+        [HttpPost("/api/v1/account/update/profile")]
+        [Authorize]
+        public IActionResult UpdateAccount(UpdateProfileVM model)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userInDb = _db.Users.SingleOrDefault(m => m.Id == userId);
+                userInDb.Address = model.Address;
+                userInDb.Gender = model.Gender;
+                userInDb.FullName = model.FullName;
+                _db.SaveChanges();
+                return Ok(new { message = "Profile Updated Successfully!" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Internal server error" });
+            }
+        }
+
+        [HttpGet("/api/v1/account/user/detail")]
+        [Authorize]
+        public IActionResult GetUserDetail(string id)
+        {
+            try
+            {
+                var user = _db.Users.Single(m => m.Id == id);
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { msg = "User Not Found!" });
+            }
+        }
 
     }
 }

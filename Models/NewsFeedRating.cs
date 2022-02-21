@@ -8,6 +8,7 @@ namespace Growup.Models
 {
     public class NewsFeedRating
     {
+        [Key]
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
         public int NewsFeedId { get; set; }

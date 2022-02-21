@@ -548,5 +548,31 @@ namespace Growup.Controllers
             return Ok(_repo.CountNewsFeedRating(id));
         }
 
+        [HttpPost("/api/v1/booking")]
+        [Authorize]
+        public IActionResult SaveBooking(Booking booking)
+        {
+            booking.StudentId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                _repo.SaveBooking(booking);
+                return Ok(new { message = "Booking saved" });
+            }
+            return BadRequest(new { message = "Some properties are missing" });
+        }
+
+        //[HttpGet("/api/v1/teacher/booking")]
+        //[Authorize]
+        //public IActionResult GetTeacherBooking(string id)
+        //{
+
+        //}
+
+        //[HttpGet("/api/v1/teacher/booking")]
+        //[Authorize]
+        //public IActionResult GetStudentBooking(string id)
+        //{
+
+        //}
     }
 }
