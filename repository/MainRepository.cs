@@ -157,7 +157,7 @@ namespace Growup.repository
 
         public Comment GetSingleComment(int id)
         {
-            return _db.Comments.SingleOrDefault(m => m.Id == id);
+            return _db.Comments.Include("ApplicationUser").SingleOrDefault(m => m.Id == id);
         }
 
         public UserResponse SaveSkill(Skill model)
