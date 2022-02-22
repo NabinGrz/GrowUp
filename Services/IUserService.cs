@@ -1,4 +1,6 @@
 ﻿using Growup.DTOs;
+using Growup.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Growup.Services
@@ -12,5 +14,6 @@ namespace Growup.Services
         Task<UserResponse> ForgotPasswordAsync(string email);
 
         Task<UserResponse> ResetPasswordAsync(ResetPasswordViewModel model);
+        Task<List<ApplicationUser>> GetAllTeachersAsync();
     }
 }

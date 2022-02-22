@@ -163,5 +163,13 @@ namespace Growup.Controllers
             }
         }
 
+        [HttpGet("/api/v1/account/teachers")]
+        [Authorize]
+        public async Task<IActionResult> GetAllTeachers()
+        {
+            var teachers = await _userService.GetAllTeachersAsync();
+            return Ok(teachers);
+        }
+
     }
 }

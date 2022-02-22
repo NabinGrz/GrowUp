@@ -234,6 +234,12 @@ namespace Growup.Services
         }
 
 
+        public async Task<List<ApplicationUser>> GetAllTeachersAsync()
+        {
+            var teachers =  await _userManager.GetUsersInRoleAsync("Teacher");
+            return teachers.ToList();
+        }
+
     }
 
 }
