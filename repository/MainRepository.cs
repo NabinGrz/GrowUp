@@ -357,9 +357,9 @@ namespace Growup.repository
         }
 
 
-        public float GetAverageTeacherRating(int teacherId)
+        public float GetAverageTeacherRating(string teacherId)
         {
-            var ratingOfTeacher = _db.VideoRatings.Where(m => m.Id == teacherId);
+            var ratingOfTeacher = _db.TeacherRating.Where(m => m.TeacherId == teacherId);
             var average = ratingOfTeacher.Average(m => m.Rating);
             return average;
         }
@@ -463,6 +463,19 @@ namespace Growup.repository
         {
             _db.Bookings.Add(booking);
             _db.SaveChanges();
+        }
+
+        public List<Booking> GetBookingOfTeachers (string teacherId)
+        {
+            return _db.Bookings.OrderByDescending(m => m.BookingDateTime)
+                .Where(m => m.TeacherId == teacherId)
+                .ToList();
+        }
+
+        public List<Booking> GetStudentsBooking(string studentId)
+        {
+            return _db.Bookings.Where(m => m.StudentId == studentId)
+                .OrderByDescending(m => m.BookingDateTime).ToList();
         }
 
     }

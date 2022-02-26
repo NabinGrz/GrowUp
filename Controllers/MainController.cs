@@ -441,7 +441,7 @@ namespace Growup.Controllers
 
         [HttpGet("/api/v1/GetAverageTeacherRating")]
         [Authorize]
-        public IActionResult GetAverageTeacherRating(int teacherId)
+        public IActionResult GetAverageTeacherRating(string teacherId)
         {
             var average = _repo.GetAverageTeacherRating(teacherId);
             return Ok(new { average = average });
@@ -561,18 +561,18 @@ namespace Growup.Controllers
             return BadRequest(new { message = "Some properties are missing" });
         }
 
-        //[HttpGet("/api/v1/teacher/booking")]
-        //[Authorize]
-        //public IActionResult GetTeacherBooking(string id)
-        //{
+        [HttpGet("/api/v1/teacher/booking")]
+        [Authorize]
+        public IActionResult GetTeacherBooking(string id)
+        {
+            return Ok(_repo.GetBookingOfTeachers(id));
+        }
 
-        //}
-
-        //[HttpGet("/api/v1/teacher/booking")]
-        //[Authorize]
-        //public IActionResult GetStudentBooking(string id)
-        //{
-
-        //}
+        [HttpGet("/api/v1/students/booking")]
+        [Authorize]
+        public IActionResult GetStudentBooking(string id)
+        {
+            return Ok(_repo.GetStudentsBooking(id));
+        }
     }
 }

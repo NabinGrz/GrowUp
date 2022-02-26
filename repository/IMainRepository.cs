@@ -41,7 +41,7 @@ namespace Growup.repository
         float GetAverageVideoRating(int videoId);
 
         UserResponse SaveTeacherRating(TeacherRating teacherRating);
-        float GetAverageTeacherRating(int teacherId);
+        float GetAverageTeacherRating(string teacherId);
         int CountVideoRating(int videoRatingId);
         int CountTeacherRating(string teacherId);
 
@@ -57,5 +57,7 @@ namespace Growup.repository
         public float GetAverageNewsFeedRating(int newsFeedId);
         public UserResponse SaveNewsFeedRating(NewsFeedRating newsFeedRating);
         public void SaveBooking(Booking booking);
+        List<Booking> GetStudentsBooking(string studentId);
+        List<Booking> GetBookingOfTeachers(string teacherId);
     }
 }
