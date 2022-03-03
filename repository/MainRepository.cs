@@ -478,5 +478,69 @@ namespace Growup.repository
                 .OrderByDescending(m => m.BookingDateTime).ToList();
         }
 
+
+        public void SaveQuestion(Question model)
+        {
+            _db.Questions.Add(model);
+            _db.SaveChanges();
+        }
+
+        public void DeleteQuestion(int id)
+        {
+            var question = _db.Questions.SingleOrDefault(m => m.Id == id);
+            _db.Questions.Remove(question);
+            _db.SaveChanges();
+        }
+
+        public void UpdateQuestion(Question model)
+        {
+            var question = _db.Questions.SingleOrDefault(m => m.Id == model.Id);
+            question.Text = model.Text;
+            question.SkillId = model.SkillId;
+            _db.SaveChanges();
+        }
+
+        public List<Question> GetAllQuestionOfSkill(int id)
+        {
+            return _db.Questions.Include("Options").Where(m => m.SkillId == id).ToList();
+        }
+
+        public void SaveOption(Option option)
+        {
+            _db.Options.Add(option);
+            _db.SaveChanges();
+        }
+
+        public void UpdateOption(Option option)
+        {
+            var opt = _db.Options.SingleOrDefault(m => m.Id == option.Id);
+            opt.IsCorrectOption = option.IsCorrectOption;
+            opt.QuestionId = option.QuestionId;
+            opt.Text = option.Text;
+            _db.SaveChanges();
+        }
+
+        public void DeleteOption(int id)
+        {
+            var opt = _db.Options.SingleOrDefault(m => m.Id == id);
+            _db.Options.Remove(opt);
+            _db.SaveChanges();
+        }
+
+        public void SaveExamResult(Exam exam)
+        {
+            _db.Exams.Add(exam);
+            _db.SaveChanges();
+        }
+
+        public List<Exam> GetExamOfStudentInParticularSkill(string studentId, int skillId)
+        {
+            return _db.Exams.Where(m => m.StudentId == studentId && m.SkillId == skillId).ToList();
+        }
+
+        public int GetVideoCountInSkill(int skillId)
+        {
+            return _db.Videos.Where(m => m.SkillId == skillId).Count();
+        }
     }
 }

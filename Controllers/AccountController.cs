@@ -24,7 +24,7 @@ namespace Growup.Controllers
             _mailService = mailService;
             _db = db;
         }
-      
+
         // /api/account/register
         [HttpPost("/api/v1/account/register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
@@ -44,7 +44,7 @@ namespace Growup.Controllers
 
         // /api/v1/account/login
         [HttpPost("/api/v1/account/login")]
-        public async Task<IActionResult> LoginAsync([FromBody]LoginViewModel model)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace Growup.Controllers
         [HttpGet("/api/v1/account/confirmEmail")]
         public async Task<IActionResult> ActionResult(string userId, string token)
         {
-            if(string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace("token"))
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace("token"))
             {
                 return NotFound();
             }
@@ -77,7 +77,7 @@ namespace Growup.Controllers
 
         // /api/v1/account/resetpassword
         [HttpPost("/api/v1/account/forgotpassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody]string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -93,11 +93,11 @@ namespace Growup.Controllers
 
         // /api/v1/account/resetpassword?email&token
         [HttpPost("/api/v1/account/resetpassword")]
-        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-               var result = await _userService.ResetPasswordAsync(model);
+                var result = await _userService.ResetPasswordAsync(model);
                 if (result.IsSuccess)
                 {
                     return Ok(result);
@@ -110,7 +110,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/account/update/account")]
         [Authorize]
-        public IActionResult UpdateAccount(AccountUpdateVM model)
+        public IActionResult UpdateAccount([FromBody] AccountUpdateVM model)
         {
             try
             {
@@ -123,14 +123,14 @@ namespace Growup.Controllers
             }
             catch (Exception)
             {
-                return BadRequest(new { message = "Internal server error"});
+                return BadRequest(new { message = "Internal server error" });
             }
-            
+
         }
 
         [HttpPost("/api/v1/account/update/profile")]
         [Authorize]
-        public IActionResult UpdateAccount(UpdateProfileVM model)
+        public IActionResult UpdateAccount([FromBody] UpdateProfileVM model)
         {
             try
             {
@@ -171,5 +171,12 @@ namespace Growup.Controllers
             return Ok(teachers);
         }
 
+        [HttpGet("/api/v1/user/id")]
+        [Authorize]
+        public IActionResult GetLoginUserId()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(new { UserId = userId });
+        }
     }
 }

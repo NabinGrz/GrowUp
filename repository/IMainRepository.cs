@@ -59,5 +59,17 @@ namespace Growup.repository
         public void SaveBooking(Booking booking);
         List<Booking> GetStudentsBooking(string studentId);
         List<Booking> GetBookingOfTeachers(string teacherId);
+
+        //Exam
+        void SaveQuestion(Question model);
+        void UpdateQuestion(Question model);
+        void DeleteQuestion(int id);
+        List<Question> GetAllQuestionOfSkill(int id);
+        void SaveOption(Option option);
+        void UpdateOption(Option option);
+        void DeleteOption(int id);
+        void SaveExamResult(Exam exam);
+        List<Exam> GetExamOfStudentInParticularSkill(string studentId, int skillId);
+        int GetVideoCountInSkill(int skillId);
     }
 }

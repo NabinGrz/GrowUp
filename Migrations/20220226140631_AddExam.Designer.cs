@@ -4,14 +4,16 @@ using Growup.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Growup.Migrations
 {
     [DbContext(typeof(GrowupDbContext))]
-    partial class GrowupDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220226140631_AddExam")]
+    partial class AddExam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,7 @@ namespace Growup.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Test")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

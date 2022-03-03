@@ -398,7 +398,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/AddVideoRating")]
         [Authorize]
-        public IActionResult SaveVideoRating(VideoRating model)
+        public IActionResult SaveVideoRating([FromBody] VideoRating model)
         {
             model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -424,7 +424,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/AddTeacherRating")]
         [Authorize]
-        public IActionResult SaveTeacherRating(TeacherRating model)
+        public IActionResult SaveTeacherRating([FromBody] TeacherRating model)
         {
             model.StudentId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -457,7 +457,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/category")]
         [Authorize]
-        public IActionResult AddSkillCategory(SkillCategory model)
+        public IActionResult AddSkillCategory([FromBody] SkillCategory model)
         {
             if (ModelState.IsValid)
             {
@@ -468,7 +468,7 @@ namespace Growup.Controllers
         }
         [HttpPut("/api/v1/category")]
         [Authorize]
-        public IActionResult UpdateSkillCategory(SkillCategory model)
+        public IActionResult UpdateSkillCategory([FromBody] SkillCategory model)
         {
             if (ModelState.IsValid)
             {
@@ -518,7 +518,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/AddNewsFeedRating")]
         [Authorize]
-        public IActionResult SaveNewsFeedRating(NewsFeedRating model)
+        public IActionResult SaveNewsFeedRating([FromBody] NewsFeedRating model)
         {
             model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -550,7 +550,7 @@ namespace Growup.Controllers
 
         [HttpPost("/api/v1/booking")]
         [Authorize]
-        public IActionResult SaveBooking(Booking booking)
+        public IActionResult SaveBooking([FromBody] Booking booking)
         {
             booking.StudentId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
@@ -573,6 +573,159 @@ namespace Growup.Controllers
         public IActionResult GetStudentBooking(string id)
         {
             return Ok(_repo.GetStudentsBooking(id));
+        }
+
+        [HttpPost("/api/v1/question")]
+        [Authorize]
+        public IActionResult SaveQuestion([FromBody] Question model)
+        {
+            // skillId:int, QuestionText:string
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _repo.SaveQuestion(model);
+                    return Ok(new { message = "Question Added Successfully" });
+                }
+                return BadRequest(new { message = "Some Properties are missing"});
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Internal Server Error" });
+            }
+        }
+
+        [HttpDelete("/api/v1/question")]
+        [Authorize]
+        public IActionResult DeleteQuestion(int id) //question Id
+        {
+            try
+            {
+                _repo.DeleteQuestion(id);
+                return Ok(new { message = "Delete Question Successfull" });
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("/api/v1/question")]
+        [Authorize]
+        public IActionResult UpdateQuestion([FromBody] Question question)//id, question text, skillid
+        {
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _repo.UpdateQuestion(question);
+                    return Ok();
+                }
+                return BadRequest(new { message = "Some Properties are missing" });
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Internal Server Error" });
+            }
+        }
+
+        [HttpGet("/api/v1/all/question")]
+        [Authorize]
+        public IActionResult AllQuestionOfSkill(int id) //skillId
+        {
+            return Ok(_repo.GetAllQuestionOfSkill(id));
+        }
+
+
+        [HttpPost("/api/v1/option")]
+        [Authorize]
+        public IActionResult SaveOption([FromBody] Option model)
+        {
+            // skillId:int, QuestionText:string
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _repo.SaveOption(model);
+                    return Ok(new { message = "Option Added Successfully" });
+                }
+                return BadRequest(new { message = "Some Properties are missing" });
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Internal Server Error" });
+            }
+        }
+
+        [HttpDelete("/api/v1/option")]
+        [Authorize]
+        public IActionResult DeleteOption(int id) //option Id
+        {
+            try
+            {
+                _repo.DeleteOption(id);
+                return Ok(new { message = "Delete Option Successfull" });
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("/api/v1/option")]
+        [Authorize]
+        public IActionResult UpdateOption([FromBody] Option option)//id, option text, questionId
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _repo.UpdateOption(option);
+                    return Ok();
+                }
+                return BadRequest(new { message = "Some Properties are missing" });
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Internal Server Error" });
+            }
+        }
+
+        [HttpPost("/api/v1/save/test/result")]
+        [Authorize]
+        public IActionResult SaveExamResult([FromBody]Exam exam)
+        {
+            try
+            {
+                _repo.SaveExamResult(exam);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("/api/v1/student/test/results")]
+        [Authorize]
+        public IActionResult GetExamHistoryOfStudent(int id) // id -> skillId
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value; 
+            return Ok(_repo.GetExamOfStudentInParticularSkill(userId, id));
+        }
+
+        [HttpGet("/api/v1/video/count")]
+        [Authorize]
+        public IActionResult GetVideoCountInSkill(int id)//skillId{
+        {
+            return Ok(new { count = _repo.GetVideoCountInSkill(id) });
         }
     }
 }

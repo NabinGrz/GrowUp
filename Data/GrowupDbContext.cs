@@ -22,5 +22,12 @@ namespace Growup.Data
         public DbSet<SkillCategory> SkillCateogries { get; set; }
 
         public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<Exam> Exams { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Option> Options { get; set; }
+
+
+
     }
 }
