@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,10 @@ namespace Growup
             services.AddControllers();
             services.AddRazorPages();
 
+            services.AddSwaggerGen( c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Growup API", Version = "v1" });
+            });
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMainRepository, MainRepository>();
             services.AddTransient<IMailService, MailService>();
@@ -91,18 +96,24 @@ namespace Growup
             }
 
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
 
+          
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+            });
+        
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GrowupApp API");
             });
         }
     }

@@ -212,7 +212,7 @@ namespace Growup.Controllers
             return Ok();
         }
 
-        [HttpGet("api/v1/get_comments")]
+        [HttpGet("api/v1/get/comments")]
         [Authorize]
         public IActionResult GetAllCommentsOfNewsFeed(int id)
         {
@@ -221,7 +221,7 @@ namespace Growup.Controllers
             return Ok(result);
         }
 
-        [HttpGet("api/v1/get_comments")]
+        [HttpGet("api/v1/get/comment")]
         [Authorize]
         public IActionResult GetSingleComment(int id)
         {
@@ -721,7 +721,7 @@ namespace Growup.Controllers
             return Ok(_repo.GetExamOfStudentInParticularSkill(userId, id));
         }
 
-        [HttpGet("/api/v1/video/count")]
+        [HttpGet("/api/v1/video/count/skill")]
         [Authorize]
         public IActionResult GetVideoCountInSkill(int id)//skillId{
         {
