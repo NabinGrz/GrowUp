@@ -35,19 +35,55 @@ class _QuizScreenState extends State<QuizScreen> {
   double marks = 0.0;
   double finalMarks = 0.0;
   Map<String, Color> btnColor = {
-    "a": Colors.white,
-    "b": Colors.white,
-    "c": Colors.white,
-    "d": Colors.white,
+    "a": const Color.fromARGB(255, 230, 230, 230),
+    "b": const Color.fromARGB(255, 230, 230, 230),
+    "c": const Color.fromARGB(255, 230, 230, 230),
+    "d": const Color.fromARGB(255, 230, 230, 230),
   };
+  Map<String, Color> btnTextColor = {
+    "a": const Color.fromARGB(255, 0, 0, 0),
+    "b": const Color.fromARGB(255, 0, 0, 0),
+    "c": const Color.fromARGB(255, 0, 0, 0),
+    "d": const Color.fromARGB(255, 0, 0, 0),
+  };
+
+  Map<String, double> btnHeight = {
+    "a": 60,
+    "b": 60,
+    "c": 60,
+    "d": 60,
+  };
+  Map<String, double> btnWidth = {
+    "a": 400,
+    "b": 400,
+    "c": 400,
+    "d": 400,
+  };
+  Map<String, double> btnTextSize = {
+    "a": 16,
+    "b": 16,
+    "c": 16,
+    "d": 16,
+  };
+  double buttonH = 60;
+  double buttonW = 400;
   checkAnswer(String k, String iscorrect) {
     if (iscorrect == "true") {
       btnColor[k] = Colors.green;
+      btnHeight[k] = 65;
+      btnWidth[k] = 450;
+      btnTextColor[k] = Colors.white;
+      btnTextSize[k] = 20;
       marks = marks + 1;
+
       setState(() {});
       print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY$marks");
     } else {
       btnColor[k] = wrong;
+      btnHeight[k] = 65;
+      btnWidth[k] = 450;
+      btnTextColor[k] = Colors.white;
+      btnTextSize[k] = 20;
       marks = marks;
       setState(() {});
       print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN$marks");
@@ -72,18 +108,18 @@ class _QuizScreenState extends State<QuizScreen> {
         },
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: btnTextColor[k],
             fontFamily: "Alike",
-            fontSize: 16.0,
+            fontSize: btnTextSize[k],
           ),
           maxLines: 1,
         ),
         color: btnColor[k],
         splashColor: Colors.indigo[700],
         highlightColor: Colors.indigo[700],
-        minWidth: 200.0,
-        height: 45.0,
+        minWidth: btnWidth[k],
+        height: btnHeight[k],
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
@@ -118,55 +154,79 @@ class _QuizScreenState extends State<QuizScreen> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            listQuiz[index].text.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 24),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 2.8,
-                            width: MediaQuery.of(context).size.width - 35,
-                            // color: Colors.red,
-                            child: SingleChildScrollView(
-                              physics: const ScrollPhysics(),
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: listQuiz[index].options!.length,
-                                  itemBuilder: (context, ansIndex) {
-                                    k = ['a', 'b', 'c', 'd'];
-                                    String selectedAns = listQuiz[index]
-                                        .options![ansIndex]
-                                        .isCorrectOption
-                                        .toString();
-                                    return Column(
-                                      children: [
-                                        choicebutton(
-                                            k![ansIndex].toString(),
-                                            listQuiz[index]
-                                                .options![ansIndex]
-                                                .text
-                                                .toString(),
-                                            selectedAns),
-                                      ],
-                                    );
-                                  }),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                color: whiteColor,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Color.fromARGB(255, 212, 212, 212),
+                                      blurRadius: 14,
+                                      spreadRadius: 2,
+                                      offset: Offset(3, 3)),
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                listQuiz[index].text.toString(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 24),
+                              ),
                             ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                color: whiteColor,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Color.fromARGB(255, 212, 212, 212),
+                                      blurRadius: 14,
+                                      spreadRadius: 2,
+                                      offset: Offset(3, 3)),
+                                ]),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 2.8,
+                              width: MediaQuery.of(context).size.width - 35,
+                              // color: Colors.red,
+                              child: SingleChildScrollView(
+                                physics: const ScrollPhysics(),
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: listQuiz[index].options!.length,
+                                    itemBuilder: (context, ansIndex) {
+                                      k = ['a', 'b', 'c', 'd'];
+                                      String selectedAns = listQuiz[index]
+                                          .options![ansIndex]
+                                          .isCorrectOption
+                                          .toString();
+                                      return Column(
+                                        children: [
+                                          choicebutton(
+                                              k![ansIndex].toString(),
+                                              listQuiz[index]
+                                                  .options![ansIndex]
+                                                  .text
+                                                  .toString(),
+                                              selectedAns),
+                                        ],
+                                      );
+                                    }),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 35,
                           ),
                           index == listQuiz.length - 1
                               ? ElevatedButton(
                                   onPressed: () {
-                                    btnColor['a'] = Colors.white;
-                                    btnColor['b'] = Colors.white;
-                                    btnColor['c'] = Colors.white;
-                                    btnColor['d'] = Colors.white;
-                                    pageController.animateToPage(
-                                      ++pageChanged,
-                                      duration:
-                                          const Duration(milliseconds: 250),
-                                      curve: Curves.linear,
-                                    );
-                                    setState(() {});
                                     Get.to(QuizResultScreen(marks,
                                         listQuiz.length, widget.skillID));
                                   },
@@ -189,10 +249,30 @@ class _QuizScreenState extends State<QuizScreen> {
                                 )
                               : ElevatedButton(
                                   onPressed: () {
-                                    btnColor['a'] = Colors.white;
-                                    btnColor['b'] = Colors.white;
-                                    btnColor['c'] = Colors.white;
-                                    btnColor['d'] = Colors.white;
+                                    btnColor['a'] = const Color.fromARGB(
+                                        255, 230, 230, 230);
+                                    btnHeight['a'] = 60;
+                                    btnWidth['a'] = 400;
+                                    btnTextColor['a'] = Colors.black;
+                                    btnTextSize['a'] = 16;
+                                    btnColor['b'] = const Color.fromARGB(
+                                        255, 230, 230, 230);
+                                    btnHeight['b'] = 60;
+                                    btnWidth['b'] = 400;
+                                    btnTextColor['b'] = Colors.black;
+                                    btnTextSize['b'] = 16;
+                                    btnColor['c'] = const Color.fromARGB(
+                                        255, 230, 230, 230);
+                                    btnHeight['c'] = 60;
+                                    btnWidth['c'] = 400;
+                                    btnTextColor['c'] = Colors.black;
+                                    btnTextSize['c'] = 16;
+                                    btnColor['d'] = const Color.fromARGB(
+                                        255, 230, 230, 230);
+                                    btnHeight['d'] = 60;
+                                    btnWidth['d'] = 400;
+                                    btnTextColor['d'] = Colors.black;
+                                    btnTextSize['d'] = 16;
                                     pageController.animateToPage(
                                       ++pageChanged,
                                       duration:

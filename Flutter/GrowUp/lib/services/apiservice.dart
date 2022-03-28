@@ -26,8 +26,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://3d3a-2400-1a00-b020-de2a-2827-5ba7-d1fa-511e.ngrok.io";
-const baseUrlPost = "3d3a-2400-1a00-b020-de2a-2827-5ba7-d1fa-511e.ngrok.io";
+    "https://73f8-2400-1a00-b020-de2a-cdc9-8bde-3df6-1c39.ngrok.io";
+const baseUrlPost = "73f8-2400-1a00-b020-de2a-cdc9-8bde-3df6-1c39.ngrok.io";
 late var myUrlTutor;
 late var responseTutor;
 late List dataTutor;
@@ -451,7 +451,7 @@ Future getSkillDetails() async {
   print("FINAL TOKEN OF USER:" + obtainedtokenData.toString());
   myUrl = Uri.parse(
     // "$baseUrlGet/api/v1/getskills",
-    "https://3d3a-2400-1a00-b020-de2a-2827-5ba7-d1fa-511e.ngrok.io/api/v1/getskills",
+    "https://73f8-2400-1a00-b020-de2a-cdc9-8bde-3df6-1c39.ngrok.io/api/v1/getskills",
   );
   responseSkills = await http.get(myUrl, headers: {
     'Content-Type': 'application/json',
@@ -504,7 +504,7 @@ Future postNewsFeed(String title, File file) async {
   var request = http.MultipartRequest(
       "POST",
       Uri.parse(
-          "https://3d3a-2400-1a00-b020-de2a-2827-5ba7-d1fa-511e.ngrok.io/api/v1/addnewsfeed"));
+          "https://73f8-2400-1a00-b020-de2a-cdc9-8bde-3df6-1c39.ngrok.io/api/v1/addnewsfeed"));
   request.headers.addAll({
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $obtainedtokenData',
