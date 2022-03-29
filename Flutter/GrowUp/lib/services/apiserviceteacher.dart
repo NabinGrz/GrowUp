@@ -78,7 +78,7 @@ Future<List<CommentsModel>> getNewsFeedComments(int newsFeedId) async {
   });
 
   var data = await responseComment.body;
-  comments = await commentsModelFromJson(data);
+  comments = commentsModelFromJson(data);
   print("======================AAAAAAAAAAAAAAAAAAAA=======================");
   print(comments);
   return comments;
@@ -88,29 +88,27 @@ Future<List<CommentsModel>> getNewsFeedComments(int newsFeedId) async {
 var commentResponseData;
 var _responseCommenting;
 bool commented = false;
-Future postComment(
-  String comment,
-  int newsFeedId,
-  // String zoompassword,
-  // String bookingdate,
-  // String bookingTime
-) async {
+Future postComment(String comment, int newsFeedId, String userAppId
+    // String zoompassword,
+    // String bookingdate,
+    // String bookingTime
+    ) async {
   // var response = await http.post(Uri.https('reqres.in', 'api/login'),
-  var responseCommenting =
-      await http.post(Uri.https(baseUrlPost, 'api/v1/addcomment'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $obtainedtokenData',
-          },
-          body: jsonEncode(
-              // <String, dynamic>{"NewsFeedUserId": 22, "Rating": 3.5},
-              <String, dynamic>{
-                "Description": comment,
-                "NewsFeedId": newsFeedId,
-                "ApplicationUserId": "0c188464-ba3d-4493-ac40-1ab1de31178c"
-              }));
+  var responseCommenting = await http.post(
+      Uri.https(baseUrlPost, 'api/v1/addcomment'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $obtainedtokenData',
+      },
+      body: jsonEncode(
+          // <String, dynamic>{"NewsFeedUserId": 22, "Rating": 3.5},
+          <String, dynamic>{
+            "Description": comment,
+            "NewsFeedId": newsFeedId,
+            "ApplicationUserId": userAppId
+          }));
   if (responseCommenting.statusCode == 200) {
-    var commentResponse = await responseCommenting.body;
+    var commentResponse = responseCommenting.body;
     var data = jsonDecode(commentResponse);
     commented = true;
     _responseCommenting = data;
@@ -173,7 +171,7 @@ Future updateProfile(
             },
           ));
   if (responseUpdating.statusCode == 200) {
-    var updatingResponse = await responseUpdating.body;
+    var updatingResponse = responseUpdating.body;
     var data = jsonDecode(updatingResponse);
     updatingResponseData = data;
     print("VICTORY HAS BEEN ACHEIVED");

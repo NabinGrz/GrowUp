@@ -12,7 +12,6 @@ import 'package:growup/models/skillsdetailmodel.dart';
 import 'package:growup/models/skillsvideoresponsemodel.dart';
 import 'package:growup/models/teachermodel.dart';
 import 'package:growup/models/userdetailresponsemodel.dart';
-import 'package:growup/models/users_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,36 +25,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://fb94-2400-1a00-b020-de2a-9da-98b5-ac4c-eb82.ngrok.io";
-const baseUrlPost = "fb94-2400-1a00-b020-de2a-9da-98b5-ac4c-eb82.ngrok.io";
-late var myUrlTutor;
-late var responseTutor;
-late List dataTutor;
-late List<Test> usersTutor;
-Future<List<Test>> getTutor({String? query}) async {
-  var url = Uri.parse("https://jsonplaceholder.typicode.com/users");
-  try {
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      dataTutor = await Future.delayed(
-          const Duration(seconds: 1), () => json.decode(response.body));
-
-      usersTutor = dataTutor.map((e) => Test.fromJson(e)).toList();
-
-      if (query != null) {
-        usersTutor = usersTutor
-            .where((element) =>
-                element.name!.toLowerCase().contains((query.toLowerCase())))
-            .toList();
-      }
-    } else {
-      print("fetch error");
-    }
-  } on Exception catch (e) {
-    print('error: $e');
-  }
-  return usersTutor;
-}
+    "https://1476-2400-1a00-b020-f21c-9da-98b5-ac4c-eb82.ngrok.io";
+const baseUrlPost = "1476-2400-1a00-b020-f21c-9da-98b5-ac4c-eb82.ngrok.io";
 
 //===============================================================================
 
@@ -451,7 +422,7 @@ Future getSkillDetails() async {
   print("FINAL TOKEN OF USER:" + obtainedtokenData.toString());
   myUrl = Uri.parse(
     // "$baseUrlGet/api/v1/getskills",
-    "https://fb94-2400-1a00-b020-de2a-9da-98b5-ac4c-eb82.ngrok.io/api/v1/getskills",
+    "https://1476-2400-1a00-b020-f21c-9da-98b5-ac4c-eb82.ngrok.io/api/v1/getskills",
   );
   responseSkills = await http.get(myUrl, headers: {
     'Content-Type': 'application/json',
@@ -504,7 +475,7 @@ Future postNewsFeed(String title, File file) async {
   var request = http.MultipartRequest(
       "POST",
       Uri.parse(
-          "https://fb94-2400-1a00-b020-de2a-9da-98b5-ac4c-eb82.ngrok.io/api/v1/addnewsfeed"));
+          "https://1476-2400-1a00-b020-f21c-9da-98b5-ac4c-eb82.ngrok.io/api/v1/addnewsfeed"));
   request.headers.addAll({
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $obtainedtokenData',

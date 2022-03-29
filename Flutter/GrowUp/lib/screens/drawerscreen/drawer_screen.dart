@@ -5,6 +5,7 @@ import 'package:growup/controller/myController.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
 import 'package:growup/screens/quizhistory/quizhistorylist.dart';
+import 'package:growup/screens/studentcoursescreen/studentcourse.dart';
 import 'package:growup/screens/tutorscreen/tutorlist.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:iconsax/iconsax.dart';
@@ -153,9 +154,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const NewRow(
-                  text: 'Bookmarks',
-                  icon: Iconsax.bookmark,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                //CourseInfoScreen()
+                                StudentCourseListScreen()));
+                  },
+                  child: const NewRow(
+                    text: 'Enrollment',
+                    icon: Iconsax.bookmark,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

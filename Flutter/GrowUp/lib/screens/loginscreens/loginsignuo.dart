@@ -33,7 +33,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   String? gender = "Male";
   //static var tokenData;
   bool isRememberMe = false;
-  var _currencies = ['Student', 'Teacher'];
+  final _currencies = ['Student', 'Teacher'];
   var _currentItemSelected = 'Student';
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   var textValue;
@@ -84,6 +84,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     checkValue();
   }
 
+  @override
   Widget build(BuildContext context) {
     print("BUUUUUUUUUUUUUIIIIIIIIIIIIIIIIIILLLLLLLLLLLLLLL");
     return GetMaterialApp(
@@ -128,7 +129,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                 title: "Success!!",
                                 middleText: "Login Successfull",
                                 actions: [
-                                  Icon(
+                                  const Icon(
                                     Iconsax.chart_fail,
                                     size: 35,
                                     color: Color.fromARGB(255, 252, 25, 9),
@@ -141,12 +142,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   style: const TextStyle(
                                     fontSize: 21,
                                     letterSpacing: 2,
-                                    color: const Color(0xFFFFFFFF),
+                                    color: Color(0xFFFFFFFF),
                                   ),
                                   children: [
                                     const TextSpan(
                                       text: " Grow",
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 21,
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xfffe6700),
@@ -178,7 +179,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                   decoration: BoxDecoration(
                       color: orangeColor,
                       borderRadius: const BorderRadius.only(
-                          bottomLeft: const Radius.circular(90),
+                          bottomLeft: Radius.circular(90),
                           bottomRight: Radius.circular(90))),
                 )),
             Align(
@@ -323,7 +324,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          buildTextField(Icons.mail_outline, "info@demouri.com", false, true,
+          buildTextField(Icons.mail_outline, "example@gmail.com", false, true,
               email, TextInputType.emailAddress),
           emailError
               ? builldErrorText("Please enter valid email address")
@@ -515,8 +516,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               text: TextSpan(
                   text: "By signing up, you agree to our ",
                   style: TextStyle(color: textColor2),
-                  children: [
-                    const TextSpan(
+                  children: const [
+                    TextSpan(
                       //recognizer: ,
                       text: "term & conditions",
                       style: TextStyle(color: Colors.orange),
@@ -538,7 +539,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          "$name",
+          name,
           style: const TextStyle(color: Colors.red),
         ),
       ),
@@ -555,8 +556,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: iconColor,
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                     color: Color(0xFFCCCCCC),
                     blurRadius: 14,
                     spreadRadius: -3,
@@ -588,7 +589,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
 
   void _onDropDownItemSelected(String newValueSelected) {
     setState(() {
-      this._currentItemSelected = newValueSelected;
+      _currentItemSelected = newValueSelected;
     });
   }
 
@@ -684,7 +685,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     title: "Success!!",
                                     middleText: "Login Successfull",
                                     actions: [
-                                      Icon(
+                                      const Icon(
                                         Iconsax.tick_circle,
                                         size: 35,
                                         color: Color.fromARGB(255, 23, 204, 92),
@@ -701,7 +702,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     title: "Oops!!",
                                     middleText: "Invalid Password/Email",
                                     actions: [
-                                      Icon(
+                                      const Icon(
                                         Iconsax.chart_fail,
                                         size: 35,
                                         color: Color.fromARGB(255, 252, 25, 9),
@@ -745,7 +746,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       title: "Oops!!",
                                       middleText: "Invalid Password/Email",
                                       actions: [
-                                        Icon(
+                                        const Icon(
                                           Iconsax.chart_fail,
                                           size: 35,
                                           color:
@@ -826,7 +827,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       title: "Unsuccessfull",
                                       middleText: "Account already existed",
                                       actions: [
-                                        Icon(Iconsax.chart_fail,
+                                        const Icon(Iconsax.chart_fail,
                                             size: 35, color: Colors.red)
                                       ],
                                       buttonColor: Colors.white);
@@ -835,7 +836,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       title: "Success!!",
                                       middleText: "Registration Successfull",
                                       actions: [
-                                        Icon(
+                                        const Icon(
                                           Iconsax.tick_circle,
                                           size: 35,
                                           color:
@@ -924,8 +925,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               offset: const Offset(0, 1))
                         ]),
                     child: isLogging
-                        ? Center(
-                            child: const CircularProgressIndicator(
+                        ? const Center(
+                            child: CircularProgressIndicator(
                             color: Colors.white,
                           ))
                         : const Icon(
@@ -957,11 +958,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: textColor1),
-            borderRadius: const BorderRadius.all(const Radius.circular(35.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: textColor1),
-            borderRadius: const BorderRadius.all(const Radius.circular(35.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           ),
           contentPadding: const EdgeInsets.all(10),
           hintText: hintText,

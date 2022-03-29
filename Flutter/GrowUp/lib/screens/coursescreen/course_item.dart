@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/screens/coursescreen/courseinfo.dart';
-import 'package:growup/screens/profilescreen/profile_screen.dart';
+import 'package:growup/screens/studentcoursescreen/studentcourse.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+
+import '../../courseadapter/studentcourse.dart';
 
 class CourseItem extends StatelessWidget {
   final String? name;
@@ -35,9 +39,9 @@ class CourseItem extends StatelessWidget {
         height: MediaQuery.of(context).size.width * 0.6,
         width: MediaQuery.of(context).size.width * 0.4,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
             color: whiteColor,
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.grey,
                   blurRadius: 14,
@@ -54,34 +58,30 @@ class CourseItem extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             //CourseInfoScreen()
-                        //             CourseInfo(
-                        //               name: name,
-                        //               imageUrl: imageUrl,
-                        //             )));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    //CourseInfoScreen()
+                                    StudentCourseListScreen()));
+                        Box<StudentCourse> box =
+                            Hive.box<StudentCourse>('course');
+                        box.add(StudentCourse(name!, imageUrl!,
+                            noOfVideos.toString(), skillId.toString()));
+                        Fluttertoast.showToast(
+                          msg: "Your course has been added",
+                        );
                       },
                       child: Container(
-                        //margin: EdgeInsets.symmetric(horizontal: 20),
                         width: 25,
                         height: 25,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       color: Color(0xFF8A8A8A),
-                          //       blurRadius: 14,
-                          //       spreadRadius: 1,
-                          //       offset: Offset(3, 3)),
-                          // ],
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xFF90A5F8),
+                              const Color(0xFF90A5F8),
                               darkBlueColor,
                             ],
                             begin: Alignment.topRight,
@@ -89,7 +89,7 @@ class CourseItem extends StatelessWidget {
                           ),
                           //  color: Colors.red[300]
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Iconsax.add,
                           color: Colors.white,
                         ),
@@ -110,7 +110,7 @@ class CourseItem extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
+            SizedBox(
               height: 50,
               //color: Colors.green,
               child: Align(
@@ -123,7 +123,7 @@ class CourseItem extends StatelessWidget {
                     )),
               ),
             ),
-            Divider(
+            const Divider(
               thickness: 1,
             ),
             Align(

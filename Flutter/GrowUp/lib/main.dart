@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:growup/adapters/quizhistory.dart';
 import 'package:growup/colorpalettes/palette.dart';
+import 'package:growup/courseadapter/studentcourse.dart';
 import 'package:growup/downloads/download_provider.dart';
 import 'package:growup/screens/paymentscreen/khalti_payment.dart';
 import 'package:growup/screens/splash_screen/splashscreen.dart';
@@ -14,9 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(QuizHistoryAdapter());
-  var myBox = await Hive.openBox<QuizHistory>('history');
-  print("THE BOX HAS ");
-  print(myBox.values);
+  Hive.registerAdapter(StudentCourseAdapter());
+  await Hive.openBox<QuizHistory>('history');
+  await Hive.openBox<StudentCourse>('course');
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(

@@ -2,19 +2,15 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
 import 'package:growup/models/commentmodel.dart';
-import 'package:growup/models/newsfeedmodels.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
 import 'package:growup/widgets/shimmer.dart';
-import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 StreamController _stream = StreamController();
@@ -28,7 +24,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
         return Container(
           height: MediaQuery.of(context).size.height / 2,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xffFFFFFF),
             // borderRadius: BorderRadius.all(Radius.circular(20))
           ),
@@ -36,7 +32,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -48,14 +44,14 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                         fontWeight: FontWeight.w500,
                         fontSize: 24),
                   ),
-                  Icon(Iconsax.arrow_down)
+                  const Icon(Iconsax.arrow_down)
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   //color: Colors.red,
                   height: MediaQuery.of(context).size.height / 4,
                   width: MediaQuery.of(context).size.width,
@@ -83,16 +79,16 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                           if (snapshot.connectionState ==
                                   ConnectionState.waiting ||
                               snapshot.data == null) {
-                            return Expanded(
+                            return const Expanded(
                                 // color: Colors.red,
                                 child:
                                     Center(child: CircularProgressIndicator()));
                           } else if (snapshot.hasData ||
                               snapshot.connectionState ==
                                   ConnectionState.done) {
-                            if (snapshot.data!.length == 0) {
+                            if (snapshot.data!.isEmpty) {
                               print("sooooooooorrrrrrrrrrrrrrrrrrrrrrrrrry");
-                              return Expanded(
+                              return const Expanded(
                                 //color: Colors.red,
                                 child: Center(
                                     child: Text(
@@ -103,7 +99,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                               );
                             } else {
                               var comments = snapshot.data;
-                              return Container(
+                              return SizedBox(
                                 //color: Color.fromARGB(255, 70, 244, 54),
                                 height: 900,
                                 width: MediaQuery.of(context).size.width,
@@ -114,11 +110,11 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 10),
                                         child: Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 horizontal: 20),
                                             height: 60,
                                             width: double.infinity / 2,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: Color(0xFFF0F0F0),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20))),
@@ -165,9 +161,10 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                                                         );
                                                       } else if (snapshot
                                                           .hasError) {
-                                                        return Text("NULL");
+                                                        return const Text(
+                                                            "NULL");
                                                       }
-                                                      return SizedBox(
+                                                      return const SizedBox(
                                                           height: 18,
                                                           width: 18,
                                                           child:
@@ -199,7 +196,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                             color: Colors.red,
                             height: 100,
                             width: 100,
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "No comments yet!!",
                               style:
@@ -227,7 +224,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                       child: TextField(
                         controller: _commentController,
                         cursorColor: Colors.red,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: InputBorder.none,
                             //    prefixIcon: Icon(Icons.search, color: Colors.black),
                             hintText: 'Write your comment...',
@@ -238,8 +235,9 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                   ),
                   GestureDetector(
                       onTap: () async {
-                        var comment = await postComment(
-                            _commentController.text, newsFeedIndex);
+                        var userId = await getUserAppId();
+                        var comment = await postComment(_commentController.text,
+                            newsFeedIndex, userId.toString());
                         print("COMMENT REPOSNE IS");
                         print(comment);
                         comment
@@ -257,7 +255,7 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                       )),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               )
             ],
@@ -281,6 +279,7 @@ class _NewsFeedState extends State<NewsFeed> {
   var ratingCount;
   bool refreshOrderList = false;
   final newsFeedController = Get.put(MyController());
+  @override
   void initState() {
     super.initState();
     _newsFeed = getNews();
@@ -318,7 +317,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                 ListTile(
                                   leading: buildShimmerEffect(
                                     context,
-                                    CircleAvatar(
+                                    const CircleAvatar(
                                         // backgroundImage: AssetImage('assets/images/kucuk.jpg'),
                                         ),
                                   ),
@@ -333,7 +332,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                     ),
                                   ),
                                   trailing: PopupMenuButton(
-                                    icon: Icon(Icons.more_vert_rounded),
+                                    icon: const Icon(Icons.more_vert_rounded),
                                     itemBuilder: (context) => [
                                       // PopupMenuItem(
                                       //   child: Row(
@@ -343,10 +342,10 @@ class _NewsFeedState extends State<NewsFeed> {
                                       //     ],
                                       //   ),
                                       // ),
-                                      PopupMenuItem(
+                                      const PopupMenuItem(
                                         child: Text("Save Picture"),
                                       ),
-                                      PopupMenuItem(
+                                      const PopupMenuItem(
                                         child: Text("Setting"),
                                       ),
                                     ],
@@ -356,8 +355,8 @@ class _NewsFeedState extends State<NewsFeed> {
                                     context,
                                     Container(
                                       color: Colors.white,
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 20),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 20),
                                       height: 400,
                                       width: double.infinity,
                                     ))
@@ -405,9 +404,9 @@ class _NewsFeedState extends State<NewsFeed> {
                                           ),
                                         );
                                       } else if (snapshot.hasError) {
-                                        return Text("NULL");
+                                        return const Text("NULL");
                                       }
-                                      return SizedBox(
+                                      return const SizedBox(
                                           height: 18,
                                           width: 18,
                                           child: CircularProgressIndicator(
@@ -415,7 +414,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                           ));
                                     },
                                   ),
-                                  Text(
+                                  const Text(
                                     "30 mins ago",
                                     style: TextStyle(
                                         color: Color(0xFF777777),
@@ -425,7 +424,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                 ],
                               ),
                               trailing: PopupMenuButton(
-                                icon: Icon(Icons.more_vert_rounded),
+                                icon: const Icon(Icons.more_vert_rounded),
                                 itemBuilder: (context) => [
                                   // PopupMenuItem(
                                   //   child: Row(
@@ -435,10 +434,10 @@ class _NewsFeedState extends State<NewsFeed> {
                                   //     ],
                                   //   ),
                                   // ),
-                                  PopupMenuItem(
+                                  const PopupMenuItem(
                                     child: Text("Save Picture"),
                                   ),
-                                  PopupMenuItem(
+                                  const PopupMenuItem(
                                     child: Text("Setting"),
                                   ),
                                 ],
@@ -449,7 +448,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                   horizontal: 20, vertical: 10),
                               child: Text(
                                 _newsFeedData[index].title,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 15,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500),
@@ -485,7 +484,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                       //   "https://s3.studylib.net/store/data/025331692_1-30173db8fcb89067fe99553e7a80aad2-768x994.png",
                                       fit: BoxFit.cover,
                                       errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
+                                          const Icon(Icons.error),
                                       placeholder: (context, url) {
                                         return buildShimmerEffect(
                                           context,
@@ -505,7 +504,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                     )),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             Row(
@@ -536,7 +535,7 @@ class _NewsFeedState extends State<NewsFeed> {
                                             fontSize: 18),
                                       );
                                     }
-                                    return SizedBox(
+                                    return const SizedBox(
                                         height: 18,
                                         width: 18,
                                         child: CircularProgressIndicator(
@@ -600,16 +599,16 @@ class _NewsFeedState extends State<NewsFeed> {
                                   if (snapshot.hasData) {
                                     return Text(
                                       snapshot.data.toString() + " Ratings",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 14,
                                           color: Color.fromARGB(
                                               255, 109, 109, 109),
                                           fontWeight: FontWeight.w400),
                                     );
                                   } else if (snapshot.hasError) {
-                                    return Text("NULL");
+                                    return const Text("NULL");
                                   }
-                                  return SizedBox(
+                                  return const SizedBox(
                                       height: 11,
                                       width: 11,
                                       child: CircularProgressIndicator(
@@ -618,11 +617,11 @@ class _NewsFeedState extends State<NewsFeed> {
                                 },
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                               color: Colors.grey,
                             ),
-                            Container(
+                            SizedBox(
                               // color: Colors.red,
                               height: 40,
                               //  alignment: Alignment.l,
@@ -647,10 +646,10 @@ class _NewsFeedState extends State<NewsFeed> {
                                         size: 28,
                                         color: darkBlueColor,
                                       )),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Comment",
                                     style: TextStyle(
                                         fontSize: 15, color: Color(0xFF575656)),
@@ -661,12 +660,12 @@ class _NewsFeedState extends State<NewsFeed> {
                             Container(
                               height: 8,
                               width: double.infinity,
-                              color: Color(0xFFDFDFDF),
+                              color: const Color(0xFFDFDFDF),
                             )
                           ],
                         ));
               }
-              return CircularProgressIndicator(
+              return const CircularProgressIndicator(
                 color: Colors.red,
               );
             }),
@@ -675,7 +674,7 @@ class _NewsFeedState extends State<NewsFeed> {
   }
 
   Future loadData() async {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       getNews();
       print("REFRESHED");
       print(_newsFeed.length);
