@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:growup/adapters/quizhistory.dart';
 import 'package:growup/models/quizmodel.dart';
+import 'package:growup/screens/quizhistory/quizhistorylist.dart';
 import 'package:growup/services/apiservice.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../colorpalettes/palette.dart';
 
@@ -34,6 +38,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int pageChanged = 0;
   double marks = 0.0;
   double finalMarks = 0.0;
+  String quizName = "";
   Map<String, Color> btnColor = {
     "a": const Color.fromARGB(255, 230, 230, 230),
     "b": const Color.fromARGB(255, 230, 230, 230),
@@ -227,6 +232,94 @@ class _QuizScreenState extends State<QuizScreen> {
                           index == listQuiz.length - 1
                               ? ElevatedButton(
                                   onPressed: () {
+                                    switch (listQuiz[index].skillId) {
+                                      case 1:
+                                        {
+                                          setState(() {
+                                            quizName =
+                                                "Android Development Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 2:
+                                        {
+                                          setState(() {
+                                            quizName = "Web Development Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 3:
+                                        {
+                                          setState(() {
+                                            quizName = "Python Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 4:
+                                        {
+                                          setState(() {
+                                            quizName = "Adobe Illustrator Quiz";
+                                          });
+                                        }
+                                        break;
+                                      case 5:
+                                        {
+                                          setState(() {
+                                            quizName = "Adobe Photoshop Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 6:
+                                        {
+                                          setState(() {
+                                            quizName = "3d Modelling Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 7:
+                                        {
+                                          setState(() {
+                                            quizName = "Digital Marketing Quiz";
+                                          });
+                                        }
+                                        break;
+
+                                      case 8:
+                                        {
+                                          setState(() {
+                                            quizName =
+                                                "Social Media Marketing Quiz";
+                                          });
+                                        }
+                                        break;
+                                      case 9:
+                                        {
+                                          setState(() {
+                                            quizName = "Google Ads Quiz";
+                                          });
+                                        }
+                                        break;
+                                      default:
+                                        {
+                                          setState(() {
+                                            quizName = "Quiz";
+                                          });
+                                        }
+                                        break;
+                                    }
+                                    var dateTime = DateTime.now();
+                                    Box<QuizHistory> box =
+                                        Hive.box<QuizHistory>('history');
+                                    box.add(QuizHistory(
+                                        quizName,
+                                        marks.toString(),
+                                        dateTime.toString(),
+                                        "2 min"));
                                     Get.to(QuizResultScreen(marks,
                                         listQuiz.length, widget.skillID));
                                   },
@@ -287,9 +380,9 @@ class _QuizScreenState extends State<QuizScreen> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(17),
                                       ),
-                                      minimumSize: const Size(200, 60)),
+                                      minimumSize: const Size(280, 60)),
                                   child: const Text(
-                                    'Next',
+                                    'Next Question',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -340,14 +433,20 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             quizResultInfo(marks, questionNumber),
-            bottomButtons(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                bottomTryButtons(),
+                bottomHomeButtons(),
+              ],
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget bottomButtons() {
+  Widget bottomTryButtons() {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
@@ -370,6 +469,51 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                 minimumSize: const Size(200, 60)),
             child: const Text(
               "Try Again",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     // Navigator.pushReplacementNamed(
+          //     //     context, QuizHistoryScreen.routeName);
+          //   },
+          //   child: Text(
+          //     "History",
+          //     style: TextStyle(color: Colors.white, fontSize: 20),
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomHomeButtons() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              final SharedPreferences sharedPreferences =
+                  await SharedPreferences.getInstance();
+              sharedPreferences.setString("marks", marks.toString());
+
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return const QuizHistoryListScreen();
+                },
+              ));
+            },
+            style: ElevatedButton.styleFrom(
+                primary: darkBlueColor,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(17),
+                ),
+                minimumSize: const Size(200, 60)),
+            child: const Text(
+              "Quiz History",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),

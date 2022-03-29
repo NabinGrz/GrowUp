@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
-import 'package:growup/controller/tutorcontroller.dart';
-import 'package:growup/screens/homescreen/homepage_screen.dart';
-import 'package:growup/screens/learninganalysisscreen/learninganalysispage.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
-import 'package:growup/screens/splash_screen/splashscreen.dart';
+import 'package:growup/screens/quizhistory/quizhistorylist.dart';
 import 'package:growup/screens/tutorscreen/tutorlist.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:iconsax/iconsax.dart';
@@ -47,7 +44,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       width: 250,
       color: darkBlueColor,
       child: Padding(
-        padding: EdgeInsets.only(top: 50, left: 40, bottom: 70),
+        padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +68,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             "https://i.pinimg.com/originals/c8/f1/46/c8f14613fdfd69eaced69d0f1143d47d.jpg")),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 FutureBuilder<dynamic>(
@@ -86,14 +83,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           Text(
                             name,
                             style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255)
+                                color: const Color.fromARGB(255, 255, 255, 255)
                                     .withOpacity(.8),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20),
                           ),
                           Text(
                             email,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
                                 fontWeight: FontWeight.normal),
@@ -109,7 +106,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             fontSize: 18),
                       );
                     }
-                    return SizedBox(
+                    return const SizedBox(
                       height: 18,
                       width: 18,
                     );
@@ -119,38 +116,25 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),
             Column(
               children: <Widget>[
-                NewRow(
+                const NewRow(
                   text: 'Settings',
                   icon: Iconsax.setting,
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) => Profile(),
-                //         ));
-                //   },
-                //   child: NewRow(
-                //     text: 'Profile',
-                //     icon: Iconsax.personalcard,
-                //   ),
-                // ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LearningAnalysisPage(),
-                      )),
-                  child: NewRow(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const QuizHistoryListScreen();
+                    },
+                  )),
+                  child: const NewRow(
                     text: 'Learning Analysis',
                     icon: Iconsax.receipt,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
@@ -161,38 +145,38 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           builder: (context) => TutorListScreen(),
                         ));
                   },
-                  child: NewRow(
+                  child: const NewRow(
                     text: 'Book Tutor',
                     icon: Iconsax.book_square,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                NewRow(
+                const NewRow(
                   text: 'Bookmarks',
                   icon: Iconsax.bookmark,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                NewRow(
+                const NewRow(
                   text: 'Contact Us',
                   icon: Iconsax.call,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                NewRow(
+                const NewRow(
                   text: 'Terms & Condition',
                   icon: Iconsax.note,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'App Mode',
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
@@ -226,7 +210,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         title: "Success!!",
                         middleText: "Logged Out",
                         actions: [
-                          Icon(
+                          const Icon(
                             Iconsax.tick_circle,
                             size: 35,
                             color: Color.fromARGB(255, 23, 204, 92),
@@ -258,15 +242,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     // ));
                     //Navigator.of(context, rootNavigator: true).pop(context);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout_outlined,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   'Log out',
                   style: TextStyle(color: Colors.white, fontSize: 15),
                 )
@@ -293,13 +277,13 @@ class NewRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Icon(icon, color: Color(0xfff85c0b)),
-        SizedBox(
+        Icon(icon, color: const Color(0xfff85c0b)),
+        const SizedBox(
           width: 20,
         ),
         Text(
           text!,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         )
       ],
     );

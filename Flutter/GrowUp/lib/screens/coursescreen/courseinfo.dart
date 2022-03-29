@@ -5,6 +5,7 @@ import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/downloads/download.dart';
 import 'package:growup/downloads/download_provider.dart';
 import 'package:growup/models/skillsvideoresponsemodel.dart';
+import 'package:growup/screens/quizscreen/practicequestionsscreen.dart';
 import 'package:growup/screens/quizscreen/quiz.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/widgets/shimmer.dart';
@@ -532,42 +533,84 @@ class _CourseInfoState extends State<CourseInfo> {
             ),
             Align(
               alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuizScreen(widget.skillId),
-                        ));
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color: darkBlueColor,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromARGB(255, 194, 194, 194),
-                            blurRadius: 14,
-                            spreadRadius: 1,
-                            offset: Offset(3, 3)),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Take a test",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizScreen(widget.skillId),
+                            ));
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 140,
+                        decoration: BoxDecoration(
+                          color: darkBlueColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color.fromARGB(255, 194, 194, 194),
+                                blurRadius: 14,
+                                spreadRadius: 1,
+                                offset: Offset(3, 3)),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Take a QUIZ",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PracticeQuestionScreen(widget.skillId),
+                            ));
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: darkBlueColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color.fromARGB(255, 194, 194, 194),
+                                blurRadius: 14,
+                                spreadRadius: 1,
+                                offset: Offset(3, 3)),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Practice Questions",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
