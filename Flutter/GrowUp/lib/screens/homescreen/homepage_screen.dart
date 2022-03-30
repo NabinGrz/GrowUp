@@ -6,6 +6,7 @@ import 'package:growup/screens/homescreen/hometab_screen.dart';
 import 'package:growup/screens/newsfeedscreen/newsfeed.dart';
 import 'package:growup/screens/postscreen/postImage.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
+import 'package:growup/services/apipractice.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -35,7 +36,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 height: 25,
                 width: 50,
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      getPracticeQuestions();
+                    },
                     icon: const Icon(
                       Iconsax.notification,
                     ))),
