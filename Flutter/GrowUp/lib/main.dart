@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:growup/adapters/practicerecord.dart';
 import 'package:growup/adapters/quizhistory.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/courseadapter/studentcourse.dart';
@@ -16,6 +17,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(QuizHistoryAdapter());
   Hive.registerAdapter(StudentCourseAdapter());
+  Hive.registerAdapter(PracticeRecordAdapter());
+  await Hive.openBox<PracticeRecord>('practice');
   await Hive.openBox<QuizHistory>('history');
   await Hive.openBox<StudentCourse>('course');
 

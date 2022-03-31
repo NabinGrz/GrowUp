@@ -1,16 +1,16 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:growup/adapters/practicerecord.dart';
 import 'package:growup/models/practicemodel.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
+import 'package:growup/screens/practicerecord/practicerecordscree.dart';
 import 'package:growup/services/apipractice.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../colorpalettes/palette.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 _showModalBottomSheet(context) {
@@ -208,149 +208,6 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
   // a dcoument variable decalration
   final doc = pw.Document();
 
-  void generateFile(var l) async {
-    doc.addPage(
-      pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Column(
-              mainAxisAlignment: pw.MainAxisAlignment.center,
-              children: [
-                pw.Center(
-                    child: pw.ListView.builder(
-                  // controller: pageController,
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // reverse: true,
-                  itemCount: l.length,
-                  itemBuilder: (context, index) {
-                    k = ['a', 'b', 'c', 'd'];
-                    return pw.Column(
-                      mainAxisAlignment: pw.MainAxisAlignment.center,
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Padding(
-                          padding:
-                              const pw.EdgeInsets.only(left: 20.0, top: 15),
-                          child: pw.Text(
-                            l[index].text.toString(),
-                            style: pw.TextStyle(
-                                fontWeight: pw.FontWeight.bold, fontSize: 20),
-                          ),
-                        ),
-                        pw.SizedBox(
-                          height: 20,
-                        ),
-                        pw.Container(
-                          //color: Colors.red,
-                          // width: 500,
-                          margin: const pw.EdgeInsets.symmetric(horizontal: 30),
-                          height: 130,
-                          // child:
-                          //  GridView.builder(
-                          //   physics: const NeverScrollableScrollPhysics(),
-                          //   gridDelegate:
-                          //       const SliverGridDelegateWithFixedCrossAxisCount(
-                          //     crossAxisCount: 2,
-                          //     mainAxisSpacing: 12,
-                          //     crossAxisSpacing: 60,
-                          //     childAspectRatio: 3.3,
-                          //   ),
-                          //   itemBuilder: (context, ansIndex) {
-                          //     int i = ansIndex + 1;
-                          //     return Container(
-                          //       child: Text(
-                          //         "$i. " +
-                          //             rlistPractice[index]
-                          //                 .options![ansIndex]
-                          //                 .text
-                          //                 .toString(),
-                          //         style: const TextStyle(
-                          //             fontSize: 15,
-                          //             fontWeight: FontWeight.w400),
-                          //       ),
-                          //     );
-                          //   },
-                          //   itemCount: 4,
-                          // ),
-                        ),
-                        pw.SizedBox(
-                          height: 35,
-                          width: 500,
-                          child: pw.Divider(
-                            thickness: 0.9,
-                          ),
-                        ),
-                        // index == listPractice.length - 1
-
-                        //     : ElevatedButton(
-                        //         onPressed: () {
-                        //           btnColor['a'] = const Color.fromARGB(
-                        //               255, 230, 230, 230);
-                        //           btnHeight['a'] = 60;
-                        //           btnWidth['a'] = 400;
-                        //           btnTextColor['a'] = Colors.black;
-                        //           btnTextSize['a'] = 16;
-                        //           btnColor['b'] = const Color.fromARGB(
-                        //               255, 230, 230, 230);
-                        //           btnHeight['b'] = 60;
-                        //           btnWidth['b'] = 400;
-                        //           btnTextColor['b'] = Colors.black;
-                        //           btnTextSize['b'] = 16;
-                        //           btnColor['c'] = const Color.fromARGB(
-                        //               255, 230, 230, 230);
-                        //           btnHeight['c'] = 60;
-                        //           btnWidth['c'] = 400;
-                        //           btnTextColor['c'] = Colors.black;
-                        //           btnTextSize['c'] = 16;
-                        //           btnColor['d'] = const Color.fromARGB(
-                        //               255, 230, 230, 230);
-                        //           btnHeight['d'] = 60;
-                        //           btnWidth['d'] = 400;
-                        //           btnTextColor['d'] = Colors.black;
-                        //           btnTextSize['d'] = 16;
-                        //           pageController.animateToPage(
-                        //             ++pageChanged,
-                        //             duration:
-                        //                 const Duration(milliseconds: 250),
-                        //             curve: Curves.linear,
-                        //           );
-                        //           setState(() {});
-                        //         },
-                        //         style: ElevatedButton.styleFrom(
-                        //             primary: darkBlueColor,
-                        //             elevation: 10,
-                        //             shape: RoundedRectangleBorder(
-                        //               borderRadius: BorderRadius.circular(17),
-                        //             ),
-                        //             minimumSize: const Size(200, 60)),
-                        //         child: const Text(
-                        //           'Next',
-                        //           style: TextStyle(
-                        //               color: Colors.white,
-                        //               fontSize: 20,
-                        //               fontFamily: 'Raleway-Regular',
-                        //               fontWeight: FontWeight.w700),
-                        //           textAlign: TextAlign.center,
-                        //         ),
-                        //       )
-                      ],
-                    );
-                  },
-                )),
-              ],
-            );
-          }),
-    );
-
-    final outPut = await getExternalStorageDirectory();
-
-    String path = outPut!.path + '/nabin.pdf';
-    final file = File(path);
-    file.writeAsBytesSync(List.from(await doc.save()));
-    print("*****************************************");
-    print(outPut.path);
-  }
-
   checkAnswer(String k, String iscorrect) {
     if (iscorrect == "true") {
       btnColor[k] = Colors.green;
@@ -428,7 +285,7 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                   },
                   controller: pageController,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listPractice.length,
+                  itemCount: listPractice[widget.skillID - 1].questions!.length,
                   itemBuilder: (context, index) {
                     var num = index + 1;
                     return Column(
@@ -496,7 +353,10 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                         height: 5,
                                       ),
                                       Text(
-                                        listPractice[index].text.toString(),
+                                        listPractice[widget.skillID - 1]
+                                            .questions![index]
+                                            .text
+                                            .toString(),
                                         textAlign: TextAlign.left,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w400,
@@ -516,13 +376,18 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                   child: ListView.builder(
                                       shrinkWrap: true,
                                       itemCount:
-                                          listPractice[index].options!.length,
+                                          listPractice[widget.skillID - 1]
+                                              .questions![index]
+                                              .options!
+                                              .length,
                                       itemBuilder: (context, ansIndex) {
                                         k = ['a', 'b', 'c', 'd'];
-                                        String selectedAns = listPractice[index]
-                                            .options![ansIndex]
-                                            .isCorrectOption
-                                            .toString();
+                                        String selectedAns =
+                                            listPractice[widget.skillID - 1]
+                                                .questions![index]
+                                                .options![ansIndex]
+                                                .isCorrectOption
+                                                .toString();
                                         return Column(
                                           children: [
                                             Row(
@@ -542,7 +407,10 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                                         const EdgeInsets.only(
                                                             top: 12.0),
                                                     child: Text(
-                                                      listPractice[index]
+                                                      listPractice[
+                                                              widget.skillID -
+                                                                  1]
+                                                          .questions![index]
                                                           .options![ansIndex]
                                                           .text
                                                           .toString(),
@@ -566,7 +434,11 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                           height: 35,
                         ),
                         isClicked
-                            ? index == listPractice.length - 1
+                            ? index ==
+                                    listPractice[widget.skillID - 1]
+                                            .questions!
+                                            .length -
+                                        1
                                 ? Container(
                                     width: 150,
                                     height: 50,
@@ -585,7 +457,24 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
-                                        Get.to(const HomePageScreen());
+                                        var datetime = DateTime.now();
+                                        Box<PracticeRecord> box =
+                                            Hive.box<PracticeRecord>(
+                                                'practice');
+                                        print(
+                                            "==============================================");
+                                        print(box.length);
+                                        box.length;
+                                        box.add(PracticeRecord(
+                                            listPractice[widget.skillID - 1]
+                                                .questions![0]
+                                                .skill
+                                                .toString(),
+                                            marks.toString(),
+                                            datetime.toString(),
+                                            "$timer Sec"));
+                                        Get.to(
+                                            const PracticeRecordListScreen());
                                         Fluttertoast.showToast(
                                           msg:
                                               "Good jon you have cleard the practice",

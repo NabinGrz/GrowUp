@@ -12,22 +12,40 @@ String practiceToJson(List<Practice> data) =>
 
 class Practice {
   Practice({
-    this.id,
     this.skillId,
+    this.questions,
+  });
+
+  int? skillId;
+  List<Question>? questions;
+
+  factory Practice.fromJson(Map<String, dynamic> json) => Practice(
+        skillId: json["skillID"],
+        questions: List<Question>.from(
+            json["questions"].map((x) => Question.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "skillID": skillId,
+        "questions": List<dynamic>.from(questions!.map((x) => x.toJson())),
+      };
+}
+
+class Question {
+  Question({
+    this.id,
     this.skill,
     this.text,
     this.options,
   });
 
   int? id;
-  int? skillId;
-  dynamic? skill;
+  String? skill;
   String? text;
   List<Option>? options;
 
-  factory Practice.fromJson(Map<String, dynamic> json) => Practice(
+  factory Question.fromJson(Map<String, dynamic> json) => Question(
         id: json["id"],
-        skillId: json["skillId"],
         skill: json["skill"],
         text: json["text"],
         options:
@@ -36,7 +54,6 @@ class Practice {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "skillId": skillId,
         "skill": skill,
         "text": text,
         "options": List<dynamic>.from(options!.map((x) => x.toJson())),
