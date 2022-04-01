@@ -154,7 +154,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     },
                     controller: pageController,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: listQuiz.length,
+                    itemCount: 8,
                     itemBuilder: (context, index) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +229,7 @@ class _QuizScreenState extends State<QuizScreen> {
                           const SizedBox(
                             height: 35,
                           ),
-                          index == listQuiz.length - 1
+                          index == 7
                               ? ElevatedButton(
                                   onPressed: () {
                                     switch (listQuiz[index].skillId) {
@@ -552,7 +552,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           style: Theme.of(context).textTheme.headline4,
         ),
         Text(
-          "$marks/$questionNumber",
+          "$marks/8",
           style: Theme.of(context).textTheme.headline2,
         ),
       ],

@@ -1,13 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
-import 'package:growup/controller/tutorcontroller.dart';
 import 'package:growup/models/bookedclassesmodel.dart';
-import 'package:growup/models/users_model.dart';
 import 'package:growup/screens/tutorscreen/searchtutor.dart';
-import 'package:growup/screens/tutorscreen/tutordetailscreen.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
 import 'package:growup/widgets/shimmer.dart';
@@ -19,56 +14,63 @@ class BookedClasses extends StatefulWidget {
 }
 
 class _BookedClassesState extends State<BookedClasses> {
+  String? userId;
+  getData() async {
+    userId = await getUserAppId();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     print("BUIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLD");
     //void
-    return GetMaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: darkBlueColor,
-          actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: SearchUser());
-              },
-              icon: Icon(Icons.search_sharp),
-            )
-          ],
-          centerTitle: true,
-          title: GestureDetector(
-            onTap: () => getBookedClasses(),
-            child: Text(
-              'Your Classes',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 20,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: darkBlueColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: SearchUser());
+            },
+            icon: const Icon(Icons.search_sharp),
+          )
+        ],
+        centerTitle: true,
+        title: const Text(
+          'Your Classes',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
           ),
         ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        StylistCard(),
-                      ],
-                    ),
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      StylistCard(),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -77,25 +79,26 @@ class _BookedClassesState extends State<BookedClasses> {
 }
 
 class StylistCard extends StatefulWidget {
-  // final stylist;
-  // StylistCard(this.stylist);
-  //const StylistCard({Key? key}) : super(key: key);
   @override
   State<StylistCard> createState() => _StylistCardState();
 }
 
 class _StylistCardState extends State<StylistCard> {
-  //final tutorController = Get.put(TutorController());
-  // void initState() {
-  //   super.initState();
-  //   _dataTutor = tutorController.tutorList;
-  // }
   var bookedClasses;
+
+  String? userId;
+  getData() async {
+    userId = await getUserAppId();
+    bookedClasses = getBookedClasses(userId!);
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    bookedClasses = getBookedClasses();
+
     super.initState();
+    getData();
   }
 
   @override
@@ -120,10 +123,11 @@ class _StylistCardState extends State<StylistCard> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 9,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
@@ -134,15 +138,15 @@ class _StylistCardState extends State<StylistCard> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
             );
-          } else if (snapshot.data!.length == 0) {
+          } else if (snapshot.data!.isEmpty) {
             print("sooooooooorrrrrrrrrrrrrrrrrrrrrrrrrry");
             return Container(
               //color: Colors.red,
-              child: Center(
+              child: const Center(
                   child: Text(
                 "No classes!!",
                 style: TextStyle(fontSize: 25, color: Colors.grey),
@@ -152,13 +156,21 @@ class _StylistCardState extends State<StylistCard> {
               snapshot.data != null ||
               snapshot.connectionState == ConnectionState.done) {
             var classes = snapshot.data;
-            return Container(
+            return SizedBox(
               //height: 500,
               width: MediaQuery.of(context).size.width,
               // color: Colors.yellow,
               child: ListView.builder(
                   itemCount: classes!.length,
                   itemBuilder: (context, index) {
+                    String bookingDate = classes[index]
+                        .bookingDateTime
+                        .toString()
+                        .substring(0, 10);
+                    String bookingTime = classes[index]
+                        .bookingDateTime
+                        .toString()
+                        .substring(11, 16);
                     return Dismissible(
                       key: UniqueKey(),
                       onDismissed: (direction) {
@@ -166,32 +178,32 @@ class _StylistCardState extends State<StylistCard> {
                         Get.snackbar(
                           "Dismissed",
                           "Class has been dismissed",
-                          icon: Icon(Icons.person, color: Colors.white),
+                          icon: const Icon(Icons.person, color: Colors.white),
                           snackPosition: SnackPosition.BOTTOM,
                         );
                       },
                       background: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 9,
+                        height: MediaQuery.of(context).size.height / 5.5,
                         color: Colors.red,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 9,
+                          height: MediaQuery.of(context).size.height / 5.5,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0xFF8A8A8A),
                                   blurRadius: 14,
                                   spreadRadius: 1,
                                   offset: Offset(3, 3)),
                             ],
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
                                 Color(0xff738AE6),
                                 // darkBlueColor
@@ -221,7 +233,7 @@ class _StylistCardState extends State<StylistCard> {
                                               actions: [
                                                 RaisedButton(
                                                     color: Colors.red,
-                                                    child: Text(
+                                                    child: const Text(
                                                       "Cancel",
                                                       style: TextStyle(
                                                           color: Colors.white,
@@ -235,7 +247,7 @@ class _StylistCardState extends State<StylistCard> {
                                                     }),
                                                 RaisedButton(
                                                     color: Colors.red,
-                                                    child: Text(
+                                                    child: const Text(
                                                       "Confirm",
                                                       style: TextStyle(
                                                           color: Colors.white,
@@ -250,7 +262,7 @@ class _StylistCardState extends State<StylistCard> {
                                               ],
                                               buttonColor: Colors.white);
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Iconsax.profile_delete,
                                           color: Colors.red,
                                         ))),
@@ -264,25 +276,24 @@ class _StylistCardState extends State<StylistCard> {
                                         future: getUserDetails(
                                             classes[index].studentId!),
                                         builder: (context, snapshot) {
+                                          String bookingDate = classes[index]
+                                              .bookingDateTime
+                                              .toString();
                                           if (snapshot.hasData) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                //  postComment();
-                                              },
-                                              child: Text(
-                                                snapshot.data.fullName
-                                                    .toString(),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 20,
-                                                ),
+                                            return Text(
+                                              "Student Name: " +
+                                                  snapshot.data.fullName
+                                                      .toString(),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20,
                                               ),
                                             );
                                           } else if (snapshot.hasError) {
-                                            return Text("NULL");
+                                            return const Text("NULL");
                                           }
-                                          return SizedBox(
+                                          return const SizedBox(
                                               height: 18,
                                               width: 18,
                                               child: CircularProgressIndicator(
@@ -290,25 +301,45 @@ class _StylistCardState extends State<StylistCard> {
                                               ));
                                         },
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        "Your Meeting ID: ${classes[index].zoomId}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300,
-                                        ),
+                                        "Your Meeting ID of zoom: ${classes[index].zoomId}",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        "Your Passcode: ${classes[index].zoomPassword}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300,
-                                        ),
+                                        "Your Passcode of zoom: ${classes[index].zoomPassword}",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Booking Date: $bookingDate",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "BookingTime: $bookingTime",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -335,6 +366,3 @@ class _StylistCardState extends State<StylistCard> {
     );
   }
 }
-/*
-
-*/

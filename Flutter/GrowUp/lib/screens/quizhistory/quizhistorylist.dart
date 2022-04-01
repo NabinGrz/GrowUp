@@ -56,7 +56,7 @@ class _QuizHistoryListScreenState extends State<QuizHistoryListScreen> {
                       quiz.quizname.isEmpty ? "Question" : quiz.quizname,
                       style: const TextStyle(fontSize: 24),
                     ),
-                    Text("Score: ${quiz.score}/10",
+                    Text("Score: ${quiz.score}/8",
                         style: const TextStyle(
                             color: Colors.redAccent, fontSize: 18)),
                     Text("Time Taken: ${quiz.timetaken}"),

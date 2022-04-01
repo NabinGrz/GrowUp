@@ -659,7 +659,7 @@ class _PracticeResultScreenState extends State<PracticeResultScreen> {
           style: Theme.of(context).textTheme.headline4,
         ),
         Text(
-          "$marks/$questionNumber",
+          "$marks/8",
           style: Theme.of(context).textTheme.headline2,
         ),
       ],

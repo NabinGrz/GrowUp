@@ -25,8 +25,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://73cf-2400-1a00-b020-474d-6dbb-927-32e8-2fb5.ngrok.io";
-const baseUrlPost = "73cf-2400-1a00-b020-474d-6dbb-927-32e8-2fb5.ngrok.io";
+    "https://f262-2400-1a00-b020-7ffb-4448-4b87-cbb7-b69d.ngrok.io";
+const baseUrlPost = "f262-2400-1a00-b020-7ffb-4448-4b87-cbb7-b69d.ngrok.io";
 
 //===============================================================================
 
@@ -362,12 +362,8 @@ Future<List<TeacherModel>> getTeacherDetails({String? query}) async {
 // var _responseRating;
 var bookingResponseData;
 var _responseBooking;
-Future bookTutor(
-    // String teacherId, String studentId,
-    String zoomId,
-    String zoompassword,
-    String bookingdate,
-    String bookingTime) async {
+Future bookTutor(String teacherId, String studentId, String zoomId,
+    String zoompassword, String bookingdate, String bookingTime) async {
   // var response = await http.post(Uri.https('reqres.in', 'api/login'),
   var responseBooking =
       await http.post(Uri.https(baseUrlPost, 'api/v1/booking'),
@@ -378,8 +374,8 @@ Future bookTutor(
           body: jsonEncode(
             // <String, dynamic>{"NewsFeedUserId": 22, "Rating": 3.5},
             <String, dynamic>{
-              "TeacherId": "760b05ca-44ba-48a9-a3cd-cf16c9e643b2",
-              "StudentId": "e65508ef-f7fb-4a36-aea2-9036ca418a6a",
+              "TeacherId": teacherId,
+              "StudentId": studentId,
               "ZoomId": zoomId,
               //2015-05-16T05:50:06
               "ZoomPassword": zoompassword,
@@ -422,7 +418,7 @@ Future getSkillDetails() async {
   print("FINAL TOKEN OF USER:" + obtainedtokenData.toString());
   myUrl = Uri.parse(
     // "$baseUrlGet/api/v1/getskills",
-    "https://73cf-2400-1a00-b020-474d-6dbb-927-32e8-2fb5.ngrok.io/api/v1/getskills",
+    "https://f262-2400-1a00-b020-7ffb-4448-4b87-cbb7-b69d.ngrok.io/api/v1/getskills",
   );
   responseSkills = await http.get(myUrl, headers: {
     'Content-Type': 'application/json',
@@ -473,9 +469,7 @@ var reponseMessage;
 bool postSuccess = false;
 Future postNewsFeed(String title, File file) async {
   var request = http.MultipartRequest(
-      "POST",
-      Uri.parse(
-          "https://73cf-2400-1a00-b020-474d-6dbb-927-32e8-2fb5.ngrok.io/api/v1/addnewsfeed"));
+      "POST", Uri.parse("$baseUrlGet/api/v1/addnewsfeed"));
   request.headers.addAll({
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer $obtainedtokenData',

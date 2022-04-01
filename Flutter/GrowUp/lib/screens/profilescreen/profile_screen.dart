@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +7,6 @@ import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/models/userdetailresponsemodel.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   static const routeName = "/profile";
@@ -88,18 +84,18 @@ class _ProfileState extends State<Profile> {
                     children: [
                       //for circle avtar image
                       _getHeader(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
 
                       _profileName(userFinalDetails!.fullName.toString()),
                       //userFinalDetails['fullName'].toString()),
-                      SizedBox(
+                      const SizedBox(
                         height: 14,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Divider(
+                        child: const Divider(
                           height: 10,
                           color: Colors.black,
                         ),
@@ -111,17 +107,18 @@ class _ProfileState extends State<Profile> {
                           // SizedBox(
                           //   height: 6,
                           // ),
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.edit))
                         ],
                       ),
                       _detailsCard(userFinalDetails.userName.toString(),
                           userFinalDetails.phoneNumber.toString()),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Divider(
+                        child: const Divider(
                           height: 10,
                           color: Colors.black,
                         ),
@@ -153,18 +150,21 @@ class _ProfileState extends State<Profile> {
                                             enabledBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
-                                            contentPadding: EdgeInsets.all(10),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
                                             hintText: "Pete Davidson",
-                                            hintStyle: TextStyle(
+                                            hintStyle: const TextStyle(
                                                 fontSize: 14,
                                                 color: Color.fromARGB(
                                                     255, 136, 136, 136)),
@@ -184,7 +184,7 @@ class _ProfileState extends State<Profile> {
                                           //   textValue = value;
                                           // },
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         TextFormField(
@@ -201,18 +201,21 @@ class _ProfileState extends State<Profile> {
                                             enabledBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
-                                            contentPadding: EdgeInsets.all(10),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
                                             hintText: "Male",
-                                            hintStyle: TextStyle(
+                                            hintStyle: const TextStyle(
                                                 fontSize: 14,
                                                 color: Color.fromARGB(
                                                     255, 136, 136, 136)),
@@ -232,7 +235,7 @@ class _ProfileState extends State<Profile> {
                                           //   textValue = value;
                                           // },
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         TextFormField(
@@ -251,24 +254,27 @@ class _ProfileState extends State<Profile> {
                                             enabledBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
-                                            contentPadding: EdgeInsets.all(10),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
                                             hintText: "9846458568",
-                                            hintStyle: TextStyle(
+                                            hintStyle: const TextStyle(
                                                 fontSize: 14,
                                                 color: Color.fromARGB(
                                                     255, 136, 136, 136)),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         TextFormField(
@@ -287,18 +293,21 @@ class _ProfileState extends State<Profile> {
                                             enabledBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide:
                                                   BorderSide(color: textColor1),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(35.0)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
                                             ),
-                                            contentPadding: EdgeInsets.all(10),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
                                             hintText: "Balaju",
-                                            hintStyle: TextStyle(
+                                            hintStyle: const TextStyle(
                                                 fontSize: 14,
                                                 color: Color.fromARGB(
                                                     255, 136, 136, 136)),
@@ -326,7 +335,7 @@ class _ProfileState extends State<Profile> {
                                         color: Colors.red,
                                         child:
                                             // isBooked
-                                            Text(
+                                            const Text(
                                           "Update",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -335,7 +344,7 @@ class _ProfileState extends State<Profile> {
                                         ),
                                         // : CircularProgressIndicator(),
                                         onPressed: () async {
-                                          CircularProgressIndicator();
+                                          const CircularProgressIndicator();
                                           bool isUpdated = await updateProfile(
                                               nameController.text,
                                               genderController.text,
@@ -371,16 +380,16 @@ class _ProfileState extends State<Profile> {
                                     ],
                                     buttonColor: Colors.white);
                               },
-                              icon: Icon(Icons.edit))
+                              icon: const Icon(Icons.edit))
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
 
                       _settingsCard(userFinalDetails.fullName!,
                           userFinalDetails.gender, userFinalDetails.address),
-                      Spacer(),
+                      const Spacer(),
                       //logoutButton()
                     ],
                   );
@@ -396,16 +405,16 @@ class _ProfileState extends State<Profile> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           height: 100,
           width: 100,
           child: CachedNetworkImage(
             imageUrl:
                 "https://i.pinimg.com/originals/c8/f1/46/c8f14613fdfd69eaced69d0f1143d47d.jpg",
             fit: BoxFit.cover,
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             placeholder: (context, url) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
         )
@@ -414,12 +423,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _profileName(String name) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.80, //80% of width,
       child: Center(
         child: Text(
           name,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
         ),
       ),
@@ -427,12 +436,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _heading(String heading) {
-    return Container(
+    return SizedBox(
       //color: Colors.red,
       width: MediaQuery.of(context).size.width * 0.6, //80% of width,
       child: Text(
         heading,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
       ),
     );
   }
@@ -448,19 +457,19 @@ class _ProfileState extends State<Profile> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(Icons.mail),
+              leading: const Icon(Icons.mail),
               title: Text(email),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: const Icon(Icons.phone),
               title: Text(
                   phoneNumber == "null" ? "Add Phone Number" : phoneNumber!),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
@@ -479,23 +488,23 @@ class _ProfileState extends State<Profile> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(CupertinoIcons.profile_circled),
+              leading: const Icon(CupertinoIcons.profile_circled),
               title: Text(name),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.male),
+              leading: const Icon(Icons.male),
               title: Text(gender),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.map),
+              leading: const Icon(Icons.map),
               title: Text(address == "null" ? "Add your address" : address!),
             )
           ],
@@ -513,7 +522,7 @@ class _ProfileState extends State<Profile> {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Icon(
                   Icons.logout,
                   color: Colors.white,

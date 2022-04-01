@@ -1,21 +1,13 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
-import 'package:growup/screens/tutorscreen/tutorlist.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
-import 'package:growup/screens/loginscreens/dropdown.dart';
 import 'package:growup/screens/teacherscreen/teacherpage.dart';
 import 'package:growup/services/apiservice.dart';
-import 'package:growup/services/apiserviceteacher.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

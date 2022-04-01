@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/models/userdetailresponsemodel.dart';
 import 'package:growup/services/apiservice.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:growup/services/apiserviceteacher.dart';
 
 class TeacherProfile extends StatefulWidget {
   static const routeName = "/profile";
@@ -15,11 +17,25 @@ class TeacherProfile extends StatefulWidget {
 
 class _TeacherProfileState extends State<TeacherProfile> {
   Future<UserDetailsResponseModel>? userDetails;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phonenumberController = TextEditingController();
+  String? userId;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    userDetails = getUserDetails("0c188464-ba3d-4493-ac40-1ab1de31178c");
+    getData();
+  }
+
+  getData() async {
+    userId = await getUserAppId();
+    userDetails = getUserDetails(userId!);
+    setState(() {});
+    print("*-********************************************************");
+    print(userId);
+    print(userDetails);
   }
 
   @override
@@ -65,33 +81,22 @@ class _TeacherProfileState extends State<TeacherProfile> {
                     children: [
                       //for circle avtar image
                       _getHeader(),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
 
                       _profileName(userFinalDetails!.fullName.toString()),
                       //userFinalDetails['fullName'].toString()),
-                      SizedBox(
+                      const SizedBox(
                         height: 14,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Divider(
+                        child: const Divider(
                           height: 10,
                           color: Colors.black,
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _heading("About me"),
-                          // SizedBox(
-                          //   height: 6,
-                          // ),
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-                        ],
-                      ),
-                      _aboutYourself(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -99,17 +104,18 @@ class _TeacherProfileState extends State<TeacherProfile> {
                           // SizedBox(
                           //   height: 6,
                           // ),
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.edit))
                         ],
                       ),
                       _detailsCard(userFinalDetails.userName.toString(),
                           userFinalDetails.phoneNumber.toString()),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Divider(
+                        child: const Divider(
                           height: 10,
                           color: Colors.black,
                         ),
@@ -117,17 +123,270 @@ class _TeacherProfileState extends State<TeacherProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _heading("TeacherProfile Details"),
-                          IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                          _heading("Profile Details"),
+                          IconButton(
+                              onPressed: () {
+                                Get.defaultDialog(
+                                    //barrierDismissible: false,
+                                    title: "Booking",
+                                    middleText:
+                                        "You will have your private class in zoom video calling app",
+                                    content: Column(
+                                      children: [
+                                        TextFormField(
+                                          controller: nameController,
+                                          //obscureText: isPassword,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            // labelText: "NabinGurung",
+                                            errorText: null,
+                                            // prefixIcon: Icon(
+                                            //  // icon,
+                                            //   color: iconColor,
+                                            // ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
+                                            hintText: "Pete Davidson",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 136, 136, 136)),
+                                          ),
+                                          // validator: (value) {
+                                          //   if (value!.isEmpty) {
+                                          //     print("====================================");
+                                          //     print("object");
+                                          //     setState(() {
+                                          //       isValid = !isValid;
+                                          //     });
+                                          //     return 'Please Enter Name';
+                                          //   }
+                                          //   return null;
+                                          // },
+                                          // onSaved: (String? value) {
+                                          //   textValue = value;
+                                          // },
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        TextFormField(
+                                          controller: genderController,
+                                          //obscureText: isPassword,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            // labelText: "NabinGurung",
+                                            errorText: null,
+                                            // prefixIcon: Icon(
+                                            //  // icon,
+                                            //   color: iconColor,
+                                            // ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
+                                            hintText: "Male",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 136, 136, 136)),
+                                          ),
+                                          // validator: (value) {
+                                          //   if (value!.isEmpty) {
+                                          //     print("====================================");
+                                          //     print("object");
+                                          //     setState(() {
+                                          //       isValid = !isValid;
+                                          //     });
+                                          //     return 'Please Enter Name';
+                                          //   }
+                                          //   return null;
+                                          // },
+                                          // onSaved: (String? value) {
+                                          //   textValue = value;
+                                          // },
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        TextFormField(
+                                          //       initialValue:
+                                          //   userFinalDetails.address,
+                                          controller: phonenumberController,
+                                          //obscureText: isPassword,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            // labelText: "NabinGurung",
+                                            errorText: null,
+                                            // prefixIcon: Icon(
+                                            //  // icon,
+                                            //   color: iconColor,
+                                            // ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
+                                            hintText: "9846458568",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 136, 136, 136)),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        TextFormField(
+                                          //       initialValue:
+                                          //   userFinalDetails.address,
+                                          controller: addressController,
+                                          //obscureText: isPassword,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            // labelText: "NabinGurung",
+                                            errorText: null,
+                                            // prefixIcon: Icon(
+                                            //  // icon,
+                                            //   color: iconColor,
+                                            // ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide:
+                                                  BorderSide(color: textColor1),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(35.0)),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
+                                            hintText: "Balaju",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 136, 136, 136)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      // RaisedButton(
+                                      //     color: Colors.red,
+                                      //     child: Text(
+                                      //       "Cancel",
+                                      //       style: TextStyle(
+                                      //           color: Colors.white,
+                                      //           fontSize: 18,
+                                      //           fontWeight: FontWeight.bold),
+                                      //     ),
+                                      //     onPressed: () {
+                                      //       print("MEETING HAS NOT ENDED");
+                                      //       Navigator.of(context,
+                                      //               rootNavigator: true)
+                                      //           .pop();
+                                      //     }),
+                                      RaisedButton(
+                                        color: Colors.red,
+                                        child:
+                                            // isBooked
+                                            const Text(
+                                          "Update",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // : CircularProgressIndicator(),
+                                        onPressed: () async {
+                                          const CircularProgressIndicator();
+                                          bool isUpdated = await updateProfile(
+                                              nameController.text,
+                                              genderController.text,
+                                              addressController.text,
+                                              phonenumberController.text);
+                                          // Get.to(
+                                          //     () => const KhaltiPaymentApp());
+                                          // var name =
+                                          //     usersDetail?[index!].fullName;
+                                          // bool booked = await bookTutor(
+                                          //     zoomIdController.text,
+                                          //     zoomPasswordController.text,
+                                          //     finalDate.toString(),
+                                          //     _selectedTime!);
+                                          // setState(() {
+                                          //   isBooked = booked;
+                                          // });
+                                          isUpdated
+                                              ? Fluttertoast.showToast(
+                                                  msg:
+                                                      "Your details has been updated",
+                                                )
+                                              : Fluttertoast.showToast(
+                                                  msg:
+                                                      "Updating details unsuccessfull",
+                                                );
+
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                        },
+                                      )
+                                    ],
+                                    buttonColor: Colors.white);
+                              },
+                              icon: const Icon(Icons.edit))
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
 
                       _settingsCard(userFinalDetails.fullName!,
                           userFinalDetails.gender, userFinalDetails.address),
-                      Spacer(),
+                      const Spacer(),
                       //logoutButton()
                     ],
                   );
@@ -145,7 +404,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
       child: Card(
         elevation: 4,
         child: Column(
-          children: [
+          children: const [
             //row for each deatails
             ListTile(
               // leading: Icon(Icons.mail),
@@ -176,16 +435,16 @@ class _TeacherProfileState extends State<TeacherProfile> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           height: 100,
           width: 100,
           child: CachedNetworkImage(
             imageUrl:
                 "https://i.pinimg.com/originals/c8/f1/46/c8f14613fdfd69eaced69d0f1143d47d.jpg",
             fit: BoxFit.cover,
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
             placeholder: (context, url) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
         )
@@ -194,12 +453,12 @@ class _TeacherProfileState extends State<TeacherProfile> {
   }
 
   Widget _profileName(String name) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.80, //80% of width,
       child: Center(
         child: Text(
           name,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
         ),
       ),
@@ -207,12 +466,12 @@ class _TeacherProfileState extends State<TeacherProfile> {
   }
 
   Widget _heading(String heading) {
-    return Container(
+    return SizedBox(
       //color: Colors.red,
       width: MediaQuery.of(context).size.width * 0.6, //80% of width,
       child: Text(
         heading,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
       ),
     );
   }
@@ -228,19 +487,19 @@ class _TeacherProfileState extends State<TeacherProfile> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(Icons.mail),
+              leading: const Icon(Icons.mail),
               title: Text(email),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: const Icon(Icons.phone),
               title: Text(
                   phoneNumber == "null" ? "Add Phone Number" : phoneNumber!),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
@@ -259,23 +518,23 @@ class _TeacherProfileState extends State<TeacherProfile> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(CupertinoIcons.profile_circled),
+              leading: const Icon(CupertinoIcons.profile_circled),
               title: Text(name),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.male),
+              leading: const Icon(Icons.male),
               title: Text(gender),
             ),
-            Divider(
+            const Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.map),
+              leading: const Icon(Icons.map),
               title: Text(address == "null" ? "Add your address" : address!),
             )
           ],
@@ -293,7 +552,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Icon(
                   Icons.logout,
                   color: Colors.white,

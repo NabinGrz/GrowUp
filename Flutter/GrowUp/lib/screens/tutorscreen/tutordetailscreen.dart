@@ -3,14 +3,9 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:growup/colorpalettes/palette.dart';
-import 'package:growup/models/users_model.dart';
-import 'package:growup/screens/paymentscreen/khalti_payment.dart';
-import 'package:growup/screens/paymentscreen/khalti_payment_page.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
-import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +26,7 @@ class TutorDetailScreen extends StatefulWidget {
 class _TutorDetailScreenState extends State<TutorDetailScreen> {
   List<dynamic>? usersDetail;
   int? index;
+  var userId;
   // String? check;
   _TutorDetailScreenState({this.usersDetail, this.index});
   DateTime selectedDate = DateTime.now();
@@ -39,6 +35,18 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
   String? _selectedTime;
   TextEditingController zoomIdController = TextEditingController();
   TextEditingController zoomPasswordController = TextEditingController();
+
+  getData() async {
+    userId = await getUserAppId();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? result = await showTimePicker(
         context: context,
@@ -48,7 +56,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                 primaryColor: Colors.black54,
                 splashColor: Colors.black,
                 brightness: Brightness.dark),
-            child: child ?? Text(""),
+            child: child ?? const Text(""),
           );
         },
         initialTime: TimeOfDay.now());
@@ -93,7 +101,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                 primaryColor: Colors.black54,
                 splashColor: Colors.black,
                 brightness: Brightness.dark),
-            child: child ?? Text(""),
+            child: child ?? const Text(""),
           );
         });
     if (picked != null && picked != selectedDate) {
@@ -127,7 +135,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
               top: 50,
               left: 20,
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios,
                   color: Colors.white,
                 ),
@@ -138,29 +146,29 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
             ),
 
             Positioned(
-              top: MediaQuery.of(context).size.height / 3 - 30,
+              top: MediaQuery.of(context).size.height / 3 - 90,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 80,
                         ),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height / 21,
                           //color: Colors.yellow,
-                          child: Text(
+                          child: const Text(
                             'About Me',
                             style: TextStyle(
                                 color: Colors.black,
@@ -168,23 +176,23 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Text(
-                          'Hello! My name is Elliot Smith. As a born and raised New Yorker, I take food quite seriously. I have worked for a variety of restaurants and franchises to create logos, brochures, websites, menus, product labels and countless other deliverables. As someone who also completed culinary school, I can promise you I know what good food looks like.',
+                        const Text(
+                          'Hello! My name is Elliot Smith. As a born and raised New Yorker, I take food quite seriously. I have worked for a variety of restaurants and franchises to create logos, brochures, websites, menus, product labels and countless other deliverables.',
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
                         ),
 
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height / 21,
                           //color: Colors.yellow,
-                          child: Text(
+                          child: const Text(
                             'Email Address',
                             style: TextStyle(
                                 color: Colors.black,
@@ -192,23 +200,24 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
+                        //  usersDetail[0].
                         Text(
                           "${usersDetail?[index!].userName}",
                           textAlign: TextAlign.justify,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
                         ),
 
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height / 21,
                           //color: Colors.yellow,
-                          child: Text(
+                          child: const Text(
                             'Education',
                             style: TextStyle(
                                 color: Colors.black,
@@ -216,7 +225,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Text(
+                        const Text(
                           "BSc.CSIT",
                           textAlign: TextAlign.justify,
                           style: TextStyle(
@@ -225,7 +234,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                           ),
                         ),
                         _buildDateTime(context),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
                         ),
@@ -238,7 +247,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                         //   ),
                         // ),
 
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         //   ServiceTile(usersDetail: usersDetail, index: index),
@@ -273,16 +282,19 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                           enabledBorder: OutlineInputBorder(
                                             borderSide:
                                                 BorderSide(color: textColor1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(35.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(35.0)),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide:
                                                 BorderSide(color: textColor1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(35.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(35.0)),
                                           ),
-                                          contentPadding: EdgeInsets.all(10),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
                                           hintText: "Enter Meeting ID",
                                           hintStyle: TextStyle(
                                               fontSize: 14, color: textColor1),
@@ -302,7 +314,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                         //   textValue = value;
                                         // },
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       TextFormField(
@@ -319,16 +331,19 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                           enabledBorder: OutlineInputBorder(
                                             borderSide:
                                                 BorderSide(color: textColor1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(35.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(35.0)),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide:
                                                 BorderSide(color: textColor1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(35.0)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(35.0)),
                                           ),
-                                          contentPadding: EdgeInsets.all(10),
+                                          contentPadding:
+                                              const EdgeInsets.all(10),
                                           hintText: "Enter Meeting Passcode",
                                           hintStyle: TextStyle(
                                               fontSize: 14, color: textColor1),
@@ -353,7 +368,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                   actions: [
                                     RaisedButton(
                                         color: Colors.red,
-                                        child: Text(
+                                        child: const Text(
                                           "Cancel",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -370,7 +385,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                       color: Colors.red,
                                       child:
                                           // isBooked
-                                          Text(
+                                          const Text(
                                         "Book",
                                         style: TextStyle(
                                             color: Colors.white,
@@ -379,38 +394,40 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                       ),
                                       // : CircularProgressIndicator(),
                                       onPressed: () async {
-                                        Get.to(() => const KhaltiPaymentApp());
-                                        // var name =
-                                        //     usersDetail?[index!].fullName;
-                                        // bool booked = await bookTutor(
-                                        //     zoomIdController.text,
-                                        //     zoomPasswordController.text,
-                                        //     finalDate.toString(),
-                                        //     _selectedTime!);
-                                        // setState(() {
-                                        //   isBooked = booked;
-                                        // });
-                                        // isBooked
-                                        //     ? Get.snackbar(
-                                        //         "Booked",
-                                        //         "Your class has been booked with Mr. $name",
-                                        //         icon: Icon(Icons.person,
-                                        //             color: Colors.white),
-                                        //         snackPosition:
-                                        //             SnackPosition.BOTTOM,
-                                        //       )
-                                        //     : Get.snackbar(
-                                        //         "Booking Unsuccessfull",
-                                        //         "SORRY!!",
-                                        //         icon: Icon(Icons.person,
-                                        //             color: Colors.white),
-                                        //         snackPosition:
-                                        //             SnackPosition.BOTTOM,
-                                        //       );
+                                        // Get.to(() => const KhaltiPaymentApp());
+                                        var name =
+                                            usersDetail?[index!].fullName;
+                                        bool booked = await bookTutor(
+                                            usersDetail?[index!].id,
+                                            userId.toString(),
+                                            zoomIdController.text,
+                                            zoomPasswordController.text,
+                                            finalDate.toString(),
+                                            _selectedTime!);
+                                        setState(() {
+                                          isBooked = booked;
+                                        });
+                                        isBooked
+                                            ? Get.snackbar(
+                                                "Booked",
+                                                "Your class has been booked with Mr. $name",
+                                                icon: const Icon(Icons.person,
+                                                    color: Colors.white),
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                              )
+                                            : Get.snackbar(
+                                                "Booking Unsuccessfull",
+                                                "SORRY!!",
+                                                icon: const Icon(Icons.person,
+                                                    color: Colors.white),
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                              );
 
-                                        // Navigator.of(context,
-                                        //         rootNavigator: true)
-                                        //     .pop();
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
                                       },
                                     )
                                   ],
@@ -419,11 +436,11 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                               // Navigator.push(context,
                               //     MaterialPageRoute(builder: (context) => KhaltiPaymentApp()));
                             },
-                            color: Color(0xffFF8573),
+                            color: const Color(0xffFF8573),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Book Now',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 22),
@@ -439,138 +456,130 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.19,
+              top: MediaQuery.of(context).size.height * 0.12,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 3 - 20,
+                  height: MediaQuery.of(context).size.height / 6 + 3,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFFA8C8C),
+                        Color(0xFFEC5B5B),
+                        // HexColor(#738AE6),
+                        // HexColor(#5C5EDD),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Image.asset(
+                    "images/person.png",
+                    fit: BoxFit.contain,
+                    // scale: 1.7,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.21,
+              right: 20,
+              child: Container(
+                // color: Colors.red,
+                // height: 100,
+                // width: 200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 3 - 20,
-                      height: MediaQuery.of(context).size.height / 6 + 20,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFFFA8C8C),
-                            Color(0xFFEC5B5B),
-                            // HexColor(#738AE6),
-                            // HexColor(#5C5EDD),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${usersDetail?[index!].fullName}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Image.asset(
-                        "images/person.png",
-                        fit: BoxFit.contain,
-                        // scale: 1.7,
-                      ),
+                        IconButton(
+                            onPressed: () async {
+                              const num = '+9779846458568';
+                              await FlutterPhoneDirectCaller.callNumber(num);
+                            },
+                            icon: const Icon(
+                              Iconsax.call,
+                              color: Colors.green,
+                              size: 20,
+                            )),
+                        IconButton(
+                            onPressed: () => launchEmail(
+                                toEmail: "${usersDetail?[index!].userName}",
+                                subject: "To Pass",
+                                message: "THE SUBJECT IS"),
+                            icon: const Icon(
+                              Iconsax.message,
+                              color: Colors.green,
+                              size: 20,
+                            )),
+                      ],
                     ),
-                    SizedBox(
-                      width: 20,
+                    const SizedBox(
+                      height: 10,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
+                    Row(
+                      children: [
+                        RatingBar(
+                          initialRating: 0.0,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemSize: 24,
+                          ratingWidget: RatingWidget(
+                            full: Icon(Icons.star_rate_rounded,
+                                color: darkBlueColor),
+                            half: Icon(Icons.star_half_rounded,
+                                color: darkBlueColor),
+                            empty: Icon(Icons.star_border_rounded,
+                                color: darkBlueColor),
+                          ),
+                          itemPadding: EdgeInsets.zero,
+                          onRatingUpdate: (rating) async {
+                            print(
+                                "||||||||||||||||||||||||||||||||||||||||||||");
+                            print(rating);
+                            var ratingResponse = await postTeacherRating(
+                                usersDetail![index!].id.toString(), rating);
+                            await ratingResponse
+                                ? Fluttertoast.showToast(
+                                    msg:
+                                        "Rating of $rating has been given for this tutor",
+                                  )
+                                : Fluttertoast.showToast(
+                                    msg: "Rating unsuccessfull",
+                                  );
+                            print(
+                                "11111111111111110000000000000000011111111111111111111111111111");
+                            print("Teacher id" +
+                                usersDetail![index!].id.toString());
+                            print(ratingResponse);
+                          },
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "${usersDetail?[index!].fullName}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () async {
-                                  final num = '+9779846458568';
-                                  await FlutterPhoneDirectCaller.callNumber(
-                                      num);
-                                },
-                                icon: Icon(
-                                  Iconsax.call,
-                                  color: Colors.green,
-                                )),
-                            IconButton(
-                                onPressed: () => launchEmail(
-                                    toEmail: "${usersDetail?[index!].userName}",
-                                    subject: "To Pass",
-                                    message: "THE SUBJECT IS"),
-                                icon: Icon(
-                                  Iconsax.message,
-                                  color: Colors.green,
-                                )),
-                          ],
+                        const SizedBox(
+                          width: 10,
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //SizedBox(width: 5),
-                        // Text(
-                        //   "${usersDetail?[index!].userName}",
-                        //   style: TextStyle(
-                        //     color: Color(0xffFF8573),
-                        //   ),
-                        // ),
-                        Row(
-                          children: [
-                            RatingBar(
-                              initialRating: 0.0,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 24,
-                              ratingWidget: RatingWidget(
-                                full: Icon(Icons.star_rate_rounded,
-                                    color: darkBlueColor),
-                                half: Icon(Icons.star_half_rounded,
-                                    color: darkBlueColor),
-                                empty: Icon(Icons.star_border_rounded,
-                                    color: darkBlueColor),
-                              ),
-                              itemPadding: EdgeInsets.zero,
-                              onRatingUpdate: (rating) async {
-                                print(
-                                    "||||||||||||||||||||||||||||||||||||||||||||");
-                                print(rating);
-                                var ratingResponse = await postTeacherRating(
-                                    usersDetail![index!].id.toString(), rating);
-                                await ratingResponse
-                                    ? Fluttertoast.showToast(
-                                        msg:
-                                            "Rating of $rating has been given for this tutor",
-                                      )
-                                    : Fluttertoast.showToast(
-                                        msg: "Rating unsuccessfull",
-                                      );
-                                print(
-                                    "11111111111111110000000000000000011111111111111111111111111111");
-                                print("Teacher id" +
-                                    usersDetail![index!].id.toString());
-                                print(ratingResponse);
-                              },
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Give Rating",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ],
+                        const Text(
+                          "Give Rating",
+                          style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            ),
+            )
             // Positioned(
             //   right: 10,
             //   top: MediaQuery.of(context).size.height / 3 - 55,
@@ -592,14 +601,14 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(
+        const Divider(
           thickness: 1,
           color: Color(0xFFD6D6D6),
         ),
-        Container(
+        SizedBox(
           height: MediaQuery.of(context).size.height / 21,
           //color: Colors.yellow,
-          child: Text(
+          child: const Text(
             'Schedule your Date',
             style: TextStyle(
                 color: Colors.black,
@@ -631,27 +640,27 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                       //border: Border.all(color: Colors.white)
                     ),
                     child: Text(
-                      '${DateFormat('dd/MM/yyyy').format(selectedDate)}',
-                      style: TextStyle(
+                      DateFormat('dd/MM/yyyy').format(selectedDate),
+                      style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
                       ),
                     )),
                 Container(
-                    child: Icon(Iconsax.calendar_add,
+                    child: const Icon(Iconsax.calendar_add,
                         color: Colors.white, size: 20))
               ],
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Container(
+        SizedBox(
           height: MediaQuery.of(context).size.height / 21,
           //color: Colors.yellow,
-          child: Text(
+          child: const Text(
             'Schedule your Time',
             style: TextStyle(
                 color: Colors.black,
@@ -686,15 +695,15 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                     child: Text(
                       _selectedTime != null
                           ? _selectedTime!
-                          : '${TimeOfDay.now().format(context)}',
-                      style: TextStyle(
+                          : TimeOfDay.now().format(context),
+                      style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w400,
                         color: Colors.white,
                       ),
                     )),
                 Container(
-                    child: Icon(
+                    child: const Icon(
                   Iconsax.watch,
                   color: Colors.white,
                   size: 20,

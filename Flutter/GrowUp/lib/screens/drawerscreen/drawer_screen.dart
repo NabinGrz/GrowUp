@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
+import 'package:growup/screens/buildtestpapers.dart/showtestpapers.dart';
 import 'package:growup/screens/learninganalysisscreen/learninganalysispage.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
@@ -147,6 +148,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   )),
                   child: const NewRow(
                     text: 'Quiz History',
+                    icon: Iconsax.timer,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return TestPapersList();
+                    },
+                  )),
+                  child: const NewRow(
+                    text: 'Practice Questions',
                     icon: Iconsax.receipt,
                   ),
                 ),

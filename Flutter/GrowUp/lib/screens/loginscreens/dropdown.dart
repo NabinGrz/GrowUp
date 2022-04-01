@@ -9,7 +9,7 @@ class DropDown extends StatefulWidget {
 }
 
 class _DropDownState extends State {
-  var _currencies = ['Student', 'Teacher'];
+  final _currencies = ['Student', 'Teacher'];
   var _currentItemSelected = 'Student';
 
   @override
@@ -24,7 +24,7 @@ class _DropDownState extends State {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: iconColor,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Color(0xFFCCCCCC),
                     blurRadius: 14,
@@ -55,7 +55,7 @@ class _DropDownState extends State {
 
   String _onDropDownItemSelected(String newValueSelected) {
     setState(() {
-      this._currentItemSelected = newValueSelected;
+      _currentItemSelected = newValueSelected;
     });
     return newValueSelected;
   }

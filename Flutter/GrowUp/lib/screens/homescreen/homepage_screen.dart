@@ -1,14 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:growup/adapters/practicerecord.dart';
-import 'package:growup/adapters/quizhistory.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/screens/drawerscreen/drawer_screen.dart';
 import 'package:growup/screens/homescreen/hometab_screen.dart';
 import 'package:growup/screens/newsfeedscreen/newsfeed.dart';
 import 'package:growup/screens/postscreen/postImage.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:growup/services/apitest.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -39,16 +37,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 width: 50,
                 child: IconButton(
                     onPressed: () {
-                      Box<PracticeRecord> box =
-                          Hive.box<PracticeRecord>('practice');
-                      print(
-                          "====================PRACTICE NUM==========================");
-                      print(box.length);
-
-                      Box<QuizHistory> box2 = Hive.box<QuizHistory>('history');
-                      print(
-                          "====================PRACTICE NUM==========================");
-                      print(box2.length);
+                      var t = getAllTestQuestion();
+                      print("---------------------------------------------");
+                      print(t);
                     },
                     icon: const Icon(
                       Iconsax.notification,

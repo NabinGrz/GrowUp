@@ -30,7 +30,9 @@ void main() async {
         ),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false, home: SplashScreen())));
+          //SplashScreen
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen())));
   configLoading();
 }
 
