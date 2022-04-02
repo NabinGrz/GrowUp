@@ -1,17 +1,18 @@
 // To parse this JSON data, do
 //
-//     final testModel = testModelFromJson(jsonString);
+//     final examAllTestModel = examAllTestModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<TestModel> testModelFromJson(String str) =>
-    List<TestModel>.from(json.decode(str).map((x) => TestModel.fromJson(x)));
+List<ExamAllTestModel> examAllTestModelFromJson(String str) =>
+    List<ExamAllTestModel>.from(
+        json.decode(str).map((x) => ExamAllTestModel.fromJson(x)));
 
-String testModelToJson(List<TestModel> data) =>
+String examAllTestModelToJson(List<ExamAllTestModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class TestModel {
-  TestModel({
+class ExamAllTestModel {
+  ExamAllTestModel({
     this.id,
     this.question,
     this.examId,
@@ -22,15 +23,16 @@ class TestModel {
   int? id;
   String? question;
   int? examId;
-  dynamic exam;
-  List<dynamic>? options;
+  dynamic? exam;
+  dynamic? options;
 
-  factory TestModel.fromJson(Map<String, dynamic> json) => TestModel(
+  factory ExamAllTestModel.fromJson(Map<String, dynamic> json) =>
+      ExamAllTestModel(
         id: json["id"],
         question: json["question"],
         examId: json["examID"],
         exam: json["exam"],
-        options: List<dynamic>.from(json["options"].map((x) => x)),
+        options: json["options"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +40,6 @@ class TestModel {
         "question": question,
         "examID": examId,
         "exam": exam,
-        "options": List<dynamic>.from(options!.map((x) => x)),
+        "options": options,
       };
 }

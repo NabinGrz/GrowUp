@@ -40,9 +40,15 @@ class _TestPapersListState extends State<TestPapersList> {
               } else if (snapshot.hasData ||
                   snapshot.data != null ||
                   snapshot.connectionState == ConnectionState.done) {
-                List<QuestionModel> listQuestions = snapshot.data;
+                List<QuestionModel> litsTestQuestions = snapshot.data;
+                final li = litsTestQuestions.reversed
+                    .where((element) => element.skillId == 8)
+                    .toList();
+                print("LENGTH:" + li.length.toString());
+                var testLength = li.length - 8;
+                print(testLength);
                 return ListView.builder(
-                    itemCount: listQuestions.length,
+                    itemCount: testLength,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
@@ -50,8 +56,8 @@ class _TestPapersListState extends State<TestPapersList> {
                               height: 120,
                               width: MediaQuery.of(context).size.width - 50,
                               color: Colors.red,
-                              child: buildTextWidget(
-                                  listQuestions[index].id.toString())),
+                              child:
+                                  buildTextWidget(li[index].text.toString())),
                           const SizedBox(
                             height: 10,
                           )
