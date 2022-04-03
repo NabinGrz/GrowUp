@@ -1,6 +1,6 @@
 [
     {
-        "skillID": 1,
+        "skillID": 10,
         "questions": [
             {
                 "id": 21,
@@ -315,7 +315,7 @@
         ]
     },
     {
-        "skillID": 2,
+        "skillID":12,
         "questions": [
             {
                 "id": 21,

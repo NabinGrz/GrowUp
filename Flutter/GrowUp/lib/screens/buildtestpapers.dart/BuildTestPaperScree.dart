@@ -44,6 +44,7 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
     // TODO: implement initState
     super.initState();
     getAllExamList();
+
     options = true;
     setState(() {});
     //  getExam();
@@ -133,10 +134,13 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
                 examNameList.add(snapshot.data![i].name!);
                 nameList = examNameList;
               }
+              print("*****************************************");
+              print(snapshot.data![0].name!);
               return Container(
                 color: Colors.white,
                 child: DropdownButton<String>(
                   // Step 3.
+                  /// value: snapshot.data![0].name!,
                   value: snapshot.data![0].name!,
                   // Step 4.
                   items: nameList.map<DropdownMenuItem<String>>((String value) {

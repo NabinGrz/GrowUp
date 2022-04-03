@@ -336,17 +336,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                     ),
                     //   Image.network(
                     //      "https://1462-2400-1a00-b020-f9ee-c8cb-f076-23cd-a8a8.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png"),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: edge),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'See all',
-                          style:
-                              softpurpleColorTextStyle.copyWith(fontSize: 14),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 FutureBuilder(

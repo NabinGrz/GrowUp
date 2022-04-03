@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
-import 'package:growup/screens/buildtestpapers.dart/BuildTestPaperScree.dart';
+import 'package:growup/screens/buildtestpapers.dart/showexamslist.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
 import 'package:growup/screens/teacherscreen/teacherpage.dart';
 import 'package:growup/services/apiservice.dart';
@@ -54,7 +54,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       print("HAS SOME DATA==> UI Class");
       print(value);
       await Future.delayed(
-          const Duration(seconds: 0), () => Get.to(const BuildTestPaper()));
+          const Duration(seconds: 0), () => Get.to(ExamsList()));
     }
     setState(() {
       finaltokenData = value;

@@ -24,8 +24,9 @@ getToken() async {
   return obtainedtokenData;
 }
 
-const baseUrlGet = "https://a57c-27-34-25-117.ngrok.io";
-const baseUrlPost = "a57c-27-34-25-117.ngrok.io";
+const baseUrlGet =
+    "https://c9d3-2400-1a00-b020-5e1b-3553-1796-b5b4-18d0.ngrok.io";
+const baseUrlPost = "c9d3-2400-1a00-b020-5e1b-3553-1796-b5b4-18d0.ngrok.io";
 
 //===============================================================================
 
@@ -417,7 +418,7 @@ Future getSkillDetails() async {
   print("FINAL TOKEN OF USER:" + obtainedtokenData.toString());
   myUrl = Uri.parse(
     // "$baseUrlGet/api/v1/getskills",
-    "https://a57c-27-34-25-117.ngrok.io/api/v1/getskills",
+    "$baseUrlGet/api/v1/getskills",
   );
   responseSkills = await http.get(myUrl, headers: {
     'Content-Type': 'application/json',

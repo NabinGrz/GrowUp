@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
+import 'package:growup/screens/buildtestpapers.dart/BuildTestPaperScree.dart';
 import 'package:growup/services/testExamservices.dart';
 
 class BuildExamScreen extends StatefulWidget {
@@ -27,6 +29,8 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
     'Social Media Marketing 2022',
     'Ultimate Google Ads Training'
   ];
+  bool added = false;
+  bool isTest = false;
   var skillID;
   var _currentItemSelected = 'The Complete Mobile Application Development';
   var _currentDiff = 'Easy';
@@ -75,47 +79,47 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
                       _currentItemSelected = newValue!;
                       if (newValue == skills[0]) {
                         setState(() {
-                          skillID = 1;
+                          skillID = 10;
                         });
                         print("ANDROID");
                       } else if (newValue == skills[1]) {
                         setState(() {
-                          skillID = 2;
+                          skillID = 11;
                         });
                         print("WEB");
                       } else if (newValue == skills[2]) {
                         setState(() {
-                          skillID = 3;
+                          skillID = 12;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[3]) {
                         setState(() {
-                          skillID = 4;
+                          skillID = 13;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[4]) {
                         setState(() {
-                          skillID = 5;
+                          skillID = 14;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[5]) {
                         setState(() {
-                          skillID = 6;
+                          skillID = 15;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[6]) {
                         setState(() {
-                          skillID = 7;
+                          skillID = 16;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[7]) {
                         setState(() {
-                          skillID = 8;
+                          skillID = 17;
                         });
                         print("GOOGLE");
                       } else if (newValue == skills[8]) {
                         setState(() {
-                          skillID = 9;
+                          skillID = 18;
                         });
                         print("GOOGLE");
                       }
@@ -162,7 +166,44 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
                   tutorNameController, TextInputType.name),
               buildTextField(null, "Total No.of Questions", false, false,
                   questionController, TextInputType.name),
-              buildButton()
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xffFE876C), Color(0xffFD5D37)]),
+                      borderRadius: BorderRadius.circular(
+                        10.0,
+                      ),
+                    ),
+                    child: FlatButton(
+                        onPressed: () async {
+                          isTest
+                              ? Get.to(const BuildTestPaper())
+                              : Fluttertoast.showToast(
+                                  msg: "Please create an exam first",
+                                );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(17),
+                        ),
+                        child: Text(
+                          "Add Test",
+                          style: whiteTextStyle.copyWith(fontSize: 18),
+                        )),
+                  ),
+                  buildButton(const Color(0xffFE876C), const Color(0xffFD5D37),
+                      "Add Exam"),
+                ],
+              )
             ],
           )),
     );
@@ -199,17 +240,19 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
     );
   }
 
-  Widget buildButton() {
+  Widget buildButton(Color color1, Color color2, String buttonText) {
     return Container(
-      width: 150,
+      width: 120,
       height: 50,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xffFE876C),
-            Color(0xffFD5D37),
+            // Color(0xffFE876C),
+            color1,
+            color2
+            //  Color(0xffFD5D37),
           ],
         ),
         borderRadius: BorderRadius.circular(
@@ -217,38 +260,40 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
         ),
       ),
       child: FlatButton(
-        onPressed: () async {
-          // await getQuestion();
-          // await getQuestion();
-          // var l = await questions.length;
-          // var finalIndex = l - (l - 1);
-          // print("************FINAL INDEX*********************");
-          // print(finalIndex);
-          /**
-                "SkillId": skillId,
-                      "Name": name,
-                      "Difficulty": difficulty,
-                      "TutorName": tutorname,
-                      "TotalQuestions": totalquestions
-     */
-          bool added = await postExam(skillID.toString(), nameController.text,
-              _currentDiff, tutorNameController.text, questionController.text);
-          added
-              ? Fluttertoast.showToast(
-                  msg: "Exam has been created successfully",
+          onPressed: () async {
+            added = true;
+            setState(() {});
+            added = await postExam(
+                skillID.toString(),
+                nameController.text,
+                _currentDiff,
+                tutorNameController.text,
+                questionController.text);
+            setState(() {});
+            if (added) {
+              Fluttertoast.showToast(
+                msg: "Exam has been created successfully",
+              );
+              added = false;
+              isTest = true;
+              setState(() {});
+            } else {
+              Fluttertoast.showToast(
+                msg: "Exam cannot be added.SORRY!!",
+              );
+            }
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(17),
+          ),
+          child: added
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
                 )
-              : Fluttertoast.showToast(
-                  msg: "Exam cannot be added.SORRY!!",
-                );
-        },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17),
-        ),
-        child: Text(
-          'Add Exam',
-          style: whiteTextStyle.copyWith(fontSize: 18),
-        ),
-      ),
+              : Text(
+                  buttonText,
+                  style: whiteTextStyle.copyWith(fontSize: 18),
+                )),
     );
   }
 }

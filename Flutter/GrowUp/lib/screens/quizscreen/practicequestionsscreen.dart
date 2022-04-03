@@ -285,7 +285,9 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                   },
                   controller: pageController,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listPractice[widget.skillID - 1].questions!.length,
+                  itemCount: listPractice[widget.skillID - widget.skillID]
+                      .questions!
+                      .length,
                   itemBuilder: (context, index) {
                     var num = index + 1;
                     return Column(
@@ -353,7 +355,8 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                         height: 5,
                                       ),
                                       Text(
-                                        listPractice[widget.skillID - 1]
+                                        listPractice[
+                                                widget.skillID - widget.skillID]
                                             .questions![index]
                                             .text
                                             .toString(),
@@ -375,19 +378,19 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                   physics: const ScrollPhysics(),
                                   child: ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount:
-                                          listPractice[widget.skillID - 1]
-                                              .questions![index]
-                                              .options!
-                                              .length,
+                                      itemCount: listPractice[
+                                              widget.skillID - widget.skillID]
+                                          .questions![index]
+                                          .options!
+                                          .length,
                                       itemBuilder: (context, ansIndex) {
                                         k = ['a', 'b', 'c', 'd'];
-                                        String selectedAns =
-                                            listPractice[widget.skillID - 1]
-                                                .questions![index]
-                                                .options![ansIndex]
-                                                .isCorrectOption
-                                                .toString();
+                                        String selectedAns = listPractice[
+                                                widget.skillID - widget.skillID]
+                                            .questions![index]
+                                            .options![ansIndex]
+                                            .isCorrectOption
+                                            .toString();
                                         return Column(
                                           children: [
                                             Row(
@@ -407,9 +410,9 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                                         const EdgeInsets.only(
                                                             top: 12.0),
                                                     child: Text(
-                                                      listPractice[
-                                                              widget.skillID -
-                                                                  1]
+                                                      listPractice[widget
+                                                                  .skillID -
+                                                              widget.skillID]
                                                           .questions![index]
                                                           .options![ansIndex]
                                                           .text
@@ -435,7 +438,8 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                         ),
                         isClicked
                             ? index ==
-                                    listPractice[widget.skillID - 1]
+                                    listPractice[
+                                                widget.skillID - widget.skillID]
                                             .questions!
                                             .length -
                                         1
@@ -466,7 +470,8 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                         print(box.length);
                                         box.length;
                                         box.add(PracticeRecord(
-                                            listPractice[widget.skillID - 1]
+                                            listPractice[widget.skillID -
+                                                    widget.skillID]
                                                 .questions![0]
                                                 .skill
                                                 .toString(),

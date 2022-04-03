@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
 import 'package:growup/screens/buildtestpapers.dart/BuildTestPaperScree.dart';
+import 'package:growup/screens/buildtestpapers.dart/buildExamScreen.dart';
+import 'package:growup/screens/homescreen/homepage_screen.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
 import 'package:growup/screens/profilescreen/teacher_profile_screen.dart';
@@ -140,6 +142,20 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
+                        builder: (context) => const BuildExamScreen(),
+                      )),
+                  child: const NewRow(
+                    text: 'Build Exam Paper',
+                    icon: Iconsax.receipt,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => const BuildTestPaper(),
                       )),
                   child: const NewRow(
@@ -175,9 +191,14 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
               children: [
                 Row(
                   children: [
-                    const Text(
-                      'App Mode',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(const HomePageScreen());
+                      },
+                      child: const Text(
+                        'App Mode',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
                     ),
                     Obx(() {
                       return Switch(

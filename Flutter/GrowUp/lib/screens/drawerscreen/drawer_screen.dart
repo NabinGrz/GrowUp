@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
-import 'package:growup/screens/buildtestpapers.dart/showtestpapers.dart';
+import 'package:growup/screens/buildtestpapers.dart/showexamslist.dart';
 import 'package:growup/screens/learninganalysisscreen/learninganalysispage.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
 import 'package:growup/screens/quizhistory/quizhistorylist.dart';
 import 'package:growup/screens/studentcoursescreen/studentcourse.dart';
+import 'package:growup/screens/teacherscreen/teacherpage.dart';
 import 'package:growup/screens/tutorscreen/tutorlist.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:iconsax/iconsax.dart';
@@ -157,7 +158,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 GestureDetector(
                   onTap: () => Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return TestPapersList();
+                      return ExamsList();
                     },
                   )),
                   child: const NewRow(
@@ -217,9 +218,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'App Mode',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(TeacherPage());
+                      },
+                      child: const Text(
+                        'App Mode',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
                     ),
                     Obx(() {
                       return Switch(
