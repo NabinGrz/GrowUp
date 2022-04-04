@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growupadmin/models/categorymodels.dart';
 import 'package:growupadmin/models/loginmodelresponse.dart';
+import 'package:growupadmin/models/quizmodel.dart';
 import 'package:growupadmin/models/registerresponsemodel.dart';
+import 'package:growupadmin/models/skillsdetailmodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,8 +22,8 @@ getToken() async {
 var adminToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5pYmFuZ3JnMjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI3NmE0OTY5Yi05YjA0LTRlYzYtOTViMS0wNmYxOTBiNDBlNGUiLCJleHAiOjE2NTE2Mzc5MzIsImlzcyI6Imh0dHA6Ly9tYWhhcmphbnNhY2hpbi5jb20ubnAiLCJhdWQiOiJodHRwOi8vbWFoYXJqYW5zYWNoaW4uY29tLm5wIn0.AlFyNuv_WPqU54xWg3mcNcb7BuO822E8io_hR2yD5So";
 const baseUrlGet =
-    "https://4c7b-2400-1a00-b020-5e1b-21a7-3c75-6b30-7545.ngrok.io";
-const baseUrlPost = "4c7b-2400-1a00-b020-5e1b-21a7-3c75-6b30-7545.ngrok.io";
+    "https://263d-2400-1a00-b020-5e1b-21a7-3c75-6b30-7545.ngrok.io";
+const baseUrlPost = "263d-2400-1a00-b020-5e1b-21a7-3c75-6b30-7545.ngrok.io";
 var _loginResponseData;
 var responseLoginTokken;
 Future login(String email, String password) async {
@@ -179,4 +181,85 @@ Future<List<CategoryModel>> getAllCat({String? query}) async {
   }
 
   return newsFeed2!;
+}
+
+late var responseSkills;
+var skills;
+Future<List<SkillsDetailModel>> getSkillDetails() async {
+  var myUrl = Uri.parse(
+    "$baseUrlGet/api/v1/getskills",
+  );
+  responseSkills = await http.get(myUrl, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $adminToken',
+  });
+  var data = await responseSkills.body;
+  skills = skillsDetailModelFromJson(data);
+  return skills;
+}
+
+var postingTest;
+Future<bool> postQuiz(String skillId, String question) async {
+  var responsePostingQuiz =
+      await http.post(Uri.https(baseUrlPost, 'api/v1/question'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $adminToken',
+          },
+          body: jsonEncode(
+              // <String, dynamic>{"NewsFeedUserId": 22, "Rating": 3.5},
+              <String, dynamic>{"SkillId": skillId, "Text": question}));
+  if (responsePostingQuiz.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var postingOptions;
+Future<bool> postQuizOptions(String text, String quizID, bool isCorrect) async {
+  var responsePostingQuizOptions = await http.post(
+      Uri.https(baseUrlPost, 'api/v1/option'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $adminToken',
+      },
+      body: jsonEncode(
+          // <String, dynamic>{"NewsFeedUserId": 22, "Rating": 3.5},
+          <String, dynamic>{
+            "text": text,
+            "questionId": quizID,
+            "isCorrectOption": isCorrect
+          }));
+  if (responsePostingQuizOptions.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var responseQuiz;
+var quiz;
+//List<TestModel>? usersTestUser = [];
+//var finalCount;
+//var t ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5vYmlnMjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwYzE4ODQ2NC1iYTNkLTQ0OTMtYWM0MC0xYWIxZGUzMTE3OGMiLCJleHAiOjE2NDgwNDg5NDgsImlzcyI6Imh0dHA6Ly9tYWhhcmphbnNhY2hpbi5jb20ubnAiLCJhdWQiOiJodHRwOi8vbWFoYXJqYW5zYWNoaW4uY29tLm5wIn0.1RAi4fzWklh8jyLSMstRrF098RwjxwmXvztAq1rcBWY";
+Future<List<Quiz>> getQuiz(int skillID) async {
+  var myUrl = Uri.parse(
+    "$baseUrlGet/api/v1/all/question?id=$skillID",
+  );
+  responseQuiz = await http.get(myUrl, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $adminToken',
+  });
+  if (responseQuiz.statusCode == 200) {
+    var data = await responseQuiz.body;
+    quiz = quizFromJson(data);
+    print(
+        "======================QQQQQQQQQQQQQQQQQQQQQQQQQQ=======================");
+    print(quiz);
+    return quiz;
+  } else {}
+  return quiz;
 }

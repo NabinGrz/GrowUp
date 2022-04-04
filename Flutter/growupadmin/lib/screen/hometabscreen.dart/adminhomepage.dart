@@ -22,7 +22,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         Positioned(
           left: MediaQuery.of(context).size.width -
               (MediaQuery.of(context).size.width - 30),
-          top: MediaQuery.of(context).size.height / 6,
+          top: MediaQuery.of(context).size.height / 8,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +40,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 height: MediaQuery.of(context).size.height / 3,
                 width: MediaQuery.of(context).size.width - 80,
                 child: const Text(
-                  "Add various skills category for students to learn according to thier choices",
+                  "Add various skill category for students to learn according to thier choice and interest",
                   style: TextStyle(
                       color: Color.fromARGB(255, 98, 98, 98),
                       fontSize: 18,
@@ -87,7 +87,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   height: 20,
                 ),
                 Container(
-                  width: 150,
+                  width: 200,
                   height: 50,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
@@ -136,7 +136,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       child: !skillAdded
                           ? Text(
-                              'Add Category',
+                              'Add Skill Category',
                               style: whiteTextStyle.copyWith(fontSize: 18),
                             )
                           : const CircularProgressIndicator(
@@ -164,21 +164,18 @@ class _HomePageScreenState extends State<HomePageScreen> {
         decoration: InputDecoration(
           // labelText: "NabinGurung",
           errorText: null,
-          prefixIcon: Icon(
-            icon,
-            color: iconColor,
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(35.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: darkBlueColor),
-            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          ),
+
+          // enabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: blackColor),
+          //   borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          // ),
+          // focusedBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: darkBlueColor),
+          //   borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          // ),
           contentPadding: const EdgeInsets.all(10),
           hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+          hintStyle: const TextStyle(fontSize: 15, color: Colors.blueGrey),
         ),
       ),
     );

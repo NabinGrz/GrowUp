@@ -52,7 +52,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       print("HAS SOME DATA==> UI Class");
       print(value);
       await Future.delayed(
-          const Duration(seconds: 0), () => Get.to(const HomeTab()));
+          //HomeTab()
+          const Duration(seconds: 0),
+          () => Get.to(const HomeTab()));
     }
     setState(() {
       finaltokenData = value;

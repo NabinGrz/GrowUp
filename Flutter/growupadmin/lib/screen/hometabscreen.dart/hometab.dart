@@ -1,8 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:growupadmin/colorpalettes/palette.dart';
+import 'package:growupadmin/screen/buildQuizScreen.dart/buildQuizScreen.dart';
+import 'package:growupadmin/screen/buildtestpaper.dart/buildExamScreen.dart';
 import 'package:growupadmin/screen/hometabscreen.dart/adminhomepage.dart';
 import 'package:growupadmin/screen/hometabscreen.dart/skillsaddscree.dart';
+import 'package:growupadmin/screen/videoPostScreen.dart/videoPost.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeTab extends StatefulWidget {
@@ -26,7 +30,7 @@ class _HomeTabState extends State<HomeTab> {
         //  drawer: DrawerScreen(),
         appBar: AppBar(
           backgroundColor: darkBlueColor,
-          title: const Text("GrowUp"),
+          title: const Text("GrowUp Admin"),
           actions: [
             SizedBox(
                 height: 25,
@@ -39,13 +43,13 @@ class _HomeTabState extends State<HomeTab> {
                       // print("NEWS FEED DATA");
 
                       // print(d);
-                      //    Get.to(() => const KhaltiPaymentApp());
+                      Get.to(() => const BuildQuizScreen());
                     },
                     icon: const Icon(
                       Iconsax.notification,
                     ))),
           ],
-          // centerTitle: true,
+          centerTitle: true,
         ),
         body: Container(
           child: PageView(
@@ -57,8 +61,10 @@ class _HomeTabState extends State<HomeTab> {
             },
             children: <Widget>[
               const HomePageScreen(),
-              SkillsAddScreen()
-              // HomePage(),
+              SkillsAddScreen(),
+              const BuildExamScreen(),
+              const BuildQuizScreen(),
+              SkillVideoPost()
               // PostScreen(),
               //Profile()
             ],
@@ -88,7 +94,7 @@ class _HomeTabState extends State<HomeTab> {
             BottomNavyBarItem(
                 icon: const Icon(Iconsax.activity),
                 title: const Text(
-                  'Add Courses',
+                  'Course',
                   style: TextStyle(fontSize: 18),
                 ),
                 activeColor: Colors.white,
@@ -96,15 +102,23 @@ class _HomeTabState extends State<HomeTab> {
             BottomNavyBarItem(
                 icon: const Icon(Iconsax.add_square),
                 title: const Text(
-                  'Post',
+                  'Exam',
                   style: TextStyle(fontSize: 18),
                 ),
                 inactiveColor: Colors.white,
                 activeColor: Colors.white),
             BottomNavyBarItem(
-                icon: const Icon(Iconsax.personalcard),
+                icon: const Icon(Iconsax.book),
                 title: const Text(
-                  'Profile',
+                  'Quiz',
+                  style: TextStyle(fontSize: 18),
+                ),
+                inactiveColor: Colors.white,
+                activeColor: Colors.white),
+            BottomNavyBarItem(
+                icon: const Icon(Iconsax.note),
+                title: const Text(
+                  'Videos',
                   style: TextStyle(fontSize: 18),
                 ),
                 inactiveColor: Colors.white,

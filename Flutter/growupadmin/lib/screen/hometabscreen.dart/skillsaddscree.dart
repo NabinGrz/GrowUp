@@ -49,7 +49,7 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
               height: 30,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 8,
+              height: MediaQuery.of(context).size.height / 7,
               width: MediaQuery.of(context).size.width - 40,
               //color: Colors.red,
               child: Column(
@@ -78,7 +78,7 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                 ],
               ),
@@ -90,7 +90,16 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.data == null ||
                         snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width - 40,
+                        child: const Center(child: CircularProgressIndicator()),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(9)),
+                            color: whiteColor,
+                            border: Border.all(color: Colors.blueGrey)),
+                      );
                     } else if (snapshot.hasData ||
                         snapshot.data != null ||
                         snapshot.connectionState == ConnectionState.done) {
@@ -110,15 +119,9 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                             width: MediaQuery.of(context).size.width - 40,
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
+                                    const BorderRadius.all(Radius.circular(9)),
                                 color: whiteColor,
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 14,
-                                      spreadRadius: 2,
-                                      offset: Offset(3, 3)),
-                                ]),
+                                border: Border.all(color: Colors.blueGrey)),
                             child: DropdownButton<String>(
                               // Step 3.
                               /// value: snapshot.data![0].name!,
@@ -135,6 +138,7 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                                       value,
                                       style: const TextStyle(
                                           fontSize: 15,
+                                          color: Colors.blueGrey,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
