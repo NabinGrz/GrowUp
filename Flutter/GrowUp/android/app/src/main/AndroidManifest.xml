@@ -18,6 +18,7 @@
     </intent>
 </queries>
    <application
+   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:label="GrowUp"
         android:icon="@mipmap/ic_launcher">
         <activity

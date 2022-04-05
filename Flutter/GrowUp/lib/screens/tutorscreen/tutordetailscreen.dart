@@ -1,3 +1,5 @@
+import 'package:esewa_pnp/esewa.dart';
+import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -35,16 +37,63 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
   String? _selectedTime;
   TextEditingController zoomIdController = TextEditingController();
   TextEditingController zoomPasswordController = TextEditingController();
-
+  ESewaPnp? _esewaPnp;
+  ESewaConfiguration? _configuration;
   getData() async {
     userId = await getUserAppId();
     setState(() {});
+  }
+
+  _initPayment(String product) async {
+    ESewaConfiguration _configuration = ESewaConfiguration(
+        clientID: "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+        secretKey: "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+        environment: ESewaConfiguration.ENVIRONMENT_TEST);
+
+    ESewaPnp _esewaPnp = ESewaPnp(configuration: _configuration);
+
+    ESewaPayment _payment = ESewaPayment(
+        amount: 10,
+        productName: "asdasd",
+        productID: "1",
+        callBackURL: "http:example.com");
+    try {
+      final _res = await _esewaPnp.initPayment(payment: _payment);
+      print("------------------------------------------------------------");
+      print(_res);
+      var name = usersDetail?[index!].fullName;
+      if (_res.status == "COMPLETE") {
+        bool booked = await bookTutor(
+            usersDetail?[index!].id,
+            userId.toString(),
+            zoomIdController.text,
+            zoomPasswordController.text,
+            finalDate.toString(),
+            _selectedTime!);
+        booked
+            ? Fluttertoast.showToast(
+                msg: "Your class has been booked Mr.$name .Thank You")
+            : Fluttertoast.showToast(msg: "Something went wrong");
+      } else {
+        Fluttertoast.showToast(msg: "Transaction Failed");
+      }
+      // Handle success
+    } on ESewaPaymentException {
+      // Handle error
+    }
   }
 
   @override
   void initState() {
     super.initState();
     getData();
+
+    _configuration = ESewaConfiguration(
+      clientID: "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+      secretKey: "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+      environment: ESewaConfiguration.ENVIRONMENT_TEST,
+    );
+    _esewaPnp = ESewaPnp(configuration: _configuration!);
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -239,14 +288,6 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                           color: Color(0xFFD6D6D6),
                         ),
 
-                        // Text(
-                        //   'Service List',
-                        //   style: TextStyle(
-                        //     fontWeight: FontWeight.w500,
-                        //     fontSize: 22,
-                        //   ),
-                        // ),
-
                         const SizedBox(
                           height: 5,
                         ),
@@ -386,7 +427,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                       child:
                                           // isBooked
                                           const Text(
-                                        "Book",
+                                        "Book for RS: 500",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -394,36 +435,31 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                       ),
                                       // : CircularProgressIndicator(),
                                       onPressed: () async {
-                                        // Get.to(() => const KhaltiPaymentApp());
-                                        var name =
-                                            usersDetail?[index!].fullName;
-                                        bool booked = await bookTutor(
-                                            usersDetail?[index!].id,
-                                            userId.toString(),
-                                            zoomIdController.text,
-                                            zoomPasswordController.text,
-                                            finalDate.toString(),
-                                            _selectedTime!);
-                                        setState(() {
-                                          isBooked = booked;
-                                        });
-                                        isBooked
-                                            ? Get.snackbar(
-                                                "Booked",
-                                                "Your class has been booked with Mr. $name",
-                                                icon: const Icon(Icons.person,
-                                                    color: Colors.white),
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                              )
-                                            : Get.snackbar(
-                                                "Booking Unsuccessfull",
-                                                "SORRY!!",
-                                                icon: const Icon(Icons.person,
-                                                    color: Colors.white),
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                              );
+                                        // Get.to(() => const EsewaClass());
+                                        // var name =
+                                        //     usersDetail?[index!].fullName;
+                                        // bool booked = await bookTutor(
+                                        //     usersDetail?[index!].id,
+                                        //     userId.toString(),
+                                        //     zoomIdController.text,
+                                        //     zoomPasswordController.text,
+                                        //     finalDate.toString(),
+                                        //     _selectedTime!);
+                                        // setState(() {
+                                        //   isBooked = booked;
+                                        // });
+                                        _initPayment("AAAA");
+                                        // if (isBooked) {
+                                        //   _initPayment("ADSAD");
+                                        //   Fluttertoast.showToast(
+                                        //       msg:
+                                        //           "Your class has been booked with Mr. $name");
+                                        // }
+                                        // {
+                                        //   Fluttertoast.showToast(
+                                        //       backgroundColor: Colors.red,
+                                        //       msg: "Something went wrong");
+                                        // }
 
                                         Navigator.of(context,
                                                 rootNavigator: true)
@@ -475,10 +511,15 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Image.asset(
-                    "images/person.png",
-                    fit: BoxFit.contain,
-                    // scale: 1.7,
+                  child: GestureDetector(
+                    onTap: () {
+                      _initPayment("asdasd");
+                    },
+                    child: Image.asset(
+                      "images/person.png",
+                      fit: BoxFit.contain,
+                      // scale: 1.7,
+                    ),
                   ),
                 ),
               ),

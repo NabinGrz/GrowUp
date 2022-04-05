@@ -46,6 +46,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   flutter_typeahead: ^3.2.4
   fluttertoast: ^8.0.8
+  esewa_pnp: ^2.0.0
   get: ^4.6.1
   google_fonts: ^2.1.0
   http: ^0.13.4

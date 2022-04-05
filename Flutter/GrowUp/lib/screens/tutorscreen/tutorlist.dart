@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/tutorcontroller.dart';
-import 'package:growup/models/users_model.dart';
 import 'package:growup/screens/tutorscreen/searchtutor.dart';
 import 'package:growup/screens/tutorscreen/tutordetailscreen.dart';
-import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
 import 'package:growup/widgets/shimmer.dart';
 
@@ -21,34 +19,37 @@ class TutorListScreen extends StatelessWidget {
             onPressed: () {
               showSearch(context: context, delegate: SearchUser());
             },
-            icon: Icon(Icons.search_sharp),
+            icon: const Icon(Icons.search_sharp),
           )
         ],
         centerTitle: true,
-        title: Text(
-          'Available Tutors',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
+        title: GestureDetector(
+          onTap: () {},
+          child: const Text(
+            'Available Tutors',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
           ),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: <Widget>[
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         StylistCard(),
@@ -91,19 +92,19 @@ class _StylistCardState extends State<StylistCard> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 4 - 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Color(0xFF8A8A8A),
                             blurRadius: 14,
                             spreadRadius: 1,
                             offset: Offset(3, 3)),
                       ],
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           Color(0xff738AE6),
                           // darkBlueColor
@@ -151,33 +152,33 @@ class _StylistCardState extends State<StylistCard> {
                               children: <Widget>[
                                 Text(
                                   "${controller.tutorList[index].fullName}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 20,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   "${controller.tutorList[index].userName}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w300,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       size: 16,
                                       color: Color(0xFFFFF025),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     FutureBuilder<dynamic>(
@@ -190,7 +191,7 @@ class _StylistCardState extends State<StylistCard> {
                                           return Text(
                                             average,
                                             style: TextStyle(
-                                                color: Color.fromARGB(
+                                                color: const Color.fromARGB(
                                                         255, 255, 255, 255)
                                                     .withOpacity(.8),
                                                 fontWeight: FontWeight.w600,
@@ -206,7 +207,7 @@ class _StylistCardState extends State<StylistCard> {
                                                 fontSize: 18),
                                           );
                                         }
-                                        return SizedBox(
+                                        return const SizedBox(
                                             height: 18,
                                             width: 18,
                                             child: CircularProgressIndicator(
@@ -216,7 +217,7 @@ class _StylistCardState extends State<StylistCard> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 MaterialButton(
@@ -232,13 +233,13 @@ class _StylistCardState extends State<StylistCard> {
                                                         .toList(),
                                                     index: index)));
                                   },
-                                  color: Color(0xFFFF5252),
+                                  color: const Color(0xFFFF5252),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   // startColor: '#FE95B6',
                                   //endColor: '#FF5287',
-                                  child: Text(
+                                  child: const Text(
                                     'View Profile',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -267,10 +268,10 @@ class _StylistCardState extends State<StylistCard> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height / 4 - 32,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromARGB(255, 255, 15, 15),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -281,7 +282,7 @@ class _StylistCardState extends State<StylistCard> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           );
