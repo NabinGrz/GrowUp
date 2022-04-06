@@ -25,8 +25,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://fc4e-2400-1a00-b020-5e1b-c084-684-1875-c650.ngrok.io";
-const baseUrlPost = "fc4e-2400-1a00-b020-5e1b-c084-684-1875-c650.ngrok.io";
+    "https://8c73-2400-1a00-b020-131a-4d55-c49b-6767-9717.ngrok.io";
+const baseUrlPost = "8c73-2400-1a00-b020-131a-4d55-c49b-6767-9717.ngrok.io";
 
 //===============================================================================
 
@@ -399,7 +399,7 @@ late var responseCount;
 late var count;
 //List<TestModel>? usersTestUser = [];
 var finalCount;
-Future getVideosCount(int skillID) async {
+Future<int> getVideosCount(int skillID) async {
   myUrl = Uri.parse("$baseUrlGet/api/v1/video/count?id=$skillID");
   responseCount = await http.get(myUrl, headers: {
     'Content-Type': 'application/json',
@@ -407,8 +407,10 @@ Future getVideosCount(int skillID) async {
     'Authorization': 'Bearer $obtainedtokenData',
   });
   if (responseCount.statusCode == 200) {
-    var data = responseCount.body;
-    return data;
+    String data = responseCount.body;
+    return int.parse(data);
+  } else {
+    return 0;
   }
 }
 

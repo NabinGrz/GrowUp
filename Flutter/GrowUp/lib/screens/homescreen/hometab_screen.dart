@@ -20,10 +20,19 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   var _skillsDetail;
   var _skillsVideos;
   String? _selectedItem;
+  var c;
+  @override
+  getVc() async {
+    c = await getVideosCount(10);
+    return c;
+  }
+
   @override
   void initState() {
     super.initState();
     _skillsDetail = getSkillDetails();
+    setState(() {});
+    getVc();
     ifContains();
   }
 
@@ -194,19 +203,13 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                     print(_selectedItem);
                                     print(nameList.indexOf(value));
                                     var indexIs = nameList.indexOf(value);
-
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CourseInfo(
                                                 name: _selectedItem,
-                                                //  imageUrl: skillsData[indexIs]
-                                                //  .titleImage,
                                                 imageUrl: "images/course.png",
-                                                skillId: 1
-                                                //    imageUrl:
-                                                //  "https://d861-2400-1a00-b020-932d-9ca7-220a-313f-4867.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png",
-                                                )));
+                                                skillId: 10)));
                                   });
 
                                   print(value);
@@ -219,16 +222,27 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.024,
                     ),
-                    Container(
-                      height: 45,
-                      width: 45,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Image.asset(
-                        'images/btn_search.png',
-                        width: 43,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CourseInfo(
+                                    name: _selectedItem,
+                                    imageUrl: "images/course.png",
+                                    skillId: 10)));
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Image.asset(
+                          'images/btn_search.png',
+                          width: 43,
+                        ),
                       ),
                     ),
                   ],
@@ -392,53 +406,14 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 25, top: 15),
-                              child:
-                                  // Text(
-                                  //   'Development Courses',
-                                  //   style: blackTextStyle.copyWith(fontSize: 18),
-                                  // ),
-                                  FutureBuilder<dynamic>(
-                                future: getVideosCount(10),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    //userFinalDetails!.fullName.toString()
-                                    var videosCount = snapshot.data.toString();
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          'Development Courses',
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 0, 0, 0)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                        Text(
-                                          " | " + videosCount + " Videos",
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 100, 100, 100)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                      ],
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    return Text(
-                                      "0",
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(.8),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18),
-                                    );
-                                  }
-                                  return const SizedBox(
-                                    height: 18,
-                                    width: 18,
-                                  );
-                                },
+                              child: Text(
+                                'Development Courses',
+                                style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 124, 124, 124)
+                                            .withOpacity(.8),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20),
                               ),
                             ),
                             SizedBox(
@@ -478,7 +453,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                               //  "https://d861-2400-1a00-b020-932d-9ca7-220a-313f-4867.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png",
                                               // noOfVideos: _courseList[myindex]
                                               //      .noOfVideos,
-                                              noOfVideos: 6,
+                                              noOfVideos: getVideosCount(
+                                                  _courseList[myindex].id),
                                               skill: _courseList[myindex]
                                                   .skillCategoryId,
                                               // skill: skillsdevelopment[index],
@@ -494,48 +470,14 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             // ),
                             Padding(
                               padding: const EdgeInsets.only(left: 25, top: 15),
-                              child: FutureBuilder<dynamic>(
-                                future: getVideosCount(10),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    //userFinalDetails!.fullName.toString()
-                                    var videosCount = snapshot.data.toString();
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          'Design Courses',
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 0, 0, 0)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                        Text(
-                                          " | " + videosCount + " Videos",
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 100, 100, 100)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                      ],
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    return Text(
-                                      "0",
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(.8),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18),
-                                    );
-                                  }
-                                  return const SizedBox(
-                                    height: 18,
-                                    width: 18,
-                                  );
-                                },
+                              child: Text(
+                                'Design Courses',
+                                style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 124, 124, 124)
+                                            .withOpacity(.8),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20),
                               ),
                             ),
                             SizedBox(
@@ -561,7 +503,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                               skillId: _courseList[myindex].id,
                                               //  "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
                                               // "https://d861-2400-1a00-b020-932d-9ca7-220a-313f-4867.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png",
-                                              noOfVideos: 6,
+                                              noOfVideos: getVideosCount(
+                                                  _courseList[myindex].id),
                                               skill: _courseList[myindex]
                                                   .skillCategoryId,
                                               // skill: skillsdevelopment[index],
@@ -574,48 +517,14 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 25, top: 15),
-                              child: FutureBuilder<dynamic>(
-                                future: getVideosCount(10),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    //userFinalDetails!.fullName.toString()
-                                    var videosCount = snapshot.data.toString();
-                                    return Row(
-                                      children: [
-                                        Text(
-                                          'Marketing Courses',
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 0, 0, 0)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                        Text(
-                                          " | " + videosCount + " Videos",
-                                          style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                      255, 100, 100, 100)
-                                                  .withOpacity(.8),
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18),
-                                        ),
-                                      ],
-                                    );
-                                  } else if (snapshot.hasError) {
-                                    return Text(
-                                      "0",
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(.8),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18),
-                                    );
-                                  }
-                                  return const SizedBox(
-                                    height: 18,
-                                    width: 18,
-                                  );
-                                },
+                              child: Text(
+                                'Marketing Courses',
+                                style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 124, 124, 124)
+                                            .withOpacity(.8),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20),
                               ),
                             ),
                             SizedBox(
@@ -639,7 +548,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                               imageUrl:
                                                   'images/quizResultBadge.png',
                                               skillId: _courseList[myindex].id,
-                                              noOfVideos: 6,
+                                              noOfVideos: getVideosCount(
+                                                  _courseList[myindex].id),
                                               skill: _courseList[myindex]
                                                   .skillCategoryId,
                                               // skill: skillsdevelopment[index],

@@ -11,7 +11,7 @@ import '../../courseadapter/studentcourse.dart';
 class CourseItem extends StatelessWidget {
   final String? name;
   final String? imageUrl;
-  final int? noOfVideos;
+  Future<int> noOfVideos;
   final int? skillId;
   var skill;
 
@@ -126,14 +126,30 @@ class CourseItem extends StatelessWidget {
             const Divider(
               thickness: 1,
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Text("$noOfVideos Videos",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.04,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400))),
+            FutureBuilder<int>(
+                future: noOfVideos,
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.data == null ||
+                      snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasData ||
+                      snapshot.data != null ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    String c = snapshot.data.toString();
+                    return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(c + " Videos",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400)));
+                  }
+                  return Container(
+                    color: Colors.yellow,
+                  );
+                }),
           ],
         ),
       ),
