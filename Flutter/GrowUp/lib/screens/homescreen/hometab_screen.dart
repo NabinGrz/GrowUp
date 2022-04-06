@@ -188,7 +188,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 onTap: (value) async {
-                                  var videoData = getSkillVideos(1);
                                   setState(() {
                                     _selectedItem = value!;
 
@@ -399,7 +398,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                   //   style: blackTextStyle.copyWith(fontSize: 18),
                                   // ),
                                   FutureBuilder<dynamic>(
-                                future: getVideosCount(1),
+                                future: getVideosCount(10),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     //userFinalDetails!.fullName.toString()
@@ -449,6 +448,17 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _courseList.length,
                                 itemBuilder: (context, myindex) {
+                                  //  getVidCount(_courseList[myindex].id);
+                                  // print(
+                                  //     "000000000000000000000000000000000000000000000000000000000000000000000");
+                                  // print("Course Title: " +
+                                  //     _courseList[myindex].title);
+                                  // print("Skill ID: " +
+                                  //     _courseList[myindex].id.toString());
+                                  // print("SKILL CAT ID: " +
+                                  //     _courseList[myindex]
+                                  //         .skillCategoryId
+                                  //         .toString());
                                   return _courseList[myindex]
                                               .skillCategoryId
                                               .toString() ==
@@ -485,7 +495,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 25, top: 15),
                               child: FutureBuilder<dynamic>(
-                                future: getVideosCount(2),
+                                future: getVideosCount(10),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     //userFinalDetails!.fullName.toString()
@@ -565,7 +575,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 25, top: 15),
                               child: FutureBuilder<dynamic>(
-                                future: getVideosCount(3),
+                                future: getVideosCount(10),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     //userFinalDetails!.fullName.toString()

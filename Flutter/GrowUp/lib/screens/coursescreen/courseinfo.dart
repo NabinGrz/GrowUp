@@ -1,5 +1,7 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/downloads/download.dart';
@@ -8,7 +10,10 @@ import 'package:growup/models/skillsvideoresponsemodel.dart';
 import 'package:growup/screens/quizscreen/practicequestionsscreen.dart';
 import 'package:growup/screens/quizscreen/quiz.dart';
 import 'package:growup/services/apiservice.dart';
+import 'package:growup/services/apiserviceteacher.dart';
+import 'package:growup/services/apivideo.dart';
 import 'package:growup/widgets/shimmer.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
@@ -26,9 +31,9 @@ class CourseInfo extends StatefulWidget {
 
 class _CourseInfoState extends State<CourseInfo> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  ChewieController? _chewieController;
   final ScrollController _scrollController = ScrollController();
-  var _dataVideos;
+  Future<List<SkillsVideoResponseModel>>? _dataVideos;
   double padding = 20;
   bool _playArea = false;
   bool _isPlaying = false;
@@ -37,6 +42,7 @@ class _CourseInfoState extends State<CourseInfo> {
   int _isPlayingIndex = -1;
   VideoPlayerController? _controller;
   int tappedIndex = 0;
+  var userId;
   final snackBar = SnackBar(
     content: const Text(
         'Your files will be downloaded in "Download" folder of your device'),
@@ -46,15 +52,19 @@ class _CourseInfoState extends State<CourseInfo> {
       onPressed: () {},
     ),
   );
+  getVideos() async {
+    setState(() {});
+  }
+
+  getUserID() async {
+    userId = await getUserAppId();
+    setState(() {});
+  }
 
   @override
   void initState() {
     _dataVideos = getSkillVideos(widget.skillId);
-    _scrollController.addListener(() {
-      setState(() {
-        padding = _isSliverAppBarExpanded ? padding = 50 : padding = 20;
-      });
-    });
+    getUserID();
     super.initState();
   }
 
@@ -65,13 +75,8 @@ class _CourseInfoState extends State<CourseInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // if (down == "Downloading... 100%") {
-    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    // }
-    print("||||||||||||||||||||||||||||||||||||||||||||||||");
     var fileDownloaderProvider =
         Provider.of<FileDownloaderProvider>(context, listen: false);
-    // print(widget.skills.toString());
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -245,11 +250,12 @@ class _CourseInfoState extends State<CourseInfo> {
             Expanded(
               child: FutureBuilder<List<SkillsVideoResponseModel>>(
                   future: _dataVideos,
+                  // future: getSkillVideos(widget.skillId),
                   builder: (context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.data == null ||
                         snapshot.connectionState == ConnectionState.waiting) {
                       return ListView.builder(
-                        itemCount: 9,
+                        itemCount: 2,
                         itemBuilder: (context, index) {
                           return buildShimmerEffect(
                             context,
@@ -343,12 +349,49 @@ class _CourseInfoState extends State<CourseInfo> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
-                                                  Text(
-                                                    ' 90 Reviews',
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.grey
-                                                            .withOpacity(0.8)),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 6, top: 8.0),
+                                                    child:
+                                                        FutureBuilder<dynamic>(
+                                                      future:
+                                                          getAvergaeVideoRatingCount(
+                                                        _videosList![index].id!,
+                                                      ),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Text(
+                                                            snapshot.data
+                                                                    .toString() +
+                                                                " Ratings",
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        109,
+                                                                        109,
+                                                                        109),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          );
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return const Text(
+                                                              "NULL");
+                                                        }
+                                                        return const SizedBox(
+                                                            height: 11,
+                                                            width: 11,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              strokeWidth: 2,
+                                                            ));
+                                                      },
+                                                    ),
                                                   ),
                                                   Padding(
                                                     padding:
@@ -386,10 +429,45 @@ class _CourseInfoState extends State<CourseInfo> {
                                                           itemPadding:
                                                               EdgeInsets.zero,
                                                           onRatingUpdate:
-                                                              (rating) {
-                                                            print(
-                                                                "||||||||||||||||||||||||||||||||||||||||||||");
-                                                            print(rating);
+                                                              (rating) async {
+                                                            print("INDEX:" +
+                                                                _videosList![
+                                                                        index]
+                                                                    .id
+                                                                    .toString());
+                                                            print("USER ID:" +
+                                                                userId
+                                                                    .toString());
+                                                            var ratingResponse =
+                                                                await postVideoRating(
+                                                                    userId,
+                                                                    _videosList![
+                                                                            index]
+                                                                        .id!,
+                                                                    rating);
+                                                            ratingResponse
+                                                                ? Fluttertoast
+                                                                    .showToast(
+                                                                    msg:
+                                                                        "Rating of $rating has been given for this video",
+                                                                  )
+                                                                : Fluttertoast
+                                                                    .showToast(
+                                                                    msg:
+                                                                        "Something went wrong",
+                                                                  );
+                                                            print("Video Rating" +
+                                                                rating
+                                                                    .toString());
+                                                            // print(int.parse(
+                                                            //     _newsFeedData[
+                                                            //             index]
+                                                            //         .id
+                                                            //         .toString()));
+                                                            // print("NABIN");
+                                                            // print(
+                                                            //     newsFeedIndex);
+                                                            //  print(ratingResponse);
                                                           },
                                                         ),
                                                       ],
@@ -718,8 +796,8 @@ class _CourseInfoState extends State<CourseInfo> {
     final secs = convertTwo(remained % 60);
 
     return Container(
-      height: 40,
-      width: MediaQuery.of(context).size.width,
+      height: 35,
+      //width: MediaQuery.of(context).size.width,
       color: darkBlueColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -734,9 +812,9 @@ class _CourseInfoState extends State<CourseInfo> {
                 setState(() {});
               },
               icon: Icon(
-                noMute ? Icons.volume_up_rounded : Icons.volume_off_outlined,
+                noMute ? Iconsax.volume_high4 : Iconsax.volume_cross,
                 // noMute ? color: Colors.white : color: Colors.red,
-                size: 30,
+                size: 25, color: Colors.white,
               )),
           FlatButton(
               onPressed: () async {
@@ -755,7 +833,7 @@ class _CourseInfoState extends State<CourseInfo> {
               },
               child: const Icon(
                 Icons.fast_rewind,
-                size: 36,
+                size: 25,
                 color: Colors.white,
               )),
           FlatButton(
@@ -773,8 +851,8 @@ class _CourseInfoState extends State<CourseInfo> {
                 }
               },
               child: Icon(
-                _isPlaying ? Icons.pause : Icons.play_arrow,
-                size: 36,
+                _isPlaying ? Iconsax.pause : Iconsax.play,
+                size: 25,
                 color: Colors.white,
               )),
           FlatButton(
@@ -799,7 +877,7 @@ class _CourseInfoState extends State<CourseInfo> {
               },
               child: const Icon(
                 Icons.fast_forward,
-                size: 36,
+                size: 25,
                 color: Colors.white,
               )),
           Text(

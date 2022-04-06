@@ -25,8 +25,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://1c59-2400-1a00-b020-5e1b-3d94-1e0c-8907-25af.ngrok.io";
-const baseUrlPost = "1c59-2400-1a00-b020-5e1b-3d94-1e0c-8907-25af.ngrok.io";
+    "https://fc4e-2400-1a00-b020-5e1b-c084-684-1875-c650.ngrok.io";
+const baseUrlPost = "fc4e-2400-1a00-b020-5e1b-c084-684-1875-c650.ngrok.io";
 
 //===============================================================================
 
@@ -406,8 +406,10 @@ Future getVideosCount(int skillID) async {
     'Accept': 'application/json',
     'Authorization': 'Bearer $obtainedtokenData',
   });
-  var data = responseCount.body;
-  return data;
+  if (responseCount.statusCode == 200) {
+    var data = responseCount.body;
+    return data;
+  }
 }
 
 //=====================================================FOR GETTING SKILLS DETAIL
@@ -437,7 +439,7 @@ Future getSkillDetails() async {
 // late var responseCount;
 // late var count;
 late var responseVideo;
-late List<SkillsVideoResponseModel> video;
+List<SkillsVideoResponseModel>? video;
 var skillsVideo;
 //List<TestModel>? usersTestUser = [];
 //var finalCount;
@@ -457,9 +459,10 @@ Future<List<SkillsVideoResponseModel>> getSkillVideos(int skillID) async {
     // video = SkillsVideoResponseModel.fromJson(jsonDecode(data.toString()));
     print("======================VIDEPO=======================");
     print(video);
-    return video;
-  } else {}
-  return video[1].skill;
+    return video!;
+  } else {
+    return [];
+  }
 }
 
 //=====================================================F0OR P[OSTING NEWS FEED

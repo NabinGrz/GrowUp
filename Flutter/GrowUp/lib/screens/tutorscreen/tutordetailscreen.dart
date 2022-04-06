@@ -72,7 +72,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
             _selectedTime!);
         booked
             ? Fluttertoast.showToast(
-                msg: "Your class has been booked Mr.$name .Thank You")
+                msg: "Your class has been booked with Mr.$name .Thank You")
             : Fluttertoast.showToast(msg: "Something went wrong");
       } else {
         Fluttertoast.showToast(msg: "Transaction Failed");
