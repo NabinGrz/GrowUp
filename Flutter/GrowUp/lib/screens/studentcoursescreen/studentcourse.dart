@@ -156,7 +156,7 @@ class _StudentCourseListScreenState extends State<StudentCourseListScreen> {
                   builder: (context, Box<StudentCourse> box, widget) {
                     if (box.values.isEmpty) {
                       return const Center(
-                        child: Text("No quiz course"),
+                        child: Text("No course to show"),
                       );
                     } else {}
                     //courseViewItem()

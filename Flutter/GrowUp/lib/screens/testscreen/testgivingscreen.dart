@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/models/testmodel.dart';
-import 'package:growup/screens/buildtestpapers.dart/showexamslist.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
-import 'package:growup/screens/postscreen/postFileImageTeacher.dart';
 import 'package:growup/services/testExamservices.dart';
 
 import '../../colorpalettes/palette.dart';
@@ -197,7 +195,7 @@ class _TestScreenState extends State<TestScreen> {
                                       offset: Offset(3, 3)),
                                 ]),
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height / 2.8,
+                              height: MediaQuery.of(context).size.height / 2,
                               width: MediaQuery.of(context).size.width - 35,
                               // color: Colors.red,
                               child: SingleChildScrollView(

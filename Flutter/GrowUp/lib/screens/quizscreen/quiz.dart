@@ -135,6 +135,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: backgroundColor,
         body: Container(
           child: FutureBuilder<List<Quiz>>(
               future: quiz,
@@ -160,11 +161,13 @@ class _QuizScreenState extends State<QuizScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            height: MediaQuery.of(context).size.height / 12,
+                            width: MediaQuery.of(context).size.width - 35,
+                            decoration: const BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                color: whiteColor,
-                                boxShadow: const [
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Color.fromARGB(255, 234, 75, 51),
+                                boxShadow: [
                                   BoxShadow(
                                       color: Color.fromARGB(255, 212, 212, 212),
                                       blurRadius: 14,
@@ -177,7 +180,9 @@ class _QuizScreenState extends State<QuizScreen> {
                                 listQuiz[index].text.toString(),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 24),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                    color: Colors.white),
                               ),
                             ),
                           ),
@@ -185,11 +190,11 @@ class _QuizScreenState extends State<QuizScreen> {
                             height: 20,
                           ),
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                color: whiteColor,
-                                boxShadow: const [
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Color.fromARGB(255, 138, 149, 247),
+                                boxShadow: [
                                   BoxShadow(
                                       color: Color.fromARGB(255, 212, 212, 212),
                                       blurRadius: 14,
@@ -197,9 +202,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                       offset: Offset(3, 3)),
                                 ]),
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height / 2.8,
+                              height: MediaQuery.of(context).size.height / 2.5,
                               width: MediaQuery.of(context).size.width - 35,
-                              // color: Colors.red,
                               child: SingleChildScrollView(
                                 physics: const ScrollPhysics(),
                                 child: ListView.builder(

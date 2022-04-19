@@ -196,12 +196,6 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
                   ),
                 ),
                 buildPieChart(),
-                const SizedBox(
-                  height: 50,
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -209,6 +203,12 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
                     buildCorrretAnswer(),
                     buildAvergaeTimeSpend()
                   ],
+                ),
+                const SizedBox(
+                  height: 50,
+                  child: Divider(
+                    thickness: 1,
+                  ),
                 ),
                 Padding(
                     padding: const EdgeInsets.all(18.0),
@@ -226,8 +226,8 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
                             width: 60,
                           ),
                           SizedBox(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width * 0.78,
+                            height: 60,
+                            width: MediaQuery.of(context).size.width * 0.5,
                             // color: Colors.red,
                             child: const Text(
                               """"The expert in anything was once a beginner.Keep Learning"
@@ -489,7 +489,7 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
 
   Widget buildAvergaeTimeSpend() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 8.5,
+      height: MediaQuery.of(context).size.height / 7.8,
       //   width: MediaQuery.of(context).size.width - 200,
       //color: Colors.amber,
       child: Column(
@@ -551,9 +551,9 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 180,
           width: 500,
-          // color: Colors.amber,
+          //color: Colors.amber,
           child: ListView.builder(
             itemCount: box.length,
             itemBuilder: (context, index) {
@@ -597,16 +597,14 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
                       const SizedBox(
                         width: 50,
                       ),
-                      SizedBox(
-                        width: 300,
-                        //color: const Color.fromARGB(255, 211, 211, 211),
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               obj.quizname,
                               style: const TextStyle(
-                                  fontSize: 23, fontWeight: FontWeight.w500),
+                                  fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                             Text(
                               "Score:" + obj.score,

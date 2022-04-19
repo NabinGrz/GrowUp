@@ -14,7 +14,9 @@ String skillsVideoResponseModelToJson(List<SkillsVideoResponseModel> data) =>
 class SkillsVideoResponseModel {
   SkillsVideoResponseModel({
     this.id,
+    this.videoName,
     this.videoUrl,
+    this.imageUrl,
     this.video,
     this.skillId,
     this.skill,
@@ -23,6 +25,8 @@ class SkillsVideoResponseModel {
 
   int? id;
   String? videoUrl;
+  String? videoName;
+  String? imageUrl;
   dynamic video;
   int? skillId;
   dynamic? skill;
@@ -31,7 +35,9 @@ class SkillsVideoResponseModel {
   factory SkillsVideoResponseModel.fromJson(Map<String, dynamic> json) =>
       SkillsVideoResponseModel(
         id: json["id"],
+        videoName: json["videoName"],
         videoUrl: json["videoUrl"],
+        imageUrl: json["imageUrl"],
         video: json["video"],
         skillId: json["skillId"],
         skill: json["skill"],
@@ -40,7 +46,9 @@ class SkillsVideoResponseModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "videoName": videoName,
         "videoUrl": videoUrl,
+        "imageUrl": imageUrl,
         "video": video,
         "skillId": skillId,
         "skill": skill,

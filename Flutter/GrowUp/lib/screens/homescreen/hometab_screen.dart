@@ -445,8 +445,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                             ),
                                             CourseItem(
                                               name: _courseList[myindex].title,
-                                              imageUrl:
-                                                  'images/quizResultBadge.png',
+                                              imageUrl: _courseList[myindex]
+                                                  .titleImage,
                                               skillId: _courseList[myindex].id,
                                               // imageUrl:
                                               //   "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
@@ -498,8 +498,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                             ),
                                             CourseItem(
                                               name: _courseList[myindex].title,
-                                              imageUrl:
-                                                  'images/quizResultBadge.png',
+                                              imageUrl: _courseList[myindex]
+                                                  .titleImage,
                                               skillId: _courseList[myindex].id,
                                               //  "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
                                               // "https://d861-2400-1a00-b020-932d-9ca7-220a-313f-4867.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png",
@@ -545,8 +545,8 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                             ),
                                             CourseItem(
                                               name: _courseList[myindex].title,
-                                              imageUrl:
-                                                  'images/quizResultBadge.png',
+                                              imageUrl: _courseList[myindex]
+                                                  .titleImage,
                                               skillId: _courseList[myindex].id,
                                               noOfVideos: getVideosCount(
                                                   _courseList[myindex].id),

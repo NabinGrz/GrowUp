@@ -125,7 +125,7 @@ class _CourseInfoState extends State<CourseInfo> {
                                   //  "Check",
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 20,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w800),
                                 ),
@@ -136,12 +136,12 @@ class _CourseInfoState extends State<CourseInfo> {
                                 //  tag: "check",
                                 child: !_isSliverAppBarExpanded
                                     ? Align(
-                                        alignment: Alignment.bottomRight,
+                                        alignment: Alignment.topRight,
                                         child: Image.network(
                                           widget.imageUrl,
                                           // "images/pngg.png",
-                                          height: 300,
-                                          width: 300,
+                                          height: 240,
+                                          width: 240,
                                           // fit: BoxFit.contain,
                                         ),
                                       )
@@ -323,20 +323,21 @@ class _CourseInfoState extends State<CourseInfo> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20.0),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20.0),
                                                 child: SizedBox(
                                                   // height: 40,
                                                   width: 200,
                                                   //color: Colors.red,
                                                   child: Text(
-                                                    "_videosList",
+                                                    _videosList![index]
+                                                        .videoName!,
 
                                                     //   "HTML + CSS layout",
                                                     textAlign: TextAlign.left,
                                                     overflow: TextOverflow.clip,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 16,
                                                         color:
                                                             Color(0xFF7C7C7C),
@@ -515,11 +516,50 @@ class _CourseInfoState extends State<CourseInfo> {
                                                 child: Stack(
                                                   fit: StackFit.expand,
                                                   children: [
+                                                    // CachedNetworkImage(
+                                                    //   //  imageUrl:
+                                                    //   //   "https://af39-2400-1a00-b020-c437-8c06-92c-b167-2b4c.ngrok.io/Media/Images/395f5c07-ae6d-4e1b-91bf-5d7834cb4c3ascaled_image_picker8777471418088588935.jpg",
+                                                    //   imageUrl:
+                                                    //       _videosList![index]
+                                                    //           .imageUrl
+                                                    //           .toString(),
+                                                    //   //   imageUrl:
+                                                    //   //   "https://s3.studylib.net/store/data/025331692_1-30173db8fcb89067fe99553e7a80aad2-768x994.png",
+                                                    //   fit: BoxFit.cover,
+                                                    //   errorWidget: (context,
+                                                    //           url, error) =>
+                                                    //       const Icon(
+                                                    //           Icons.error),
+                                                    //   placeholder:
+                                                    //       (context, url) {
+                                                    //     return buildShimmerEffect(
+                                                    //       context,
+                                                    //       Container(
+                                                    //         height: MediaQuery.of(
+                                                    //                     context)
+                                                    //                 .size
+                                                    //                 .height /
+                                                    //             2.8,
+                                                    //         width: MediaQuery.of(
+                                                    //                     context)
+                                                    //                 .size
+                                                    //                 .width -
+                                                    //             20,
+                                                    //         color: Colors.red,
+                                                    //       ),
+                                                    //     );
+                                                    //   },
+                                                    // ),
                                                     Image.network(
-                                                      //   _videosList[index].,
-                                                      "https://images.unsplash.com/photo-1546587348-d12660c30c50?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmF0dXJhbHxlbnwwfHwwfHw%3D&w=1000&q=80",
+                                                      _videosList![index]
+                                                          .imageUrl!,
                                                       fit: BoxFit.cover,
                                                     ),
+                                                    // Image.network(
+                                                    //   _videosList![index]
+                                                    //       .imageUrl!,
+                                                    //   fit: BoxFit.cover,
+                                                    // ),
                                                     Center(
                                                       child: Container(
                                                         height: 50,
@@ -612,10 +652,11 @@ class _CourseInfoState extends State<CourseInfo> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 20),
+                    padding:
+                        const EdgeInsets.only(left: 10.0, top: 10, bottom: 10),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -651,8 +692,8 @@ class _CourseInfoState extends State<CourseInfo> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 20),
+                    padding:
+                        const EdgeInsets.only(right: 10.0, top: 10, bottom: 10),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
@@ -664,7 +705,7 @@ class _CourseInfoState extends State<CourseInfo> {
                       },
                       child: Container(
                         height: 50,
-                        width: 200,
+                        width: 180,
                         decoration: BoxDecoration(
                           color: darkBlueColor,
                           borderRadius: BorderRadius.circular(20),

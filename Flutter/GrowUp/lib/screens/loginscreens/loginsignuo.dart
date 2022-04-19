@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
+import 'package:growup/screens/forgetpassword/forgetpasswordscreen.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
 import 'package:growup/screens/teacherscreen/teacherpage.dart';
 import 'package:growup/services/apiservice.dart';
@@ -98,68 +99,76 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                     darkBlueColor,
                   ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                 ),
-                child: Container(
-                  padding: const EdgeInsets.only(top: 130, left: 20),
-                  // color: Color(0xFF2238c4).withOpacity(.85),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Hello There!!",
-                        style: TextStyle(
-                          fontSize: 28,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFFFFFFFF),
-                        ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () => Get.defaultDialog(
-                                title: "Success!!",
-                                middleText: "Login Successfull",
-                                actions: [
-                                  const Icon(
-                                    Iconsax.chart_fail,
-                                    size: 35,
-                                    color: Color.fromARGB(255, 252, 25, 9),
-                                  )
-                                ],
-                                buttonColor: Colors.white),
-                            child: RichText(
-                              text: TextSpan(
-                                  text: "Welcome to",
-                                  style: const TextStyle(
-                                    fontSize: 21,
-                                    letterSpacing: 2,
-                                    color: Color(0xFFFFFFFF),
-                                  ),
-                                  children: [
-                                    const TextSpan(
-                                      text: " Grow",
-                                      style: TextStyle(
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xfffe6700),
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: isSignupScreen ? "Up" : "",
-                                      style: TextStyle(
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold,
-                                        color: greenColor,
-                                      ),
-                                    ),
-                                  ]),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 130, left: 20),
+                    // color: Color(0xFF2238c4).withOpacity(.85),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(const ForgetPassword());
+                          },
+                          child: const Text(
+                            "Hello There!!",
+                            style: TextStyle(
+                              fontSize: 28,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFFFFFFFF),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () => Get.defaultDialog(
+                                  title: "Success!!",
+                                  middleText: "Login Successfull",
+                                  actions: [
+                                    const Icon(
+                                      Iconsax.chart_fail,
+                                      size: 35,
+                                      color: Color.fromARGB(255, 252, 25, 9),
+                                    )
+                                  ],
+                                  buttonColor: Colors.white),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Welcome to",
+                                    style: const TextStyle(
+                                      fontSize: 21,
+                                      letterSpacing: 2,
+                                      color: Color(0xFFFFFFFF),
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: " Grow",
+                                        style: TextStyle(
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfffe6700),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: isSignupScreen ? "Up" : "",
+                                        style: TextStyle(
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.bold,
+                                          color: greenColor,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -727,12 +736,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               String passwordData = password.text;
                               var tokenData =
                                   await login(emailData, passwordData);
+
                               final SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
                               sharedPreferences.setString(
                                   "tokenData", tokenData);
-                              await tokenDataStorage.write(
-                                  key: "tokenData", value: tokenData);
+
+                              // await tokenDataStorage.write(
+                              //     key: "tokenData", value: tokenData);
                               tokenData != "Invalid Password"
                                   ? Get.off(const HomePageScreen())
                                   : Get.defaultDialog(
@@ -825,6 +836,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       ],
                                       buttonColor: Colors.white);
                                 } else {
+                                  setState(() {
+                                    isLogging = false;
+                                  });
                                   Get.defaultDialog(
                                       title: "Success!!",
                                       middleText: "Registration Successfull",
@@ -837,7 +851,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                         )
                                       ],
                                       buttonColor: Colors.white);
-                                  Get.off(LoginSignupScreen());
+                                  //Get.off(LoginSignupScreen());
                                 }
                               }
 

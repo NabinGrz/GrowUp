@@ -53,7 +53,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     ESewaPnp _esewaPnp = ESewaPnp(configuration: _configuration);
 
     ESewaPayment _payment = ESewaPayment(
-        amount: 10,
+        amount: 500,
         productName: "asdasd",
         productID: "1",
         callBackURL: "http:example.com");
@@ -262,7 +262,6 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
                         ),
-
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 21,
                           //color: Colors.yellow,
@@ -274,6 +273,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
+
                         const Text(
                           "BSc.CSIT",
                           textAlign: TextAlign.justify,
@@ -282,7 +282,220 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                             fontSize: 15,
                           ),
                         ),
-                        _buildDateTime(context),
+                        const Divider(
+                          thickness: 1,
+                          color: Color(0xFFD6D6D6),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 21,
+                          //color: Colors.yellow,
+                          child: const Text(
+                            'Todays Available Schedule',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width - 40,
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 205, 205, 205),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 251, 66, 66),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '09:00 am',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 152, 151, 151),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '12:00 pm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 254, 92, 92),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '04:00 pm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 152, 151, 151),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '06:30 pm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          thickness: 1,
+                          color: Color(0xFFD6D6D6),
+                        ),
+
+                        // _buildDateTime(context),
+                        const Divider(
+                          thickness: 1,
+                          color: Color(0xFFD6D6D6),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 21,
+                          //color: Colors.yellow,
+                          child: const Text(
+                            'Tommorrows Available Schedule',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width - 40,
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 205, 205, 205),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 249, 79, 79),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '07:00 am',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 152, 151, 151),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '10:00 am',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 152, 151, 151),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '02:00 pm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 50,
+                                width: 80,
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 103, 254, 15),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: const Center(
+                                  child: Text(
+                                    '06:30 pm',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
@@ -408,21 +621,6 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                   ),
                                   actions: [
                                     RaisedButton(
-                                        color: Colors.red,
-                                        child: const Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        onPressed: () {
-                                          print("MEETING HAS NOT ENDED");
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop();
-                                        }),
-                                    RaisedButton(
                                       color: Colors.red,
                                       child:
                                           // isBooked
@@ -465,7 +663,22 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                                 rootNavigator: true)
                                             .pop();
                                       },
-                                    )
+                                    ),
+                                    RaisedButton(
+                                        color: Colors.red,
+                                        child: const Text(
+                                          "Cancel",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        onPressed: () {
+                                          print("MEETING HAS NOT ENDED");
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                        }),
                                   ],
                                   buttonColor: Colors.white);
 
@@ -513,7 +726,9 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      _initPayment("asdasd");
+                      Fluttertoast.showToast(
+                          msg:
+                              "Your class has been booked with Mr.Suhant KC .Thank You");
                     },
                     child: Image.asset(
                       "images/person.png",

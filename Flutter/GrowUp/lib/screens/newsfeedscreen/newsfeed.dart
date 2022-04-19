@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,7 @@ import 'package:growup/services/apiserviceteacher.dart';
 import 'package:growup/widgets/shimmer.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:share_plus/share_plus.dart';
 
 StreamController _stream = StreamController();
 TextEditingController _commentController = TextEditingController();
@@ -467,41 +467,45 @@ class _NewsFeedState extends State<NewsFeed> {
 
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
-                                    child:
-                                        // Image.network(
-                                        //   // _newsFeedData[index].imageUrl.toString(),
-                                        //   "https://af39-2400-1a00-b020-c437-8c06-92c-b167-2b4c.ngrok.io/Media/Images/395f5c07-ae6d-4e1b-91bf-5d7834cb4c3ascaled_image_picker8777471418088588935.jpg",
-                                        //   fit: BoxFit.cover,
-                                        //   width: double.infinity,
-                                        // ),
-                                        CachedNetworkImage(
-                                      //  imageUrl:
-                                      //   "https://af39-2400-1a00-b020-c437-8c06-92c-b167-2b4c.ngrok.io/Media/Images/395f5c07-ae6d-4e1b-91bf-5d7834cb4c3ascaled_image_picker8777471418088588935.jpg",
-                                      imageUrl: _newsFeedData[index]
-                                          .imageUrl
-                                          .toString(),
-                                      //   imageUrl:
-                                      //   "https://s3.studylib.net/store/data/025331692_1-30173db8fcb89067fe99553e7a80aad2-768x994.png",
+                                    child: Image.asset(
+                                      "images/newsfeed.png",
                                       fit: BoxFit.cover,
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                      placeholder: (context, url) {
-                                        return buildShimmerEffect(
-                                          context,
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                2.8,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                20,
-                                            color: Colors.red,
-                                          ),
-                                        );
-                                      },
-                                    )),
+                                    )
+                                    // Image.network(
+                                    //   // _newsFeedData[index].imageUrl.toString(),
+                                    //   "https://af39-2400-1a00-b020-c437-8c06-92c-b167-2b4c.ngrok.io/Media/Images/395f5c07-ae6d-4e1b-91bf-5d7834cb4c3ascaled_image_picker8777471418088588935.jpg",
+                                    //   fit: BoxFit.cover,
+                                    //   width: double.infinity,
+                                    // ),
+                                    //     CachedNetworkImage(
+                                    //   //  imageUrl:
+                                    //   //   "https://af39-2400-1a00-b020-c437-8c06-92c-b167-2b4c.ngrok.io/Media/Images/395f5c07-ae6d-4e1b-91bf-5d7834cb4c3ascaled_image_picker8777471418088588935.jpg",
+                                    //   imageUrl: _newsFeedData[index]
+                                    //       .imageUrl
+                                    //       .toString(),
+                                    //   //   imageUrl:
+                                    //   //   "https://s3.studylib.net/store/data/025331692_1-30173db8fcb89067fe99553e7a80aad2-768x994.png",
+                                    //   fit: BoxFit.cover,
+                                    //   errorWidget: (context, url, error) =>
+                                    //       const Icon(Icons.error),
+                                    //   placeholder: (context, url) {
+                                    //     return buildShimmerEffect(
+                                    //       context,
+                                    //       Container(
+                                    //         height: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .height /
+                                    //             2.8,
+                                    //         width: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .width -
+                                    //             20,
+                                    //         color: Colors.red,
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // )
+                                    ),
                               ),
                             ),
                             const SizedBox(
@@ -626,34 +630,58 @@ class _NewsFeedState extends State<NewsFeed> {
                               height: 40,
                               //  alignment: Alignment.l,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
+                                  Container(
+                                    child: Row(children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              newsFeedIndex =
+                                                  _newsFeedData[index].id;
+                                            });
+                                            _showModalBottomSheet(
+                                                context, newsFeedIndex!);
+                                            print(
+                                                "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{");
+                                            print(newsFeedIndex);
+                                          },
+                                          icon: Icon(
+                                            Iconsax.send_square5,
+                                            size: 28,
+                                            color: darkBlueColor,
+                                          )),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Text(
+                                        "Comment",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF575656)),
+                                      )
+                                    ]),
+                                  ),
                                   IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          newsFeedIndex =
-                                              _newsFeedData[index].id;
-                                        });
-                                        _showModalBottomSheet(
-                                            context, newsFeedIndex!);
-                                        print(
-                                            "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{");
-                                        print(newsFeedIndex);
+                                      onPressed: () async {
+                                        await Share.share("GrowUp");
+                                        // setState(() {
+                                        //   newsFeedIndex =
+                                        //       _newsFeedData[index].id;
+                                        // });
+                                        // _showModalBottomSheet(
+                                        //     context, newsFeedIndex!);
+                                        // print(
+                                        //     "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{");
+                                        // print(newsFeedIndex);
                                       },
                                       icon: Icon(
-                                        Iconsax.send_square5,
-                                        size: 28,
+                                        Icons.share,
+                                        size: 22,
                                         color: darkBlueColor,
                                       )),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  const Text(
-                                    "Comment",
-                                    style: TextStyle(
-                                        fontSize: 15, color: Color(0xFF575656)),
-                                  )
                                 ],
                               ),
                             ),

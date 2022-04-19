@@ -47,9 +47,6 @@ _showModalBottomSheet(context) {
                         fontWeight: FontWeight.w600,
                         color: Colors.black),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Text(
                     "Are you sure you want to exit the practice session?",
                     style: TextStyle(
@@ -60,7 +57,7 @@ _showModalBottomSheet(context) {
                 ],
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
@@ -127,8 +124,8 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
   int timer = 0;
   String showtimer = "0";
   Color answerBoxColors = Colors.white;
-  Color correct = Colors.green;
-  Color wrong = Colors.red;
+  Color correct = const Color.fromARGB(255, 255, 215, 17);
+  Color wrong = const Color.fromARGB(255, 232, 15, 0);
   bool canceltimer = false;
   Color notselected = Colors.white;
   @override
@@ -257,7 +254,7 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
         minWidth: btnWidth[k],
         height: btnHeight[k],
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
     );
   }
@@ -322,18 +319,18 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                               ],
                             )),
                         Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
-                              color: whiteColor,
-                              boxShadow: const [
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Color.fromARGB(255, 254, 162, 87),
+                              boxShadow: [
                                 BoxShadow(
                                     color: Color.fromARGB(255, 111, 115, 143),
                                     blurRadius: 14,
                                     spreadRadius: 1,
                                     offset: Offset(3, 3)),
                               ]),
-                          height: MediaQuery.of(context).size.height / 2.1,
+                          height: MediaQuery.of(context).size.height / 1.8,
                           width: MediaQuery.of(context).size.width - 20,
                           child: Column(
                             children: [
@@ -345,14 +342,15 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Question $num",
+                                        "Question $num :",
                                         style: const TextStyle(
-                                            color: Colors.black,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 22),
+                                            fontSize: 27),
                                       ),
                                       const SizedBox(
-                                        height: 5,
+                                        height: 10,
                                       ),
                                       Text(
                                         listPractice[
@@ -363,6 +361,8 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                         textAlign: TextAlign.left,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w400,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
                                             fontSize: 20),
                                       ),
                                     ],
@@ -370,8 +370,7 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 3.4,
+                                height: MediaQuery.of(context).size.height / 3,
                                 width: MediaQuery.of(context).size.width - 35,
                                 // color: Colors.red,
                                 child: SingleChildScrollView(
@@ -417,6 +416,13 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
                                                           .options![ansIndex]
                                                           .text
                                                           .toString(),
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color.fromARGB(
+                                                            255, 255, 255, 255),
+                                                      ),
                                                       //textAlign: TextAlign.left,
                                                       overflow:
                                                           TextOverflow.clip,

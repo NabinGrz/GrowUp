@@ -43,7 +43,7 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
   Widget build(BuildContext context) {
     print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     return Container(
-      width: 250,
+      width: 300,
       color: darkBlueColor,
       child: Padding(
         padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
@@ -81,6 +81,7 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                       var name = snapshot.data!.fullName.toString();
                       var email = snapshot.data!.userName.toString();
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             name,

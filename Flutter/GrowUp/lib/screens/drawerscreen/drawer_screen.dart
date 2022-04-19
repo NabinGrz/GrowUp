@@ -269,13 +269,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     //     return LoginSignupScreen();
                     //   },
                     // ));
-                    Navigator.pushAndRemoveUntil<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => LoginSignupScreen(),
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
+                    Get.to(LoginSignupScreen());
+                    // Navigator.pushAndRemoveUntil<void>(
+                    //   context,
+                    //   MaterialPageRoute<void>(
+                    //     builder: (BuildContext context) => LoginSignupScreen(),
+                    //   ),
+                    //   (Route<dynamic> route) => false,
+                    // );
 
                     // Navigator.push(
                     //     context,
