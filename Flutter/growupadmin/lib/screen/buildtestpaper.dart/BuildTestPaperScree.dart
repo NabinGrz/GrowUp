@@ -164,7 +164,7 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
                   child: DropdownButton<String>(
                     // Step 3.
                     /// value: snapshot.data![0].name!,
-                    value: snapshot.data![0].name!,
+                    value: _currentItemSelected,
                     // Step 4.
                     items:
                         nameList.map<DropdownMenuItem<String>>((String value) {

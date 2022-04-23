@@ -15,7 +15,7 @@ class SkillsAddScreen extends StatefulWidget {
 
 class _SkillsAddScreenState extends State<SkillsAddScreen> {
   var _image;
-  final _currentItemSelected = 'Development';
+  var _currentItemSelected = 'Development';
   var selectedIndex;
   var catID;
   var skillID;
@@ -125,7 +125,7 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                             child: DropdownButton<String>(
                               // Step 3.
                               /// value: snapshot.data![0].name!,
-                              value: snapshot.data![0].name!,
+                              value: _currentItemSelected,
                               // Step 4.
                               items: nameList.map<DropdownMenuItem<String>>(
                                   (String value) {
@@ -147,13 +147,13 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                               // Step 5.
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  //_currentItemSelected = newValue!;
-                                  // selectedIndex = nameList
-                                  //     .indexOf(_currentItemSelected)
-                                  //     .toString();
-                                  // catID = snapshot
-                                  //     .data![int.parse(selectedIndex)].id!
-                                  //     .toString();
+                                  _currentItemSelected = newValue!;
+                                  selectedIndex = nameList
+                                      .indexOf(_currentItemSelected)
+                                      .toString();
+                                  catID = snapshot
+                                      .data![int.parse(selectedIndex)].id!
+                                      .toString();
                                 });
                                 print("SELECTED ITEM:" + _currentItemSelected);
                                 print("SELECTED INDEX:" +
@@ -286,9 +286,11 @@ class _SkillsAddScreenState extends State<SkillsAddScreen> {
                             30.0,
                           ),
                         ),
+                        //catID
                         child: FlatButton(
                           onPressed: () async {
-                            // await postSkills(catID, _titleControler.text, _image);
+                            await postSkills(
+                                catID, _titleControler.text, _image);
                             Fluttertoast.showToast(
                               msg: "Posted Successfully",
                             );

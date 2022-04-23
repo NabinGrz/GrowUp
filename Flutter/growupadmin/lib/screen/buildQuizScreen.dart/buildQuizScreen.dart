@@ -38,7 +38,7 @@ class _BuildQuizScreenState extends State<BuildQuizScreen> {
   bool isTest = false;
   var skillID;
   var selectedIndex;
-  var _currentItemSelected = 'The Complete Mobile Application Development';
+  var _currentItemSelected = 'Illustrator 2022 Masterclass';
   final _currentDiff = 'Easy';
   bool valuefirst = false;
   bool valuesecond = false;
@@ -220,7 +220,7 @@ class _BuildQuizScreenState extends State<BuildQuizScreen> {
                   child: DropdownButton<String>(
                     // Step 3.
                     /// value: snapshot.data![0].name!,
-                    value: snapshot.data![0].title!,
+                    value: _currentItemSelected,
                     // Step 4.
                     items:
                         nameList.map<DropdownMenuItem<String>>((String value) {
@@ -425,6 +425,11 @@ class _BuildQuizScreenState extends State<BuildQuizScreen> {
                         option4.text, questionIndex.toString(), checkedValue4);
 
                     if (isAdded) {
+                      option1.text = "";
+                      option2.text = "";
+                      option3.text = "";
+                      option4.text = "";
+                      questionController.text = "";
                       Fluttertoast.showToast(
                         msg: "Quiz has been added successfully",
                       );

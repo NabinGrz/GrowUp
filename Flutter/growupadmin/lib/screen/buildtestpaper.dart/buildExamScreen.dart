@@ -112,7 +112,7 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
                           return Container(
                             child: DropdownButton<String>(
                               elevation: 20,
-                              value: snapshot.data![0].title!,
+                              value: _currentItemSelected,
                               items: nameList.map<DropdownMenuItem<String>>(
                                   (String value) {
                                 return DropdownMenuItem<String>(
