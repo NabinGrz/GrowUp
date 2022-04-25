@@ -582,7 +582,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
 
   Future loadData() async {
     Future.delayed(const Duration(seconds: 1), () {
-      getCourse();
+      //getCourse();
       print("Rfreshed");
     });
     // return getData();

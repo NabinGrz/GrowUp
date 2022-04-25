@@ -127,16 +127,6 @@ _showModalBottomSheet(context, int newsFeedIndex) {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  /**
-                                                 *  {
-                                                          "id": 4,
-                                                          "description": "Very useful for begginer",
-                                                          "newsFeedId": 58,
-                                                          "newsFeed": null,
-                                                          "applicationUserId": "0c188464-ba3d-4493-ac40-1ab1de31178c",
-                                                          "applicationUser": null
-                                                      },
-                                                 */
                                                   FutureBuilder<dynamic>(
                                                     future: getUserDetails(
                                                       comments[index]

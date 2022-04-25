@@ -52,7 +52,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     if (await getData() == null) {
       print("IS NULL");
     } else {
-      print("HAS SOME DATA==> UI Class");
+      print("Token Available");
       print(value);
       await Future.delayed(
           const Duration(seconds: 0), () => Get.to(const HomePageScreen()));
@@ -66,7 +66,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainedtokenData = sharedPreferences.getString("tokenData");
-    print("THE TOKEN OF THIS USER IS");
+    print("THE TOKEN OF THIS USER IS SAVED");
     print(obtainedtokenData);
     return obtainedtokenData;
   }

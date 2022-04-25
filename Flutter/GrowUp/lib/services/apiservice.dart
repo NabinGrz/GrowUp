@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/models/coursemodel.dart';
 import 'package:growup/models/loginmodelresponse.dart';
@@ -25,8 +24,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://e41d-2400-1a00-b020-a54c-b57b-5dd1-9f95-e6f4.ngrok.io";
-const baseUrlPost = "e41d-2400-1a00-b020-a54c-b57b-5dd1-9f95-e6f4.ngrok.io";
+    "https://340c-2400-1a00-b020-3577-59cc-9db7-b946-6e21.ngrok.io";
+const baseUrlPost = "340c-2400-1a00-b020-3577-59cc-9db7-b946-6e21.ngrok.io";
 
 //===============================================================================
 
@@ -74,23 +73,6 @@ Future<List<CourseModel>> getCourse({String? query}) async {
   return usersTutor;
 }
 */
-Future<List<CourseModel>> getCourse({String? query}) async {
-  final String response = await rootBundle.loadString('json/courses.json');
-  var _dataCourse = await Future.delayed(
-      const Duration(seconds: 1), () => courseModelFromJson(response));
-  var the = _dataCourse;
-  course = _dataCourse.toList();
-  if (query != null) {
-    course = course!
-        .where((element) =>
-            element.name!.toLowerCase().contains((query.toLowerCase())))
-        .toList();
-  }
-  // else {
-  //   print("fetch error");
-  // }
-  return course!;
-}
 
 // Future getUsers() async {
 //   myUrl = Uri.parse("https://randomuser.me/api/?page=3&results=5&seed=abc");

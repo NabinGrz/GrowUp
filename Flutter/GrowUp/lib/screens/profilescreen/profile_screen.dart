@@ -24,19 +24,22 @@ class _ProfileState extends State<Profile> {
   TextEditingController addressController = TextEditingController();
   TextEditingController phonenumberController = TextEditingController();
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getData();
-  }
-
   getData() async {
+    //GETTING USER ID WITH THE HELPOF TOKEN
     userId = await getUserAppId();
+    //GETTING USER DETAILS WITH USER ID
     userDetails = getUserDetails(userId!);
     setState(() {});
     print("*-********************************************************");
     print(userId);
     print(userDetails);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
   }
 
   @override

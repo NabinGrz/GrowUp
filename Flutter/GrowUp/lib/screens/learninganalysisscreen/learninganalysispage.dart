@@ -374,27 +374,7 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
           );
         },
       ),
-      //child:
-      // Row(children: const [
-      // ValueListenableBuilder(
-      //     valueListenable: Hive.box<StudentCourse>('course').listenable(),
-      //     builder: (context, Box<StudentCourse> box, widget) {
-      //       if (box.values.isEmpty) {
-      //         return const Center(
-      //           child: Text("No quiz history"),
-      //         );
-      //       } else {}
-      //       //quizHistoryViewItem()
-
-      //       return ListView.builder(
-      //         itemCount: box.values.length,
-      //         itemBuilder: (context, index) {
-      //           StudentCourse? obj = box.getAt(index);
-      //           return Text(obj!.name);
-      //         },
-      //       );
-      //     }),
-      //  ]),
+     
     );
   }
 
@@ -658,11 +638,7 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
       quizMap[name[i]] = double.parse(score[i]);
       // };
     }
-    print("====================NAME==========================");
-    //print(obj!.score);
     print(name);
-    print("====================SCORE==========================");
-    //print(obj!.score);
     print(quizMap);
     return Center(
         child: quizMap.isNotEmpty
