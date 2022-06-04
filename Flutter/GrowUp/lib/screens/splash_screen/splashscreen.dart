@@ -1,20 +1,8 @@
-import 'dart:async';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
-import 'package:growup/nointernet.dart';
-import 'package:growup/screens/teacherscreen/bookclasses.dart';
-import 'package:growup/screens/teacherscreen/teacherpage.dart';
-import 'package:growup/screens/tutorscreen/tutorlist.dart';
-import 'package:growup/screens/homescreen/homepage_screen.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
-import 'package:growup/screens/newsfeedscreen/newsfeed.dart';
-import 'package:growup/screens/video/video_info.dart';
 import 'package:growup/services/apiservice.dart';
-import 'package:growup/services/checkconnection.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,6 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   late Animation _animation;
   AnimationController? animationController;
 
+  @override
   void initState() {
     //loadData();
     var token = getToken();
@@ -35,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -58,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
 
-          Align(
+          const Align(
               alignment: Alignment.bottomCenter,
               child: Text(
                 "Developed By Nabin Gurung",

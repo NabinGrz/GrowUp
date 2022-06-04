@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:growup/services/resetpassword.dart';
 
 import '../../colorpalettes/palette.dart';
 import '../../widgets/textfield.dart';
@@ -11,23 +12,14 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  TextEditingController password = TextEditingController();
+  bool isSuccess = false;
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: darkBlueColor,
-        centerTitle: true,
-        title: GestureDetector(
-          onTap: () {},
-          child: const Text(
-            'Forget Password',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-            ),
-          ),
-        ),
+        title: const Text("Forget Password"),
       ),
       body: Column(
         children: [
@@ -38,11 +30,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             height: 60,
             width: MediaQuery.of(context).size.width,
             //color: Colors.red,
-            child: buildTextField(Icons.email, "Tutor Name", false, false,
-                password, TextInputType.name),
+            child: buildTextField(Icons.email, "Your email", false, false,
+                passwordController, TextInputType.emailAddress),
           ),
           Container(
-            width: 150,
+            width: 180,
             height: 50,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -58,15 +50,39 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
             ),
             child: FlatButton(
-              onPressed: () {},
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(17),
-              ),
-              child: Text(
-                'Verify Email',
-                style: whiteTextStyle.copyWith(fontSize: 18),
-              ),
-            ),
+                onPressed: () async {
+                  setState(() {
+                    isSuccess = true;
+                  });
+                  bool password = await forgetPassword(passwordController.text);
+                  if (password) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                          'Reset Password Link has been send to your mail.'),
+                    ));
+                    setState(() {
+                      isSuccess = false;
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Something went wrong'),
+                    ));
+                    setState(() {
+                      isSuccess = false;
+                    });
+                  }
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(17),
+                ),
+                child: !isSuccess
+                    ? Text(
+                        'Reset Password',
+                        style: whiteTextStyle.copyWith(fontSize: 18),
+                      )
+                    : const CircularProgressIndicator(
+                        color: Colors.white,
+                      )),
           ),
         ],
       ),

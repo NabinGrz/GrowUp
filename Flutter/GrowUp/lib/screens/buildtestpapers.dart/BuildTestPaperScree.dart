@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/models/exammodel.dart';
 import 'package:growup/services/testExamservices.dart';
-import 'package:growup/widgets/shimmer.dart';
 
 class BuildTestPaper extends StatefulWidget {
   const BuildTestPaper({Key? key}) : super(key: key);
@@ -54,48 +53,62 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: darkBlueColor,
-          body: Center(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height / 0.7,
-                width: MediaQuery.of(context).size.width - 50,
-                // color: Colors.grey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [buildQuestion(), buildOptions()],
-                  ),
-                )),
+          backgroundColor: const Color.fromARGB(255, 216, 222, 255),
+          appBar: AppBar(
+            backgroundColor: darkBlueColor,
+            title: const Text("GrowUp"),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              //crossAxisAlignment: CrossAxisAlignment.start,
+              children: [buildQuestion(), buildOptions()],
+            ),
           )),
+    );
+  }
+
+  Widget buildTitle(double h, double w, double fsize, String name,
+      FontWeight weight, Color c) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Text(
+        name,
+        style: TextStyle(fontSize: fsize, fontWeight: weight, color: c),
+      ),
     );
   }
 
   Widget buildTextField(IconData? icon, String hintText, bool isPassword,
       bool isEmail, TextEditingController controller, TextInputType type) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: isPassword,
-        keyboardType: type,
-        decoration: InputDecoration(
-          // labelText: "NabinGurung",
-          errorText: null,
-          prefixIcon: Icon(
-            icon,
-            color: iconColor,
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width - 40,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color.fromARGB(255, 198, 198, 198),
+                  blurRadius: 14,
+                  spreadRadius: 2,
+                  offset: Offset(3, 3)),
+            ]),
+        child: TextFormField(
+          controller: controller,
+          obscureText: isPassword,
+          keyboardType: type,
+          decoration: InputDecoration(
+            // labelText: "NabinGurung",
+            errorText: null,
+            prefixIcon: Icon(
+              icon,
+              color: iconColor,
+            ),
+            //contentPadding: const EdgeInsets.all(10),
+            hintText: hintText,
+            hintStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: whiteColor),
-            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: whiteColor),
-            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          ),
-          contentPadding: const EdgeInsets.all(10),
-          hintText: hintText,
-          hintStyle: TextStyle(fontSize: 16, color: whiteColor),
         ),
       ),
     );
@@ -103,27 +116,29 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
 
   Widget buildQuestion() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-            onTap: () async {
-              var d = await getAllTestofExam(int.parse(examID));
-              print(d);
-            },
-            child: buildText("Choose Skill")),
         const SizedBox(
-          height: 10,
+          height: 20,
+        ),
+        buildTitle(10, 2, 18, "Select Exam*", FontWeight.w500, Colors.black),
+        const SizedBox(
+          height: 14,
         ),
         FutureBuilder<List<ExamModel>>(
           future: getAllExamList(),
           builder: (context, snapshot) {
             if (snapshot.data == null ||
                 snapshot.connectionState == ConnectionState.waiting) {
-              return buildShimmerEffect(
-                  context,
-                  const SizedBox(
-                    height: 30,
-                    width: 60,
-                  ));
+              return Container(
+                height: 55,
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(9)),
+                    color: whiteColor,
+                    border: Border.all(color: Colors.blueGrey)),
+                child: const Center(),
+              );
             } else if (snapshot.hasData ||
                 snapshot.data != null ||
                 snapshot.connectionState == ConnectionState.done) {
@@ -136,45 +151,61 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
               }
               print("*****************************************");
               print(snapshot.data![0].name!);
-              return Container(
-                color: Colors.white,
-                child: DropdownButton<String>(
-                  // Step 3.
-                  /// value: snapshot.data![0].name!,
-                  value: snapshot.data![0].name!,
-                  // Step 4.
-                  items: nameList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  height: 55,
+                  width: MediaQuery.of(context).size.width / 2,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      color: whiteColor,
+                      border: Border.all(color: Colors.blueGrey)),
+                  child: DropdownButton<String>(
+                    // Step 3.
+                    /// value: snapshot.data![0].name!,
+                    value: _currentItemSelected,
+                    // Step 4.
+                    items:
+                        nameList.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                  // Step 5.
-                  onChanged: (String? newValue) {
-                    setState(() {
+                      );
+                    }).toList(),
+                    // Step 5.
+                    onChanged: (String? newValue) {
                       _currentItemSelected = newValue!;
-                      selectedIndex =
-                          nameList.indexOf(_currentItemSelected).toString();
-                      examID = snapshot.data![int.parse(selectedIndex)].id!
-                          .toString();
-                    });
-                    print("SELECTED:" + _currentItemSelected);
-                    print("SELECTED:" + selectedIndex);
-                    print("EXAM ID:" + examID.toString());
-                  },
+                      setState(() {
+                        selectedIndex =
+                            nameList.indexOf(_currentItemSelected).toString();
+                        examID = snapshot.data![int.parse(selectedIndex)].id!
+                            .toString();
+                      });
+                      print("SELECTED:" + _currentItemSelected);
+                      print("SELECTED:" + selectedIndex);
+                      print("EXAM ID:" + examID.toString());
+                    },
+                  ),
                 ),
               );
             }
             return Container();
           },
         ),
+        const SizedBox(
+          height: 20,
+        ),
+        buildTitle(10, 2, 18, "Exam question*", FontWeight.w500, Colors.black),
         const SizedBox(
           height: 10,
         ),
@@ -187,26 +218,20 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
     );
   }
 
-  Widget buildText(String name) {
-    return Text(
-      name,
-      style: const TextStyle(
-          color: Color.fromARGB(255, 255, 255, 255),
-          fontSize: 20,
-          fontWeight: FontWeight.bold),
-    );
-  }
-
   Widget buildOptions() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 10,
+          ),
+          buildTitle(10, 2, 18, "Exam options*", FontWeight.w500, Colors.black),
+          const SizedBox(
+            height: 10,
+          ),
           buildTextField(
               null, "Option1", false, false, option1, TextInputType.name),
-          const SizedBox(
-            height: 5,
-          ),
           SizedBox(
             height: 50,
             //color: Colors.yellow,
@@ -226,9 +251,6 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
           ),
           buildTextField(
               null, "Option1", false, false, option2, TextInputType.name),
-          const SizedBox(
-            height: 5,
-          ),
           SizedBox(
             height: 50,
             //color: Colors.yellow,
@@ -248,9 +270,6 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
           ),
           buildTextField(
               null, "Option1", false, false, option3, TextInputType.name),
-          const SizedBox(
-            height: 5,
-          ),
           SizedBox(
             height: 50,
             //color: Colors.yellow,
@@ -270,9 +289,6 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
           ),
           buildTextField(
               null, "Option1", false, false, option4, TextInputType.name),
-          const SizedBox(
-            height: 5,
-          ),
           SizedBox(
             height: 50,
             //color: Colors.yellow,
@@ -291,8 +307,9 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
             ),
           ),
           Container(
-            width: 150,
-            height: 50,
+            width: 170,
+            height: 45,
+            margin: const EdgeInsets.symmetric(horizontal: 120),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 begin: Alignment.topCenter,
@@ -343,10 +360,10 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
                     setState(() {});
                     options
                         ? Fluttertoast.showToast(
-                            msg: "Test has been added successfully",
+                            msg: "Question has been added successfully",
                           )
                         : Fluttertoast.showToast(
-                            msg: "Test cannot be added.SORRY!!",
+                            msg: "Question cannot be added.SORRY!!",
                           );
                   }
                 },
@@ -355,13 +372,16 @@ class _BuildTestPaperState extends State<BuildTestPaper> {
                 ),
                 child: options
                     ? Text(
-                        'Add Test',
+                        'Add Questions',
                         style: whiteTextStyle.copyWith(fontSize: 18),
                       )
                     : const CircularProgressIndicator(
                         color: Colors.white,
                       )),
           ),
+          const SizedBox(
+            height: 40,
+          )
         ],
       ),
     );

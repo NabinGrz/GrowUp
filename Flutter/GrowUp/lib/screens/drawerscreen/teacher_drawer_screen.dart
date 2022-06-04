@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/controller/myController.dart';
-import 'package:growup/screens/buildtestpapers.dart/BuildTestPaperScree.dart';
 import 'package:growup/screens/buildtestpapers.dart/buildExamScreen.dart';
-import 'package:growup/screens/homescreen/homepage_screen.dart';
+import 'package:growup/screens/buildtestpapers.dart/buildQuizScreen.dart';
 import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
 import 'package:growup/screens/profilescreen/teacher_profile_screen.dart';
 import 'package:growup/screens/teacherscreen/bookclasses.dart';
+import 'package:growup/screens/teacherscreen/schedule.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
 import 'package:iconsax/iconsax.dart';
@@ -91,12 +91,18 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20),
                           ),
-                          Text(
-                            email,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal),
+                          SizedBox(
+                            height: 30,
+                            width: 180,
+                            //color: Colors.red,
+                            child: Text(
+                              email,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal),
+                            ),
                           ),
                         ],
                       );
@@ -143,6 +149,20 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
+                        builder: (context) => const Schedule(),
+                      )),
+                  child: const NewRow(
+                    text: 'Set Schedule',
+                    icon: Iconsax.timer,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => const BuildExamScreen(),
                       )),
                   child: const NewRow(
@@ -157,7 +177,7 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BuildTestPaper(),
+                        builder: (context) => const BuildQuizScreen(),
                       )),
                   child: const NewRow(
                     text: 'Build Test Paper',
@@ -169,7 +189,12 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(BookedClasses());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookedClasses(),
+                        ));
+                    //Get.to(BookedClasses());
                   },
                   child: const NewRow(
                     text: 'Booked Classes',
@@ -179,10 +204,10 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const NewRow(
-                  text: 'Terms & Condition',
-                  icon: Iconsax.note,
-                ),
+                // const NewRow(
+                //   text: 'Terms & Condition',
+                //   icon: Iconsax.note,
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -190,34 +215,35 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
             ),
             Column(
               children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(const HomePageScreen());
-                      },
-                      child: const Text(
-                        'App Mode',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                    Obx(() {
-                      return Switch(
-                        value: switchController.isOn.value,
-                        onChanged: (value) {
-                          // setState(() {
-                          //   isSwitched = value;
-                          //   value = false;
-                          //   // print(isSwitched);
-                          // });
-                          switchController.isOn.toggle();
-                        },
-                        activeTrackColor: Colors.lightGreenAccent,
-                        activeColor: Colors.green,
-                      );
-                    }),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         Get.to(const HomePageScreen());
+                //       },
+                //       child: const Text(
+                //         'App Mode',
+                //         style: TextStyle(color: Colors.white, fontSize: 15),
+                //       ),
+                //     ),
+                //     Obx(() {
+                //       return Switch(
+                //         value: switchController.isOn.value,
+                //         onChanged: (value) {
+                //           // setState(() {
+                //           //   isSwitched = value;
+                //           //   value = false;
+                //           //   // print(isSwitched);
+                //           // });
+                //           switchController.isOn.toggle();
+                //         },
+                //         activeTrackColor: Colors.lightGreenAccent,
+                //         activeColor: Colors.green,
+                //       );
+                //     }),
+                //   ],
+                // ),
+
                 Row(
                   children: <Widget>[
                     IconButton(
@@ -225,30 +251,27 @@ class _TeacherDrawerScreenState extends State<TeacherDrawerScreen> {
                         final SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();
                         sharedPreferences.remove("tokenData");
-                        // Get.defaultDialog(
-                        //     title: "Success!!",
-                        //     middleText: "Logged Out",
-                        //     actions: [
-                        //       const Icon(
-                        //         Iconsax.tick_circle,
-                        //         size: 35,
-                        //         color: Color.fromARGB(255, 23, 204, 92),
-                        //       )
-                        //     ],
-                        //     buttonColor: Colors.white);
-                        // Navigator.push(context, MaterialPageRoute(
-                        //   builder: (context) {
-                        //     return LoginSignupScreen();
-                        //   },
-                        // ));
-                        Navigator.pushAndRemoveUntil<void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                LoginSignupScreen(),
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
+
+                        final SharedPreferences sharedPreferences2 =
+                            await SharedPreferences.getInstance();
+                        sharedPreferences2.remove("userRole");
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return LoginSignupScreen();
+                          },
+                        ));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Logged Out'),
+                        ));
+                        // Navigator.pushAndRemoveUntil<void>(
+                        //   context,
+                        //   MaterialPageRoute<void>(
+                        //     builder: (BuildContext context) =>
+                        //         LoginSignupScreen(),
+                        //   ),
+                        //   (Route<dynamic> route) => false,
+                        // );
                       },
                       icon: const Icon(
                         Icons.logout_outlined,

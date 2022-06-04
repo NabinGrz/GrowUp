@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/screens/coursescreen/courseinfo.dart';
 import 'package:growup/screens/studentcoursescreen/studentcourse.dart';
+import 'package:growup/widgets/shimmer.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -131,7 +132,19 @@ class CourseItem extends StatelessWidget {
                 builder: (context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.data == null ||
                       snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(
+                      child: buildShimmerEffect(
+                        context,
+                        Container(
+                          height: 20,
+                          width: 90,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                        ),
+                      ),
+                    );
                   } else if (snapshot.hasData ||
                       snapshot.data != null ||
                       snapshot.connectionState == ConnectionState.done) {

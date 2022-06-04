@@ -6,7 +6,6 @@ import 'package:growup/screens/homescreen/hometab_screen.dart';
 import 'package:growup/screens/newsfeedscreen/newsfeed.dart';
 import 'package:growup/screens/postscreen/postImage.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
-import 'package:growup/services/apiservice.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -31,19 +30,47 @@ class _HomePageScreenState extends State<HomePageScreen> {
         appBar: AppBar(
           backgroundColor: darkBlueColor,
           title: const Text("GrowUp"),
-          actions: [
-            SizedBox(
-                height: 25,
-                width: 50,
-                child: IconButton(
-                    onPressed: () async {
-                      var t = await getSkillVideos(10);
-                      print("---------------------------------------------");
-                      print(t);
-                    },
-                    icon: const Icon(
-                      Iconsax.notification,
-                    ))),
+          actions: const [
+            // SizedBox(
+            //     height: 25,
+            //     width: 50,
+            //     child: IconButton(
+            //         onPressed: () async {
+            //           final SharedPreferences sharedPreferences =
+            //               await SharedPreferences.getInstance();
+            //           sharedPreferences.remove("tokenData");
+            //           // Get.defaultDialog(
+            //           //     title: "Success!!",
+            //           //     middleText: "Logged Out",
+            //           //     actions: [
+            //           //       const Icon(
+            //           //         Iconsax.tick_circle,
+            //           //         size: 35,
+            //           //         color: Color.fromARGB(255, 23, 204, 92),
+            //           //       )
+            //           //     ],
+            //           //     buttonColor: Colors.white);
+            //           AlertDialog(
+            //             title: const Text('Success!!'),
+            //             content: SingleChildScrollView(
+            //               child: ListBody(
+            //                 children: const <Widget>[
+            //                   Text('Logged Out'),
+            //                   Text(
+            //                       'Would you like to approve of this message?'),
+            //                 ],
+            //               ),
+            //             ),
+            //           );
+            //           Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                   builder: (context) => LoginSignupScreen()));
+            //         },
+            //         icon: const Icon(
+            //           Iconsax.notification,
+            //         )
+            //         )),
           ],
           // centerTitle: true,
         ),

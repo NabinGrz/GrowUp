@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/models/coursemodel.dart';
 import 'package:growup/models/loginmodelresponse.dart';
 import 'package:growup/models/newsfeedmodel.dart';
@@ -24,8 +23,8 @@ getToken() async {
 }
 
 const baseUrlGet =
-    "https://340c-2400-1a00-b020-3577-59cc-9db7-b946-6e21.ngrok.io";
-const baseUrlPost = "340c-2400-1a00-b020-3577-59cc-9db7-b946-6e21.ngrok.io";
+    "https://31b3-2400-1a00-b020-164-2195-673c-67b6-414.ngrok.io";
+const baseUrlPost = "31b3-2400-1a00-b020-164-2195-673c-67b6-414.ngrok.io";
 
 //===============================================================================
 
@@ -113,10 +112,12 @@ Future login(String email, String password) async {
         data; //response data, i.e. {"message":"User Created Successfully!","isSuccess":true,"errors":null,"expireDate":null}"
     print("======================================================");
     print(responseLogin.statusCode);
-    responseLoginTokken = _loginResponseData.message;
+    responseLoginTokken = _loginResponseData;
     if (responseLogin.statusCode == 200) {
       return responseLoginTokken;
-    } else {}
+    } else {
+      return responseLoginTokken;
+    }
     print("API CLASS TOKE");
     print(responseLoginTokken);
     return responseLoginTokken;
@@ -400,7 +401,7 @@ Future<int> getVideosCount(int skillID) async {
 
 late var responseSkills;
 late var skills;
-Future getSkillDetails() async {
+Future<List<SkillsDetailModel>> getSkillDetails() async {
   print("FINAL TOKEN OF USER:" + obtainedtokenData.toString());
   myUrl = Uri.parse(
     // "$baseUrlGet/api/v1/getskills",
@@ -454,7 +455,7 @@ var _postNewsFeedData;
 var responsePostNewsFeed;
 var reponseMessage;
 bool postSuccess = false;
-Future postNewsFeed(String title, File file) async {
+Future<bool> postNewsFeed(String title, File file) async {
   var request = http.MultipartRequest(
       "POST", Uri.parse("$baseUrlGet/api/v1/addnewsfeed"));
   request.headers.addAll({
@@ -468,16 +469,9 @@ Future postNewsFeed(String title, File file) async {
       try {
         // get your response here...
         if (response.statusCode == 200) {
-          reponseMessage = response.reasonPhrase;
-          print("===================SUCCESS==================");
-          Fluttertoast.showToast(
-            msg: "Posted Successfully",
-          );
-          return reponseMessage;
+          return true;
         } else {
-          print(
-              "======================UNSUCCESSFULL==========================");
-          return postSuccess;
+          return false;
         }
       } catch (e) {
         // handle exeption
@@ -485,6 +479,7 @@ Future postNewsFeed(String title, File file) async {
       print(postSuccess);
     });
   });
+  return true;
 //  return reponseMessage;
 }
 

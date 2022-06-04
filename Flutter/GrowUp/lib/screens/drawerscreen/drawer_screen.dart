@@ -8,7 +8,6 @@ import 'package:growup/screens/loginscreens/loginsignuo.dart';
 import 'package:growup/screens/profilescreen/profile_screen.dart';
 import 'package:growup/screens/quizhistory/quizhistorylist.dart';
 import 'package:growup/screens/studentcoursescreen/studentcourse.dart';
-import 'package:growup/screens/teacherscreen/teacherpage.dart';
 import 'package:growup/screens/tutorscreen/tutorlist.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:iconsax/iconsax.dart';
@@ -209,41 +208,41 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const NewRow(
-                  text: 'Terms & Condition',
-                  icon: Iconsax.note,
-                ),
+                // const NewRow(
+                //   text: 'Terms & Condition',
+                //   icon: Iconsax.note,
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(TeacherPage());
-                      },
-                      child: const Text(
-                        'App Mode',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                    Obx(() {
-                      return Switch(
-                        value: switchController.isOn.value,
-                        onChanged: (value) {
-                          // setState(() {
-                          //   isSwitched = value;
-                          //   value = false;
-                          //   // print(isSwitched);
-                          // });
-                          switchController.isOn.toggle();
-                        },
-                        activeTrackColor: Colors.lightGreenAccent,
-                        activeColor: Colors.green,
-                      );
-                    }),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         Get.to(TeacherPage());
+                //       },
+                //       child: const Text(
+                //         'App Mode',
+                //         style: TextStyle(color: Colors.white, fontSize: 15),
+                //       ),
+                //     ),
+                //     Obx(() {
+                //       return Switch(
+                //         value: switchController.isOn.value,
+                //         onChanged: (value) {
+                //           // setState(() {
+                //           //   isSwitched = value;
+                //           //   value = false;
+                //           //   // print(isSwitched);
+                //           // });
+                //           switchController.isOn.toggle();
+                //         },
+                //         activeTrackColor: Colors.lightGreenAccent,
+                //         activeColor: Colors.green,
+                //       );
+                //     }),
+                //   ],
+                // ),
               ],
             ),
             Row(
@@ -253,23 +252,34 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     final SharedPreferences sharedPreferences =
                         await SharedPreferences.getInstance();
                     sharedPreferences.remove("tokenData");
-                    Get.defaultDialog(
-                        title: "Success!!",
-                        middleText: "Logged Out",
-                        actions: [
-                          const Icon(
-                            Iconsax.tick_circle,
-                            size: 35,
-                            color: Color.fromARGB(255, 23, 204, 92),
-                          )
-                        ],
-                        buttonColor: Colors.white);
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return LoginSignupScreen();
-                    //   },
-                    // ));
-                    Get.to(LoginSignupScreen());
+
+                    final SharedPreferences sharedPreferences2 =
+                        await SharedPreferences.getInstance();
+                    sharedPreferences2.remove("userRole");
+                    // Get.defaultDialog(
+                    //     title: "Success!!",
+                    //     middleText: "Logged Out",
+                    //     actions: [
+                    //       const Icon(
+                    //         Iconsax.tick_circle,
+                    //         size: 35,
+                    //         color: Color.fromARGB(255, 23, 204, 92),
+                    //       )
+                    //     ],
+                    //     buttonColor: Colors.white);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return LoginSignupScreen();
+                      },
+                    ));
+                    // Navigator.of(context, rootNavigator: true).push(
+                    //   MaterialPageRoute<void>(
+                    //     builder: (BuildContext context) => LoginSignupScreen(),
+                    //   ),
+                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Logged In'),
+                    ));
                     // Navigator.pushAndRemoveUntil<void>(
                     //   context,
                     //   MaterialPageRoute<void>(
@@ -278,11 +288,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     //   (Route<dynamic> route) => false,
                     // );
 
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => LoginSignupScreen(),
-                    //     ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginSignupScreen(),
+                        ));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Logged Out'),
+                    ));
                     // Navigator.pushReplacementNamed(context, MaterialPageRoute(
                     //   builder: (context) {
                     //     return LoginSignupScreen();

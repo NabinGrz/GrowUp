@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/downloads/download_provider.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
 bool isDownloading = false;
 bool isDone = false;
-Widget dowloadButton(
-    String url, FileDownloaderProvider downloaderProvider, int index) {
+Widget dowloadButton(String url, FileDownloaderProvider downloaderProvider,
+    int index, String videoName) {
   return IconButton(
       onPressed: () {
+        print(
+            "=================================================================");
+        print("URL: " + url);
+        print("videoName: " + videoName);
+        print("Index: " + index.toString());
         downloaderProvider
-            .downloadFile(
-                "https://cdn.videvo.net/videvo_files/video/premium/video0015/large_watermarked/Comp%20175_preview.mp4",
-                "lolllll.mp4")
+            .downloadFile(url, "$videoName.mp4")
             .then((onValue) {});
         Fluttertoast.showToast(
           msg: "Your download has been started",
         );
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.download,
         color: Colors.white,
       ));
@@ -34,7 +35,7 @@ Widget downloadProgress(BuildContext context, int index) {
   return Row(
     children: [
       isDownloading
-          ? Container(
+          ? SizedBox(
               height: 15,
               width: 15,
               child: CircularProgressIndicator(
@@ -42,17 +43,17 @@ Widget downloadProgress(BuildContext context, int index) {
                 strokeWidth: 3,
               ))
           : isDone
-              ? Icon(
+              ? const Icon(
                   Icons.check,
                   color: Color.fromARGB(255, 92, 221, 96),
                 )
               : Container(),
-      SizedBox(
+      const SizedBox(
         width: 5,
       ),
       Text(
         downloadStatus(fileDownloaderProvider, context, null),
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       ),
     ],
   );

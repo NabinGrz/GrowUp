@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/models/bookedclassesmodel.dart';
-import 'package:growup/screens/tutorscreen/searchtutor.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
+import 'package:growup/services/testpaperbuild.dart';
 import 'package:growup/widgets/shimmer.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -30,47 +31,52 @@ class _BookedClassesState extends State<BookedClasses> {
   Widget build(BuildContext context) {
     print("BUIIIIIIIIIIIIIIIIIIIIIIIIIIIIILLLD");
     //void
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: darkBlueColor,
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: SearchUser());
-            },
-            icon: const Icon(Icons.search_sharp),
-          )
-        ],
-        centerTitle: true,
-        title: const Text(
-          'Your Classes',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
+    return GetMaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: darkBlueColor,
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       //showSearch(context: context, delegate: SearchUser());
+          //     },
+          //     icon: const Icon(Icons.search_sharp),
+          //   )
+          // ],
+          centerTitle: true,
+          title: GestureDetector(
+            onTap: () async {},
+            child: const Text(
+              'Your Classes',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      StylistCard(),
-                    ],
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        StylistCard(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -84,7 +90,14 @@ class StylistCard extends StatefulWidget {
 }
 
 class _StylistCardState extends State<StylistCard> {
+  bool deleteSuccess = false;
   var bookedClasses;
+  Future<void> _copyToClipboard(String bDate) async {
+    await Clipboard.setData(ClipboardData(text: bDate));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Copied to clipboard'),
+    ));
+  }
 
   String? userId;
   getData() async {
@@ -193,7 +206,7 @@ class _StylistCardState extends State<StylistCard> {
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 20),
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 5.5,
+                          height: MediaQuery.of(context).size.height / 4.9,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: const [
@@ -220,52 +233,88 @@ class _StylistCardState extends State<StylistCard> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Stack(
                               children: <Widget>[
-                                Positioned(
-                                    //  top: 5,
-                                    right: 10,
-                                    //alignment: Alignment.bottomRight,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                              title: "Alert Dialog",
-                                              middleText:
-                                                  "Are u sure u have complete the class?",
-                                              actions: [
-                                                RaisedButton(
-                                                    color: Colors.red,
-                                                    child: const Text(
-                                                      "Cancel",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    onPressed: () {
-                                                      print(
-                                                          "MEETING HAS NOT ENDED");
-                                                    }),
-                                                RaisedButton(
-                                                    color: Colors.red,
-                                                    child: const Text(
-                                                      "Confirm",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    onPressed: () {
-                                                      print(
-                                                          "MEETING HAS ENDED");
-                                                    })
-                                              ],
-                                              buttonColor: Colors.white);
-                                        },
-                                        icon: const Icon(
-                                          Iconsax.profile_delete,
-                                          color: Colors.red,
-                                        ))),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Get.defaultDialog(
+                                            title: "Alert Dialog",
+                                            middleText:
+                                                "Are u sure u have complete the class?",
+                                            actions: [
+                                              RaisedButton(
+                                                  color: Colors.red,
+                                                  child: const Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context,
+                                                            rootNavigator: true)
+                                                        .pop();
+                                                    print(
+                                                        "MEETING HAS NOT ENDED");
+                                                  }),
+                                              RaisedButton(
+                                                  color: Colors.red,
+                                                  child: const Text(
+                                                    "Confirm",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  onPressed: () async {
+                                                    int bookingID =
+                                                        classes[index].id!;
+                                                    print("BOOKING ID: " +
+                                                        bookingID.toString());
+                                                    bool del =
+                                                        await deleteBookings(
+                                                            bookingID);
+                                                    if (del) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                        content: Text(
+                                                            'Deleted Successfully'),
+                                                      ));
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop();
+                                                      getData();
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                        content: Text(
+                                                            'Something went wrong'),
+                                                      ));
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop();
+                                                      getData();
+                                                    }
+                                                    print("MEETING HAS ENDED");
+                                                  })
+                                            ],
+                                            buttonColor: Colors.white);
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete_rounded,
+                                        color: Colors.red,
+                                        size: 30,
+                                      )),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Column(
@@ -287,7 +336,7 @@ class _StylistCardState extends State<StylistCard> {
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 20,
+                                                fontSize: 24,
                                               ),
                                             );
                                           } else if (snapshot.hasError) {
@@ -304,22 +353,56 @@ class _StylistCardState extends State<StylistCard> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        "Your Meeting ID of zoom: ${classes[index].zoomId}",
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Your Meeting ID of zoom: ${classes[index].zoomId}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 16),
+                                          ),
+                                          IconButton(
+                                              onPressed: () async {
+                                                await _copyToClipboard(
+                                                    classes[index]
+                                                        .zoomId
+                                                        .toString());
+                                              },
+                                              icon: const Icon(
+                                                Iconsax.copy,
+                                                color: Colors.white,
+                                              )),
+                                        ],
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        "Your Passcode of zoom: ${classes[index].zoomPassword}",
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Your Passcode of zoom: ${classes[index].zoomPassword}",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 16),
+                                          ),
+                                          IconButton(
+                                              onPressed: () async {
+                                                await _copyToClipboard(
+                                                    classes[index]
+                                                        .zoomPassword
+                                                        .toString());
+                                              },
+                                              icon: const Icon(
+                                                Iconsax.copy,
+                                                color: Colors.white,
+                                              )),
+                                        ],
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -335,7 +418,7 @@ class _StylistCardState extends State<StylistCard> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "BookingTime: $bookingTime",
+                                        "Booking Time: $bookingTime",
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w300,
@@ -343,7 +426,7 @@ class _StylistCardState extends State<StylistCard> {
                                       ),
                                     ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),

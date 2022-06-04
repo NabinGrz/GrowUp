@@ -59,16 +59,16 @@ class _StudentCourseListScreenState extends State<StudentCourseListScreen> {
                               fontSize: 19, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          width: 150,
+                          width: 300,
                           child: Divider(
                             color: Colors.grey,
                           ),
                         ),
-                        Text(
-                          "No of videos: ${course.noOfVideos}",
-                          style:
-                              const TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
+                        // Text(
+                        //   course.noOfVideos,
+                        //   style:
+                        //       const TextStyle(fontSize: 16, color: Colors.grey),
+                        // ),
                       ]),
                 ),
               ],
@@ -156,7 +156,11 @@ class _StudentCourseListScreenState extends State<StudentCourseListScreen> {
                   builder: (context, Box<StudentCourse> box, widget) {
                     if (box.values.isEmpty) {
                       return const Center(
-                        child: Text("No course to show"),
+                        child: Text("No course to show",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 96, 96, 96),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 22)),
                       );
                     } else {}
                     //courseViewItem()
@@ -170,8 +174,7 @@ class _StudentCourseListScreenState extends State<StudentCourseListScreen> {
                               box
                                   .deleteAt(index)
                                   .then((value) => Fluttertoast.showToast(
-                                        msg:
-                                            "Your quiz course has been deleted",
+                                        msg: "Your course has been deleted",
                                       ));
                             },
                             child: courseViewItem(obj!));

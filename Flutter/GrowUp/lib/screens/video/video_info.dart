@@ -99,7 +99,7 @@ class _VideoInfoState extends State<VideoInfo> {
                               size: 20, color: secondPageIconColor),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Text(
@@ -107,7 +107,7 @@ class _VideoInfoState extends State<VideoInfo> {
                         style: TextStyle(
                             fontSize: 25, color: secondPageTitleColor),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
@@ -115,7 +115,7 @@ class _VideoInfoState extends State<VideoInfo> {
                         style: TextStyle(
                             fontSize: 25, color: secondPageTitleColor),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       Row(
@@ -141,7 +141,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                   size: 20,
                                   color: secondPageIconColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
@@ -152,7 +152,7 @@ class _VideoInfoState extends State<VideoInfo> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                         ],
@@ -165,7 +165,7 @@ class _VideoInfoState extends State<VideoInfo> {
                   // color: Colors.red,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 100,
                         child: Row(
                           children: [
@@ -173,7 +173,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                 onPressed: () {
                                   //Naviga
                                 },
-                                icon: Icon(Icons.arrow_back))
+                                icon: const Icon(Icons.arrow_back))
                           ],
                         ),
                       ),
@@ -182,7 +182,7 @@ class _VideoInfoState extends State<VideoInfo> {
                           _playView(context),
                           Positioned(
                             bottom: 10,
-                            child: Container(
+                            child: SizedBox(
                               //  color: Colors.yellow,
                               height: 20,
                               width: MediaQuery.of(context).size.width,
@@ -190,21 +190,23 @@ class _VideoInfoState extends State<VideoInfo> {
                                   data: SliderTheme.of(context).copyWith(
                                     activeTrackColor: Colors.red[700],
                                     inactiveTrackColor: Colors.red[100],
-                                    trackShape: RoundedRectSliderTrackShape(),
+                                    trackShape:
+                                        const RoundedRectSliderTrackShape(),
                                     trackHeight: 1.5,
-                                    thumbShape: RoundSliderThumbShape(
+                                    thumbShape: const RoundSliderThumbShape(
                                         enabledThumbRadius: 7.0),
                                     thumbColor: Colors.redAccent,
                                     overlayColor: Colors.red.withAlpha(32),
-                                    overlayShape: RoundSliderOverlayShape(
+                                    overlayShape: const RoundSliderOverlayShape(
                                         overlayRadius: 28.0),
-                                    tickMarkShape: RoundSliderTickMarkShape(),
+                                    tickMarkShape:
+                                        const RoundSliderTickMarkShape(),
                                     activeTickMarkColor: Colors.red[700],
                                     inactiveTickMarkColor: Colors.red[100],
                                     valueIndicatorShape:
-                                        PaddleSliderValueIndicatorShape(),
+                                        const PaddleSliderValueIndicatorShape(),
                                     valueIndicatorColor: Colors.redAccent,
-                                    valueIndicatorTextStyle: TextStyle(
+                                    valueIndicatorTextStyle: const TextStyle(
                                       color: Colors.white,
                                     ), // TextStyle
                                   ),
@@ -247,12 +249,12 @@ class _VideoInfoState extends State<VideoInfo> {
                 ),
           Expanded(
               child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(topRight: Radius.circular(70))),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -268,7 +270,7 @@ class _VideoInfoState extends State<VideoInfo> {
                     Row(
                       children: [
                         Icon(Icons.loop, size: 30, color: loopColor),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -280,7 +282,7 @@ class _VideoInfoState extends State<VideoInfo> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Padding(
@@ -311,7 +313,7 @@ class _VideoInfoState extends State<VideoInfo> {
                           }
                         });
                       },
-                      child: Container(
+                      child: SizedBox(
                         height: 135,
                         width: 100,
                         // color: Colors.redAccent,
@@ -341,11 +343,11 @@ class _VideoInfoState extends State<VideoInfo> {
                                     children: [
                                       Text(
                                         videoInfo[index]["title"],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Padding(
@@ -370,7 +372,8 @@ class _VideoInfoState extends State<VideoInfo> {
                                       dowloadButton(
                                           videoInfo[tappedIndex]["videoUrl"],
                                           fileDownloaderProvider,
-                                          index),
+                                          index,
+                                          videoInfo[tappedIndex]["videoName"]),
                                     ],
                                   ),
                                 ),
@@ -402,7 +405,7 @@ class _VideoInfoState extends State<VideoInfo> {
         ),
       );
     } else {
-      return AspectRatio(
+      return const AspectRatio(
           aspectRatio: 16 / 9,
           child: Center(
               child: CircularProgressIndicator(
@@ -434,9 +437,7 @@ class _VideoInfoState extends State<VideoInfo> {
       debugPrint("controller cannot be intilaized");
       return;
     }
-    if (_duration == null) {
-      _duration = _controller?.value.duration;
-    }
+    _duration ??= _controller?.value.duration;
     var duration = _duration;
     if (duration == null) return;
 
@@ -519,14 +520,14 @@ class _VideoInfoState extends State<VideoInfo> {
                 } else {
                   Get.snackbar("Video", "No more vidoes to play",
                       snackPosition: SnackPosition.BOTTOM,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.face,
                         size: 25,
                         color: Colors.white,
                       ));
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.fast_rewind,
                 size: 36,
                 color: Colors.white,
@@ -558,26 +559,26 @@ class _VideoInfoState extends State<VideoInfo> {
                 } else {
                   Get.snackbar("Video List", "",
                       snackPosition: SnackPosition.BOTTOM,
-                      messageText: Text(
+                      messageText: const Text(
                         "No more vidoes available",
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       backgroundColor: gradientSecond,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.face,
                         size: 25,
                         color: Colors.white,
                       ));
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.fast_forward,
                 size: 36,
                 color: Colors.white,
               )),
           Text(
             "$mins:$secs",
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           )
         ],
       ),

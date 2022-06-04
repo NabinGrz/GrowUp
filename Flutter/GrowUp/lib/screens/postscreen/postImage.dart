@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class PostScreen extends StatefulWidget {
@@ -15,8 +15,8 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
   var _image;
-
-  TextEditingController _titleControler = TextEditingController();
+  bool isPosted = false;
+  final TextEditingController _titleControler = TextEditingController();
   Future CamaraImage() async {
     XFile? image = await ImagePicker().pickImage(
         source: ImageSource.camera, maxWidth: 400, imageQuality: 100);
@@ -41,7 +41,7 @@ class _PostScreenState extends State<PostScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -55,7 +55,7 @@ class _PostScreenState extends State<PostScreen> {
                 child: TextField(
                   controller: _titleControler,
                   cursorColor: Colors.red,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Add your title',
                       hintStyle:
@@ -63,7 +63,7 @@ class _PostScreenState extends State<PostScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GestureDetector(
@@ -72,8 +72,8 @@ class _PostScreenState extends State<PostScreen> {
               },
               child: DottedBorder(
                 borderType: BorderType.RRect,
-                radius: Radius.circular(10),
-                dashPattern: [10, 4],
+                radius: const Radius.circular(10),
+                dashPattern: const [10, 4],
                 strokeCap: StrokeCap.round,
                 color: Colors.blue.shade400,
                 child: Container(
@@ -86,12 +86,12 @@ class _PostScreenState extends State<PostScreen> {
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Iconsax.folder_open,
                               color: Colors.blue,
                               size: 40,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Text(
@@ -110,8 +110,8 @@ class _PostScreenState extends State<PostScreen> {
                 ),
               ),
             ),
-            Divider(),
-            Container(
+            const Divider(),
+            SizedBox(
               height: MediaQuery.of(context).size.height / 9,
               width: MediaQuery.of(context).size.width,
               child: Row(
@@ -119,67 +119,84 @@ class _PostScreenState extends State<PostScreen> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       FloatingActionButton(
                         onPressed: () {
                           CamaraImage();
                         },
-                        child: Icon(Iconsax.camera4),
+                        child: const Icon(Iconsax.camera4),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       FloatingActionButton(
                         onPressed: () {
                           GalleryImage();
                         },
-                        child: Icon(Iconsax.gallery),
+                        child: const Icon(Iconsax.gallery),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   Container(
-                    width: 110,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xffFE876C),
-                          Color(0xffFD5D37),
-                        ],
+                      width: 110,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xffFE876C),
+                            Color(0xffFD5D37),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          30.0,
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(
-                        30.0,
-                      ),
-                    ),
-                    child: FlatButton(
-                      onPressed: () async {
-                        var isSuccess =
-                            await postNewsFeed(_titleControler.text, _image);
-                        print("YYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEE");
-                        print(await isSuccess);
-                        // if (isSuccess) {
-                        //   print("YYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEE");
-                        // } else {
-                        //   print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-                        // }
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17),
-                      ),
-                      child: Text(
-                        'Post',
-                        style: whiteTextStyle.copyWith(fontSize: 18),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
+                      child: !isPosted
+                          ? FlatButton(
+                              onPressed: () async {
+                                setState(() {
+                                  isPosted = true;
+                                });
+                                bool isSuccess = await postNewsFeed(
+                                    _titleControler.text, _image);
+                                if (isSuccess) {
+                                  print("YYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEE");
+                                  setState(() {
+                                    isPosted = false;
+                                  });
+                                  Fluttertoast.showToast(
+                                    msg: "Posted Successfully",
+                                  );
+                                } else {
+                                  setState(() {
+                                    isPosted = false;
+                                  });
+                                  Fluttertoast.showToast(
+                                    msg: "Something went wrong",
+                                  );
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(17),
+                              ),
+                              child: Text(
+                                'Post',
+                                style: whiteTextStyle.copyWith(fontSize: 18),
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )),
+                  const SizedBox(
                     width: 1,
                   ),
                 ],

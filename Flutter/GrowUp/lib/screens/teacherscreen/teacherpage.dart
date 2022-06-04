@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/models/media_source.dart';
-import 'package:growup/screens/drawerscreen/drawer_screen.dart';
 import 'package:growup/screens/drawerscreen/teacher_drawer_screen.dart';
 import 'package:growup/screens/postscreen/source_page.dart';
 import 'package:growup/screens/postscreen/video_widget.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TeacherPage extends StatefulWidget {
@@ -21,8 +20,9 @@ class TeacherPage extends StatefulWidget {
 class _TeacherPageState extends State<TeacherPage> {
   var _image;
   File? fileMedia;
+  bool isPosted = false;
   MediaSource? source;
-  TextEditingController _titleControler = TextEditingController();
+  final TextEditingController _titleControler = TextEditingController();
   Future CamaraImage() async {
     XFile? image = await ImagePicker().pickImage(
         source: ImageSource.camera, maxWidth: 400, imageQuality: 100);
@@ -47,16 +47,16 @@ class _TeacherPageState extends State<TeacherPage> {
       drawer: TeacherDrawerScreen(),
       appBar: AppBar(
         backgroundColor: darkBlueColor,
-        title: Text("GrowUp"),
+        title: const Text("GrowUp"),
         actions: [
-          Container(
+          SizedBox(
               height: 25,
               width: 50,
               child: IconButton(
                   onPressed: () {
                     var d = getTeacherDetails();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Iconsax.notification,
                   ))),
         ],
@@ -65,11 +65,11 @@ class _TeacherPageState extends State<TeacherPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.symmetric(horizontal: 15),
               height: 45,
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class _TeacherPageState extends State<TeacherPage> {
                 child: TextField(
                   controller: _titleControler,
                   cursorColor: Colors.red,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Add your title',
                       hintStyle:
@@ -88,15 +88,15 @@ class _TeacherPageState extends State<TeacherPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GestureDetector(
               onTap: () {},
               child: DottedBorder(
                 borderType: BorderType.RRect,
-                radius: Radius.circular(10),
-                dashPattern: [10, 4],
+                radius: const Radius.circular(10),
+                dashPattern: const [10, 4],
                 strokeCap: StrokeCap.round,
                 color: Colors.blue.shade400,
                 child: Container(
@@ -109,12 +109,12 @@ class _TeacherPageState extends State<TeacherPage> {
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Iconsax.folder_open,
                               color: Colors.blue,
                               size: 40,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Text(
@@ -135,8 +135,8 @@ class _TeacherPageState extends State<TeacherPage> {
                 ),
               ),
             ),
-            Divider(),
-            Container(
+            const Divider(),
+            SizedBox(
               height: MediaQuery.of(context).size.height / 9,
               width: MediaQuery.of(context).size.width,
               child: Row(
@@ -144,59 +144,81 @@ class _TeacherPageState extends State<TeacherPage> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       FloatingActionButton(
                         onPressed: () {
                           capture(MediaSource.image);
                         },
-                        child: Icon(Iconsax.camera),
+                        child: const Icon(Iconsax.camera),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       FloatingActionButton(
                         onPressed: () {
                           capture(MediaSource.video);
                         },
-                        child: Icon(Iconsax.video),
+                        child: const Icon(Iconsax.video),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   Container(
-                    width: 110,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xffFE876C),
-                          Color(0xffFD5D37),
-                        ],
+                      width: 110,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xffFE876C),
+                            Color(0xffFD5D37),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          30.0,
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(
-                        30.0,
-                      ),
-                    ),
-                    child: FlatButton(
-                      onPressed: () {
-                        postNewsFeed(_titleControler.text, fileMedia!);
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17),
-                      ),
-                      child: Text(
-                        'Post',
-                        style: whiteTextStyle.copyWith(fontSize: 18),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
+                      child: !isPosted
+                          ? FlatButton(
+                              onPressed: () async {
+                                bool isSuccess = await postNewsFeed(
+                                    _titleControler.text, fileMedia!);
+                                if (isSuccess) {
+                                  print("YYYYYYYYYYYYYYYYYYYYYYYYYEEEEEEEEEEE");
+                                  setState(() {
+                                    isPosted = false;
+                                  });
+                                  Fluttertoast.showToast(
+                                    msg: "Posted Successfully",
+                                  );
+                                } else {
+                                  setState(() {
+                                    isPosted = false;
+                                  });
+                                  Fluttertoast.showToast(
+                                    msg: "Something went wrong",
+                                  );
+                                }
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(17),
+                              ),
+                              child: Text(
+                                'Post',
+                                style: whiteTextStyle.copyWith(fontSize: 18),
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )),
+                  const SizedBox(
                     width: 1,
                   ),
                 ],
@@ -211,7 +233,7 @@ class _TeacherPageState extends State<TeacherPage> {
   Future capture(MediaSource source) async {
     setState(() {
       this.source = source;
-      this.fileMedia = null;
+      fileMedia = null;
     });
 
     final result = await Navigator.of(context).push(

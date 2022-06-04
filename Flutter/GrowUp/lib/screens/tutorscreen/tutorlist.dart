@@ -222,15 +222,21 @@ class _StylistCardState extends State<StylistCard> {
                                 ),
                                 MaterialButton(
                                   onPressed: () {
+                                    print(
+                                        "00000000000000000000000000000000000000");
+                                    print(controller.tutorList[index].id);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 TutorDetailScreen(
                                                     key: null,
-                                                    usersDetail: controller
-                                                        .tutorList
-                                                        .toList(),
+                                                    usersDetail:
+                                                        controller
+                                                            .tutorList
+                                                            .toList(),
+                                                    tID: controller
+                                                        .tutorList[index].id,
                                                     index: index)));
                                   },
                                   color: const Color(0xFFFF5252),

@@ -16,90 +16,94 @@ import 'package:pdf/widgets.dart' as pw;
 _showModalBottomSheet(context) {
   showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height / 2.4,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: Color(0xffFFFFFF),
-            // borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Icon(
-                Iconsax.box_remove,
-                size: 120,
-                color: Colors.red,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    "End practice session?",
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    "Are you sure you want to exit the practice session?",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 66, 66, 66)),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  //print("Time is:" + timer.toString());
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: darkBlueColor,
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    minimumSize: const Size(150, 60)),
-                child: const Text(
-                  'Resume',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Raleway-Regular',
-                      fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.center,
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            height: MediaQuery.of(context).size.height / 2.4,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Color(0xffFFFFFF),
+              // borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Icon(
+                  Iconsax.box_remove,
+                  size: 120,
+                  color: Colors.red,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(const HomePageScreen());
-                },
-                child: SizedBox(
+                const SizedBox(
                   height: 40,
-                  child: Text(
-                    "Quit",
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "End practice session?",
+                      style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                    Text(
+                      "Are you sure you want to exit the practice session?",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 66, 66, 66)),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    //print("Time is:" + timer.toString());
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: darkBlueColor,
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      minimumSize: const Size(150, 60)),
+                  child: const Text(
+                    'Resume',
                     style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w400,
-                        color: darkBlueColor),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontFamily: 'Raleway-Regular',
+                        fontWeight: FontWeight.w700),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(const HomePageScreen());
+                  },
+                  child: SizedBox(
+                    height: 40,
+                    child: Text(
+                      "Quit",
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          color: darkBlueColor),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       });

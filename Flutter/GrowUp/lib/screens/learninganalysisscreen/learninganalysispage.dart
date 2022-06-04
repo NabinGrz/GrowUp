@@ -197,10 +197,10 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
                 ),
                 buildPieChart(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     buildTestAttempted(),
-                    buildCorrretAnswer(),
+                    //buildCorrretAnswer(),
                     buildAvergaeTimeSpend()
                   ],
                 ),
@@ -264,94 +264,107 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
         scrollDirection: Axis.horizontal,
         itemCount: box.values.length,
         itemBuilder: (context, index) {
-          StudentCourse? obj = box.getAt(index);
-          switch (int.parse(obj!.skillId)) {
-            case 1:
-              {
-                // setState(() {
-                enrolledCourseName = "Android Development Course";
-                enrolledCourseImage = "images/android.png";
-                //});
-              }
-              break;
+          if (box.values.isNotEmpty) {
+            StudentCourse? obj = box.getAt(index);
 
-            case 2:
-              {
-                //setState(() {
-                enrolledCourseName = "Web Development Course";
-                enrolledCourseImage = "images/web.png";
-                //  });
-              }
-              break;
+            switch (int.parse(obj!.skillId)) {
+              case 1:
+                {
+                  // setState(() {
+                  enrolledCourseName = "Android Development Course";
+                  enrolledCourseImage = "images/android.png";
+                  //});
+                }
+                break;
 
-            case 3:
-              {
-                //  setState(() {
-                enrolledCourseName = "Python Course";
-                enrolledCourseImage = "images/pythonc.png";
-                //  });
-              }
-              break;
+              case 2:
+                {
+                  //setState(() {
+                  enrolledCourseName = "Web Development Course";
+                  enrolledCourseImage = "images/web.png";
+                  //  });
+                }
+                break;
 
-            case 4:
-              {
-                //  setState(() {
-                enrolledCourseName = "Adobe Illustrator Course";
-                enrolledCourseImage = "images/illustrator.png";
-                // });
-              }
-              break;
-            case 5:
-              {
-                // setState(() {
-                enrolledCourseName = "Adobe Photoshop Course";
-                enrolledCourseImage = "images/photoshopc.png";
-                // });
-              }
-              break;
+              case 3:
+                {
+                  //  setState(() {
+                  enrolledCourseName = "Python Course";
+                  enrolledCourseImage = "images/pythonc.png";
+                  //  });
+                }
+                break;
 
-            case 6:
-              {
+              case 4:
+                {
+                  //  setState(() {
+                  enrolledCourseName = "Adobe Illustrator Course";
+                  enrolledCourseImage = "images/illustrator.png";
+                  // });
+                }
+                break;
+              case 5:
+                {
+                  // setState(() {
+                  enrolledCourseName = "Adobe Photoshop Course";
+                  enrolledCourseImage = "images/photoshopc.png";
+                  // });
+                }
+                break;
+
+              case 6:
+                {
 //setState(() {
-                enrolledCourseName = "3d Modelling Course";
-                enrolledCourseImage = "images/modelling.png";
-                // });
-              }
-              break;
+                  enrolledCourseName = "3d Modelling Course";
+                  enrolledCourseImage = "images/modelling.png";
+                  // });
+                }
+                break;
 
-            case 7:
-              {
-                // setState(() {
-                enrolledCourseName = "Digital Marketing Course";
-                enrolledCourseImage = "images/marketing.png";
-                //});
-              }
-              break;
+              case 7:
+                {
+                  // setState(() {
+                  enrolledCourseName = "Digital Marketing Course";
+                  enrolledCourseImage = "images/marketing.png";
+                  //});
+                }
+                break;
 
-            case 8:
-              {
-                // setState(() {
-                enrolledCourseName = "Social Media Marketing Course";
-                enrolledCourseImage = "images/marketing2.png";
-                // });
-              }
-              break;
-            case 9:
-              {
-                // setState(() {
-                enrolledCourseName = "Google Ads Course";
-                enrolledCourseImage = "images/ads.png";
-                // });
-              }
-              break;
-            default:
-              {
-                //setState(() {
-                enrolledCourseName = "Course";
-                enrolledCourseImage = "images/android.png";
-                // });
-              }
-              break;
+              case 8:
+                {
+                  // setState(() {
+                  enrolledCourseName = "Social Media Marketing Course";
+                  enrolledCourseImage = "images/marketing2.png";
+                  // });
+                }
+                break;
+              case 9:
+                {
+                  // setState(() {
+                  enrolledCourseName = "Google Ads Course";
+                  enrolledCourseImage = "images/ads.png";
+                  // });
+                }
+                break;
+              default:
+                {
+                  //setState(() {
+                  enrolledCourseName = "Course";
+                  enrolledCourseImage = "images/android.png";
+                  // });
+                }
+                break;
+            }
+          } else {
+            Container(
+                color: Colors.red,
+                width: 130,
+                child: Text(
+                  enrolledCourseName,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                ));
           }
 
           return Column(
@@ -374,7 +387,6 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
           );
         },
       ),
-     
     );
   }
 
@@ -515,100 +527,103 @@ class _LearningAnalysisPageState extends State<LearningAnalysisPage> {
     //print(obj!.score);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
+      children: const [
+        Padding(
           padding: EdgeInsets.only(left: 18.0),
           child: Text(
             "Recently done practice's",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 18.0),
           child: Text(
             "Continue practicing to improve your score",
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
           ),
         ),
-        SizedBox(
-          height: 180,
-          width: 500,
-          //color: Colors.amber,
-          child: ListView.builder(
-            itemCount: box.length,
-            itemBuilder: (context, index) {
-              PracticeRecord? obj = box.getAt(index);
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Container(
-                          width: 12,
-                          height: 12,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // borderRadius: const BorderRadius.all(
-                            //   Radius.circular(5),
-                            // ),
-                            gradient: LinearGradient(
-                              colors: [
-                                const Color(0xFF90A5F8),
-                                darkBlueColor,
-                              ],
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                            ),
-                            //  color: Colors.red[300]
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        obj!.dateTime.substring(5, 10),
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              obj.quizname,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "Score:" + obj.score,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.grey),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                              child: Divider(
-                                color: Color.fromARGB(255, 228, 228, 228),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
+        // SizedBox(
+        //   height: 180,
+        //   width: 500,
+        //   //color: Colors.amber,
+        //   child: ListView.builder(
+        //     itemCount: box.length,
+        //     itemBuilder: (context, index) {
+        //       PracticeRecord? obj = box.getAt(index);
+        //       return Column(
+        //         children: [
+        //           box.isNotEmpty
+        //               ? Row(
+        //                   children: [
+        //                     Padding(
+        //                       padding: const EdgeInsets.only(left: 10.0),
+        //                       child: Container(
+        //                         width: 12,
+        //                         height: 12,
+        //                         decoration: BoxDecoration(
+        //                           shape: BoxShape.circle,
+        //                           // borderRadius: const BorderRadius.all(
+        //                           //   Radius.circular(5),
+        //                           // ),
+        //                           gradient: LinearGradient(
+        //                             colors: [
+        //                               const Color(0xFF90A5F8),
+        //                               darkBlueColor,
+        //                             ],
+        //                             begin: Alignment.topRight,
+        //                             end: Alignment.bottomLeft,
+        //                           ),
+        //                           //  color: Colors.red[300]
+        //                         ),
+        //                       ),
+        //                     ),
+        //                     const SizedBox(
+        //                       width: 20,
+        //                     ),
+        //                     Text(
+        //                       obj!.dateTime.substring(5, 10),
+        //                       style: const TextStyle(
+        //                           fontSize: 20,
+        //                           fontWeight: FontWeight.w300,
+        //                           color: Colors.grey),
+        //                     ),
+        //                     const SizedBox(
+        //                       width: 50,
+        //                     ),
+        //                     Expanded(
+        //                       child: Column(
+        //                         crossAxisAlignment: CrossAxisAlignment.start,
+        //                         children: [
+        //                           Text(
+        //                             obj.quizname,
+        //                             style: const TextStyle(
+        //                                 fontSize: 18,
+        //                                 fontWeight: FontWeight.w500),
+        //                           ),
+        //                           Text(
+        //                             "Score:" + obj.score,
+        //                             style: const TextStyle(
+        //                                 fontSize: 16,
+        //                                 fontWeight: FontWeight.w300,
+        //                                 color: Colors.grey),
+        //                           ),
+        //                           const SizedBox(
+        //                             height: 20,
+        //                             child: Divider(
+        //                               color: Color.fromARGB(255, 228, 228, 228),
+        //                             ),
+        //                           ),
+        //                         ],
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 )
+        //               : Container()
+        //         ],
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

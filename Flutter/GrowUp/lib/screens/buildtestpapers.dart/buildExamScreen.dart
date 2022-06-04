@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
+import 'package:growup/models/skillsdetailmodel.dart';
 import 'package:growup/screens/buildtestpapers.dart/BuildTestPaperScree.dart';
+import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/testExamservices.dart';
 
 class BuildExamScreen extends StatefulWidget {
@@ -18,17 +19,7 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
   TextEditingController questionController = TextEditingController();
   TextEditingController option3 = TextEditingController();
   TextEditingController option4 = TextEditingController();
-  final skills = [
-    'The Complete Mobile Application Development',
-    'Web Development Masterclass',
-    'Ultimate Python Course',
-    'Illustrator 2022 Masterclass',
-    'Ultimate Adobe Photoshop',
-    'Learn 3d Modelling',
-    'Complete Digital Marketing Course',
-    'Social Media Marketing 2022',
-    'Ultimate Google Ads Training'
-  ];
+
   bool added = false;
   bool isTest = false;
   var skillID;
@@ -36,175 +27,265 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
   var _currentDiff = 'Easy';
   bool valuefirst = false;
   bool valuesecond = false;
+  var selectedIndex;
+  Future<List<SkillsDetailModel>>? _skillsDetail;
+  @override
+  void initState() {
+    super.initState();
+    _skillsDetail = getSkillDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: darkBlueColor,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                color: Colors.white,
-                child: DropdownButton<String>(
-                  // Step 3.
-                  value: _currentItemSelected,
-                  // Step 4.
-                  items: <String>[
-                    'The Complete Mobile Application Development',
-                    'Web Development Masterclass',
-                    'Ultimate Python Course',
-                    'Illustrator 2022 Masterclass',
-                    'Ultimate Adobe Photoshop',
-                    'Learn 3d Modelling',
-                    'Complete Digital Marketing Course',
-                    'Social Media Marketing 2022',
-                    'Ultimate Google Ads Training'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  // Step 5.
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _currentItemSelected = newValue!;
-                      if (newValue == skills[0]) {
-                        setState(() {
-                          skillID = 10;
-                        });
-                        print("ANDROID");
-                      } else if (newValue == skills[1]) {
-                        setState(() {
-                          skillID = 11;
-                        });
-                        print("WEB");
-                      } else if (newValue == skills[2]) {
-                        setState(() {
-                          skillID = 12;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[3]) {
-                        setState(() {
-                          skillID = 13;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[4]) {
-                        setState(() {
-                          skillID = 14;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[5]) {
-                        setState(() {
-                          skillID = 15;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[6]) {
-                        setState(() {
-                          skillID = 16;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[7]) {
-                        setState(() {
-                          skillID = 17;
-                        });
-                        print("GOOGLE");
-                      } else if (newValue == skills[8]) {
-                        setState(() {
-                          skillID = 18;
-                        });
-                        print("GOOGLE");
-                      }
-                    });
-                  },
+          appBar: AppBar(
+            backgroundColor: darkBlueColor,
+            title: const Text("Build Exams"),
+          ),
+          backgroundColor: const Color.fromARGB(255, 216, 222, 255),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              buildTextField(null, "Test Name", false, false, nameController,
-                  TextInputType.name),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                color: Colors.white,
-                child: DropdownButton<String>(
-                  // Step 3.
-                  value: _currentDiff,
-                  // Step 4.
-                  items: <String>['Easy', 'Medium', 'Hard']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  // Step 5.
-                  onChanged: (String? newValue) {
-                    _currentDiff = newValue!;
-                    setState(() {});
-                  },
+                buildTitle(
+                    10, 2, 27, "Generate Exams", FontWeight.w400, Colors.black),
+                const SizedBox(
+                  height: 5,
                 ),
-              ),
-              buildTextField(null, "Tutor Name", false, false,
-                  tutorNameController, TextInputType.name),
-              buildTextField(null, "Total No.of Questions", false, false,
-                  questionController, TextInputType.name),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 120,
-                    height: 50,
+                buildTitle(
+                    10,
+                    10,
+                    18,
+                    "Generate exams for students to test their knowledge and boost up their skills",
+                    FontWeight.w300,
+                    const Color.fromARGB(255, 86, 86, 86)),
+                const SizedBox(
+                  height: 14,
+                ),
+                buildTitle(
+                    10, 2, 18, "Select Skills*", FontWeight.w500, Colors.black),
+                const SizedBox(
+                  height: 14,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width - 40,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Color(0xffFE876C), Color(0xffFD5D37)]),
-                      borderRadius: BorderRadius.circular(
-                        10.0,
-                      ),
-                    ),
-                    child: FlatButton(
-                        onPressed: () async {
-                          isTest
-                              ? Get.to(const BuildTestPaper())
-                              : Fluttertoast.showToast(
-                                  msg: "Please create an exam first",
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(7)),
+                        color: whiteColor,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 119, 118, 118))),
+                    child: FutureBuilder<List<SkillsDetailModel>>(
+                      future: _skillsDetail,
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null ||
+                            snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                          return Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width / 2,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(9)),
+                                color: whiteColor,
+                                border: Border.all(color: Colors.blueGrey)),
+                            child: const Center(),
+                          );
+                        } else if (snapshot.hasData ||
+                            snapshot.data != null ||
+                            snapshot.connectionState == ConnectionState.done) {
+                          var skillsData = snapshot.data!;
+
+                          List<String> skillNameList = [];
+                          int i = 0;
+                          late List<String> nameList;
+                          for (i = 0; i <= (skillsData.length - 1); i++) {
+                            skillNameList.add(skillsData[i].title!);
+                            nameList = skillNameList;
+                          }
+                          return Container(
+                            child: DropdownButton<String>(
+                              elevation: 20,
+                              value: _currentItemSelected,
+                              items: nameList.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: Text(
+                                      value,
+                                      style: const TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 );
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(17),
-                        ),
-                        child: Text(
-                          "Add Test",
-                          style: whiteTextStyle.copyWith(fontSize: 18),
-                        )),
+                              }).toList(),
+                              // Step 5.
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _currentItemSelected = newValue!;
+                                  selectedIndex = nameList
+                                      .indexOf(_currentItemSelected)
+                                      .toString();
+                                  skillID = snapshot
+                                      .data![int.parse(selectedIndex)].id!
+                                      .toString();
+                                });
+
+                                print("SELECTED INDEX:" + selectedIndex);
+                                print("SELECTED SKILL ID:" + skillID);
+                              },
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
                   ),
-                  buildButton(const Color(0xffFE876C), const Color(0xffFD5D37),
-                      "Add Exam"),
-                ],
-              )
-            ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildTitle(
+                    10, 2, 18, "Exam Title*", FontWeight.w500, Colors.black),
+                buildTextField(null, "Test Name", false, false, nameController,
+                    TextInputType.name),
+                const SizedBox(
+                  height: 14,
+                ),
+                buildTitle(
+                    10, 2, 18, "Difficulty*", FontWeight.w500, Colors.black),
+                const SizedBox(
+                  height: 14,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Container(
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        color: whiteColor,
+                        border: Border.all(color: Colors.blueGrey)),
+                    child: DropdownButton<String>(
+                      // Step 3.
+                      value: _currentDiff,
+                      // Step 4.
+                      items: <String>['Easy', 'Medium', 'Hard']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      // Step 5.
+                      onChanged: (String? newValue) {
+                        _currentDiff = newValue!;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                buildTitle(
+                    10, 2, 18, "Your Name*", FontWeight.w500, Colors.black),
+                const SizedBox(
+                  height: 14,
+                ),
+                buildTextField(null, "Tutor Name", false, false,
+                    tutorNameController, TextInputType.name),
+                buildTitle(10, 2, 18, "No.of Question*", FontWeight.w500,
+                    Colors.black),
+                const SizedBox(
+                  height: 14,
+                ),
+                buildTextField(null, "Total No.of Questions", false, false,
+                    questionController, TextInputType.name),
+                const SizedBox(
+                  height: 30,
+                ),
+                buildTitle(
+                    10,
+                    2,
+                    13,
+                    "Note: Create exam before creating questions",
+                    FontWeight.w500,
+                    const Color.fromARGB(255, 147, 147, 147)),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 160,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0xffFE876C), Color(0xffFD5D37)]),
+                          borderRadius: BorderRadius.circular(
+                            10.0,
+                          ),
+                        ),
+                        child: FlatButton(
+                            onPressed: () async {
+                              isTest
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BuildTestPaper(),
+                                      ))
+                                  : Fluttertoast.showToast(
+                                      msg: "Please create an exam first",
+                                    );
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(17),
+                            ),
+                            child: Text(
+                              "Add Questions",
+                              style: whiteTextStyle.copyWith(fontSize: 18),
+                            )),
+                      ),
+                      buildButton(const Color(0xffFE876C),
+                          const Color(0xffFD5D37), "Add Exam"),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
           )),
     );
   }
@@ -212,29 +293,42 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
   Widget buildTextField(IconData? icon, String hintText, bool isPassword,
       bool isEmail, TextEditingController controller, TextInputType type) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: isPassword,
-        keyboardType: type,
-        decoration: InputDecoration(
-          // labelText: "NabinGurung",
-          errorText: null,
-          prefixIcon: Icon(
-            icon,
-            color: iconColor,
+      padding: const EdgeInsets.only(left: 16.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width - 40,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color.fromARGB(255, 198, 198, 198),
+                  blurRadius: 14,
+                  spreadRadius: 2,
+                  offset: Offset(3, 3)),
+            ]),
+        child: TextFormField(
+          controller: controller,
+          obscureText: isPassword,
+          keyboardType: type,
+          decoration: InputDecoration(
+            // labelText: "NabinGurung",
+            errorText: null,
+            prefixIcon: Icon(
+              icon,
+              color: iconColor,
+            ),
+            // enabledBorder: OutlineInputBorder(
+            //   borderSide: BorderSide(color: blackColor),
+            //   borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+            // ),
+            // focusedBorder: OutlineInputBorder(
+            //   borderSide: BorderSide(color: darkBlueColor),
+            //   borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+            // ),
+            contentPadding: const EdgeInsets.all(10),
+            hintText: hintText,
+            hintStyle: const TextStyle(fontSize: 16, color: Colors.blueGrey),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: whiteColor),
-            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: whiteColor),
-            borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          ),
-          contentPadding: const EdgeInsets.all(10),
-          hintText: hintText,
-          hintStyle: TextStyle(fontSize: 16, color: whiteColor),
         ),
       ),
     );
@@ -242,8 +336,8 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
 
   Widget buildButton(Color color1, Color color2, String buttonText) {
     return Container(
-      width: 120,
-      height: 50,
+      width: 140,
+      height: 45,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -291,9 +385,20 @@ class _BuildExamScreenState extends State<BuildExamScreen> {
                   color: Colors.white,
                 )
               : Text(
-                  buttonText,
+                  "Create Exam",
                   style: whiteTextStyle.copyWith(fontSize: 18),
                 )),
+    );
+  }
+
+  Widget buildTitle(double h, double w, double fsize, String name,
+      FontWeight weight, Color c) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: w),
+      child: Text(
+        name,
+        style: TextStyle(fontSize: fsize, fontWeight: weight, color: c),
+      ),
     );
   }
 }

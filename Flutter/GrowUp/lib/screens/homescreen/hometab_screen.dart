@@ -20,6 +20,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   var _skillsDetail;
   var _skillsVideos;
   String? _selectedItem;
+  String? img;
   var c;
   @override
   getVc() async {
@@ -27,6 +28,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
     return c;
   }
 
+  int skillID = 0;
   @override
   void initState() {
     super.initState();
@@ -199,17 +201,21 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 onTap: (value) async {
                                   setState(() {
                                     _selectedItem = value!;
-
-                                    print(_selectedItem);
-                                    print(nameList.indexOf(value));
+                                    img = skillsData[1].titleImage;
+                                    print("SELECTED: " +
+                                        _selectedItem.toString());
+                                    print("INDEX: " +
+                                        nameList.indexOf(value).toString());
+                                    print("img: " + img!);
+                                    skillID = nameList.indexOf(value);
                                     var indexIs = nameList.indexOf(value);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => CourseInfo(
                                                 name: _selectedItem,
-                                                imageUrl: "images/course.png",
-                                                skillId: 10)));
+                                                imageUrl: img,
+                                                skillId: skillID + 1)));
                                   });
 
                                   print(value);
@@ -230,7 +236,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 builder: (context) => CourseInfo(
                                     name: _selectedItem,
                                     imageUrl: "images/course.png",
-                                    skillId: 10)));
+                                    skillId: skillID + 1)));
                       },
                       child: Container(
                         height: 45,
@@ -364,35 +370,45 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: 4,
                             itemBuilder: (context, myindex) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      buildShimmerEffect(
-                                        context,
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.4,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                          ),
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.6,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           ),

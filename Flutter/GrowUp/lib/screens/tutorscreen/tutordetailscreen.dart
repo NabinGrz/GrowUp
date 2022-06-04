@@ -4,20 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
+import 'package:growup/models/schedulemodel.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:growup/services/apiserviceteacher.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../services/testpaperbuild.dart';
+import '../../widgets/shimmer.dart';
+
 class TutorDetailScreen extends StatefulWidget {
   List<dynamic>? usersDetail;
   int? index;
+  String? tID;
+
   // String? check;
   TutorDetailScreen(
-      {Key? key, @required this.usersDetail, @required this.index})
+      {Key? key,
+      @required this.usersDetail,
+      @required this.tID,
+      @required this.index})
       : super(key: key);
 
   @override
@@ -28,9 +36,19 @@ class TutorDetailScreen extends StatefulWidget {
 class _TutorDetailScreenState extends State<TutorDetailScreen> {
   List<dynamic>? usersDetail;
   int? index;
+  String? tID;
   var userId;
+  String? bookingTime; //2015-05-16T05:50:06
+  String? bookingDate;
+  int? scheduleID;
+  String? scheduleAppId;
+  String? scheduleTime;
+  String? scheduleDate;
+  bool isUpdated = false;
+  Color todays = const Color.fromARGB(255, 241, 244, 93);
+  Color tommorrow = const Color.fromARGB(255, 225, 227, 114);
   // String? check;
-  _TutorDetailScreenState({this.usersDetail, this.index});
+  _TutorDetailScreenState({this.usersDetail, this.tID, this.index});
   DateTime selectedDate = DateTime.now();
   var finalDate;
   var isBooked;
@@ -63,17 +81,18 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
       print(_res);
       var name = usersDetail?[index!].fullName;
       if (_res.status == "COMPLETE") {
-        bool booked = await bookTutor(
-            usersDetail?[index!].id,
-            userId.toString(),
-            zoomIdController.text,
-            zoomPasswordController.text,
-            finalDate.toString(),
-            _selectedTime!);
-        booked
-            ? Fluttertoast.showToast(
-                msg: "Your class has been booked with Mr.$name .Thank You")
-            : Fluttertoast.showToast(msg: "Something went wrong");
+        // bool booked = await bookTutor(
+        //     usersDetail?[index!].id,
+        //     userId.toString(),
+        //     zoomIdController.text,
+        //     zoomPasswordController.text,
+        //     bookingDate!,
+        //     bookingTime!);
+        // await updateSchedule(scheduleID!);
+        // booked
+        //     ? Fluttertoast.showToast(
+        //         msg: "Your class has been booked with Mr.$name .Thank You")
+        //     : Fluttertoast.showToast(msg: "Something went wrong");
       } else {
         Fluttertoast.showToast(msg: "Transaction Failed");
       }
@@ -94,6 +113,218 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
       environment: ESewaConfiguration.ENVIRONMENT_TEST,
     );
     _esewaPnp = ESewaPnp(configuration: _configuration!);
+  }
+
+  _showModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              height: MediaQuery.of(context).size.height / 3.5,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                color: Color(0xffFFFFFF),
+                // borderRadius: BorderRadius.all(Radius.circular(20))
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: TextFormField(
+                          controller: zoomIdController,
+                          //obscureText: isPassword,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            // labelText: "NabinGurung",
+                            errorText: null,
+                            // prefixIcon: Icon(
+                            //  // icon,
+                            //   color: iconColor,
+                            // ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: textColor1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(35.0)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: textColor1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(35.0)),
+                            ),
+                            contentPadding: const EdgeInsets.all(10),
+                            hintText: "Enter Meeting ID",
+                            hintStyle:
+                                TextStyle(fontSize: 14, color: textColor1),
+                          ),
+                          // validator: (value) {
+                          //   if (value!.isEmpty) {
+                          //     print("====================================");
+                          //     print("object");
+                          //     setState(() {
+                          //       isValid = !isValid;
+                          //     });
+                          //     return 'Please Enter Name';
+                          //   }
+                          //   return null;
+                          // },
+                          // onSaved: (String? value) {
+                          //   textValue = value;
+                          // },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: TextFormField(
+                          controller: zoomPasswordController,
+                          //obscureText: isPassword,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            // labelText: "NabinGurung",
+                            errorText: null,
+                            // prefixIcon: Icon(
+                            //  // icon,
+                            //   color: iconColor,
+                            // ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: textColor1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(35.0)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: textColor1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(35.0)),
+                            ),
+                            contentPadding: const EdgeInsets.all(10),
+                            hintText: "Enter Meeting Passcode",
+                            hintStyle:
+                                TextStyle(fontSize: 14, color: textColor1),
+                          ),
+                          // validator: (value) {
+                          //   if (value!.isEmpty) {
+                          //     print("====================================");
+                          //     print("object");
+                          //     setState(() {
+                          //       isValid = !isValid;
+                          //     });
+                          //     return 'Please Enter Name';
+                          //   }
+                          //   return null;
+                          // },
+                          // onSaved: (String? value) {
+                          //   textValue = value;
+                          // },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: darkBlueColor,
+                                minimumSize: const Size(110, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              onPressed: () async {
+                                // setState(() {
+                                //   isUpdated = true;
+                                // });
+
+                                print("11111111111111111111111111111111");
+                                bool booked = await bookTutor(
+                                    usersDetail?[index!].id,
+                                    userId.toString(),
+                                    zoomIdController.text,
+                                    zoomPasswordController.text,
+                                    bookingDate!,
+                                    bookingTime!);
+                                if (booked) {
+                                  bool scheduled = await updateSchedule(
+                                      scheduleID!,
+                                      scheduleAppId!,
+                                      scheduleTime!,
+                                      scheduleDate!);
+                                  if (scheduled) {
+                                    // setState(() {
+                                    //   isUpdated = false;
+                                    // });
+                                    Fluttertoast.showToast(
+                                        msg: "Tutor has been Booked");
+                                  } else {
+                                    // setState(() {
+                                    //   isUpdated = false;
+                                    // });
+                                    Fluttertoast.showToast(
+                                        msg: "Something went wrong");
+                                  }
+                                } else {
+                                  // setState(() {
+                                  //   isUpdated = false;
+                                  // });
+                                  Fluttertoast.showToast(msg: "Booking fail");
+                                }
+
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                              child:
+                                  //isUpdated
+                                  // ? const CircularProgressIndicator(
+                                  //     color: Colors.white,
+                                  //   )
+                                  // :
+                                  const Text(
+                                "Book",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: darkBlueColor,
+                                minimumSize: const Size(110, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {
+                                print("MEETING HAS NOT ENDED");
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              }),
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -132,7 +363,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
 
       setState(() {
         _selectedTime = hour.toString() + ":" + finalMinute;
-
+        print("Final Minute");
         print(_selectedTime);
       });
     }
@@ -297,95 +528,153 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width - 40,
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 205, 205, 205),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 80,
+                        //_buildDateTime(context)
+                        FutureBuilder<List<ScheduleModel>>(
+                          future: getAllScheduleofTeacher(
+                              usersDetail?[index!].id ?? "0"),
+                          builder: (context, snapshot) {
+                            var datas = snapshot.data;
+                            if (snapshot.data == null ||
+                                snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                              return buildShimmerEffect(
+                                  context,
+                                  Container(
+                                    height: 60,
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    color: const Color.fromARGB(
+                                        255, 205, 205, 205),
+                                  ));
+                            } else if (snapshot.hasData ||
+                                snapshot.data != null ||
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              return Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width - 40,
                                 decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 251, 66, 66),
+                                    color: Color.fromARGB(255, 205, 205, 205),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '09:00 am',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                child: SizedBox(
+                                  height: 60,
+                                  width: 60,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: datas!.length,
+                                      itemBuilder: (context, i) {
+                                        var sdate = datas[i].scheduleDateTime;
+                                        var tdate = DateTime.now();
+
+                                        final DateFormat formatter =
+                                            DateFormat('yyyy-MM-dd');
+                                        final String sformatted =
+                                            formatter.format(sdate!);
+                                        final String tformatted =
+                                            formatter.format(tdate);
+                                        if (datas.isNotEmpty) {
+                                          return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 18.0),
+                                              child: sformatted == tformatted
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          var date =
+                                                              DateTime.now();
+                                                          final DateFormat
+                                                              formatter =
+                                                              DateFormat(
+                                                                  'yyyy-MM-dd');
+                                                          final String
+                                                              formatted =
+                                                              formatter
+                                                                  .format(date);
+                                                          bookingTime = datas[i]
+                                                              .time
+                                                              .toString();
+                                                          bookingDate =
+                                                              formatted;
+                                                          scheduleID =
+                                                              datas[i].id;
+                                                          scheduleAppId = datas[
+                                                                  i]
+                                                              .applicationUserId
+                                                              .toString();
+                                                          scheduleTime =
+                                                              datas[i]
+                                                                  .time
+                                                                  .toString();
+                                                          scheduleDate = datas[
+                                                                  i]
+                                                              .scheduleDateTime
+                                                              .toString();
+                                                          print(
+                                                              "||||||||||||||||||||||||||||||||||||||||||||||||");
+                                                          print("BOOKING TIME");
+                                                          print(bookingTime);
+
+                                                          print("BOOKING Date");
+                                                          print(bookingDate);
+                                                          print("Index " +
+                                                              scheduleID
+                                                                  .toString());
+                                                          todays = Colors.green;
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 90,
+                                                        decoration: BoxDecoration(
+                                                            color: datas[i]
+                                                                        .isBooked ??
+                                                                    false
+                                                                ? const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    249,
+                                                                    79,
+                                                                    79)
+                                                                : todays,
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                        .all(
+                                                                    Radius.circular(
+                                                                        10))),
+                                                        child: Center(
+                                                          child: Text(
+                                                            datas[i]
+                                                                .time
+                                                                .toString(),
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 18.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Container());
+                                        } else {
+                                          return const Text(
+                                            "Not Available",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 25),
+                                          );
+                                        }
+                                      }),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 152, 151, 151),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '12:00 pm',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 254, 92, 92),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '04:00 pm',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 152, 151, 151),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '06:30 pm',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                              );
+                            }
+                            return Container();
+                          },
                         ),
+
                         const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
@@ -407,95 +696,140 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width - 40,
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 205, 205, 205),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 50,
-                                width: 80,
+
+                        FutureBuilder<List<ScheduleModel>>(
+                          future: getAllScheduleofTeacher(
+                              usersDetail?[index!].id ?? "0"),
+                          builder: (context, snapshot) {
+                            var datas = snapshot.data;
+                            if (snapshot.data == null ||
+                                snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                              return buildShimmerEffect(
+                                  context,
+                                  Container(
+                                    height: 60,
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    color: const Color.fromARGB(
+                                        255, 205, 205, 205),
+                                  ));
+                            } else if (snapshot.hasData ||
+                                snapshot.data != null ||
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              return Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width - 40,
                                 decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 249, 79, 79),
+                                    color: Color.fromARGB(255, 205, 205, 205),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '07:00 am',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                child: SizedBox(
+                                  height: 60,
+                                  width: 60,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: datas!.length,
+                                      itemBuilder: (context, i) {
+                                        var sdate = datas[i].scheduleDateTime;
+                                        var tdate = DateTime.now();
+
+                                        final DateFormat formatter =
+                                            DateFormat('yyyy-MM-dd');
+                                        final String sformatted =
+                                            formatter.format(sdate!);
+                                        final String tformatted =
+                                            formatter.format(tdate);
+                                        return Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0),
+                                            child: sformatted == tformatted
+                                                ? Container()
+                                                : InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        var date =
+                                                            DateTime.now();
+                                                        final DateFormat
+                                                            formatter =
+                                                            DateFormat(
+                                                                'yyyy-MM-dd');
+                                                        final String formatted =
+                                                            formatter
+                                                                .format(date);
+                                                        bookingTime = datas[i]
+                                                            .time
+                                                            .toString();
+                                                        bookingDate = formatted;
+                                                        scheduleID =
+                                                            datas[i].id;
+                                                        scheduleAppId = datas[i]
+                                                            .applicationUserId
+                                                            .toString();
+                                                        scheduleTime = datas[i]
+                                                            .time
+                                                            .toString();
+                                                        scheduleDate = datas[i]
+                                                            .scheduleDateTime
+                                                            .toString();
+                                                        print(
+                                                            "||||||||||||||||||||||||||||||||||||||||||||||||");
+                                                        print("BOOKING TIME");
+                                                        print(bookingTime);
+
+                                                        print("BOOKING Date");
+                                                        print(bookingDate);
+                                                        print("Index " +
+                                                            scheduleID
+                                                                .toString());
+                                                        todays = Colors.green;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                          color: datas[i]
+                                                                      .isBooked ??
+                                                                  false
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  249,
+                                                                  79,
+                                                                  79)
+                                                              : todays,
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
+                                                      child: Center(
+                                                        child: Text(
+                                                          datas[i]
+                                                              .time
+                                                              .toString(),
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 18.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ));
+                                      }),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 152, 151, 151),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '10:00 am',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 152, 151, 151),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '02:00 pm',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 50,
-                                width: 80,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 103, 254, 15),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: const Center(
-                                  child: Text(
-                                    '06:30 pm',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                              );
+                            }
+                            return Container();
+                          },
                         ),
+
                         const Divider(
                           thickness: 1,
                           color: Color(0xFFD6D6D6),
@@ -504,200 +838,27 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        //   ServiceTile(usersDetail: usersDetail, index: index),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: MaterialButton(
-                            minWidth: 200,
-                            onPressed: () async {
-                              var name = usersDetail?[index!].fullName;
-                              //   isBooked;
-                              print(
-                                  "===================BOOKING============================");
-                              //  print(isBooked);
-                              Get.defaultDialog(
-                                  barrierDismissible: false,
-                                  title: "Booking",
-                                  middleText:
-                                      "You will have your private class in zoom video calling app",
-                                  content: Column(
-                                    children: [
-                                      TextFormField(
-                                        controller: zoomIdController,
-                                        //obscureText: isPassword,
-                                        keyboardType: TextInputType.text,
-                                        decoration: InputDecoration(
-                                          // labelText: "NabinGurung",
-                                          errorText: null,
-                                          // prefixIcon: Icon(
-                                          //  // icon,
-                                          //   color: iconColor,
-                                          // ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: textColor1),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(35.0)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: textColor1),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(35.0)),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.all(10),
-                                          hintText: "Enter Meeting ID",
-                                          hintStyle: TextStyle(
-                                              fontSize: 14, color: textColor1),
-                                        ),
-                                        // validator: (value) {
-                                        //   if (value!.isEmpty) {
-                                        //     print("====================================");
-                                        //     print("object");
-                                        //     setState(() {
-                                        //       isValid = !isValid;
-                                        //     });
-                                        //     return 'Please Enter Name';
-                                        //   }
-                                        //   return null;
-                                        // },
-                                        // onSaved: (String? value) {
-                                        //   textValue = value;
-                                        // },
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextFormField(
-                                        controller: zoomPasswordController,
-                                        //obscureText: isPassword,
-                                        keyboardType: TextInputType.text,
-                                        decoration: InputDecoration(
-                                          // labelText: "NabinGurung",
-                                          errorText: null,
-                                          // prefixIcon: Icon(
-                                          //  // icon,
-                                          //   color: iconColor,
-                                          // ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: textColor1),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(35.0)),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: textColor1),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(35.0)),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.all(10),
-                                          hintText: "Enter Meeting Passcode",
-                                          hintStyle: TextStyle(
-                                              fontSize: 14, color: textColor1),
-                                        ),
-                                        // validator: (value) {
-                                        //   if (value!.isEmpty) {
-                                        //     print("====================================");
-                                        //     print("object");
-                                        //     setState(() {
-                                        //       isValid = !isValid;
-                                        //     });
-                                        //     return 'Please Enter Name';
-                                        //   }
-                                        //   return null;
-                                        // },
-                                        // onSaved: (String? value) {
-                                        //   textValue = value;
-                                        // },
-                                      ),
-                                    ],
-                                  ),
-                                  actions: [
-                                    RaisedButton(
-                                      color: Colors.red,
-                                      child:
-                                          // isBooked
-                                          const Text(
-                                        "Book for RS: 500",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      // : CircularProgressIndicator(),
-                                      onPressed: () async {
-                                        // Get.to(() => const EsewaClass());
-                                        // var name =
-                                        //     usersDetail?[index!].fullName;
-                                        // bool booked = await bookTutor(
-                                        //     usersDetail?[index!].id,
-                                        //     userId.toString(),
-                                        //     zoomIdController.text,
-                                        //     zoomPasswordController.text,
-                                        //     finalDate.toString(),
-                                        //     _selectedTime!);
-                                        // setState(() {
-                                        //   isBooked = booked;
-                                        // });
-                                        _initPayment("AAAA");
-                                        // if (isBooked) {
-                                        //   _initPayment("ADSAD");
-                                        //   Fluttertoast.showToast(
-                                        //       msg:
-                                        //           "Your class has been booked with Mr. $name");
-                                        // }
-                                        // {
-                                        //   Fluttertoast.showToast(
-                                        //       backgroundColor: Colors.red,
-                                        //       msg: "Something went wrong");
-                                        // }
 
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                      },
-                                    ),
-                                    RaisedButton(
-                                        color: Colors.red,
-                                        child: const Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        onPressed: () {
-                                          print("MEETING HAS NOT ENDED");
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop();
-                                        }),
-                                  ],
-                                  buttonColor: Colors.white);
-
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) => KhaltiPaymentApp()));
-                            },
-                            color: const Color(0xffFF8573),
-                            shape: RoundedRectangleBorder(
+                        GestureDetector(
+                          onTap: () => _showModalBottomSheet(context),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 20,
+                            width: MediaQuery.of(context).size.width / 2.2,
+                            decoration: BoxDecoration(
+                              color: const Color(0xffFF8573),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Text(
-                              'Book Now',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 22),
+                            child: const Center(
+                              child: Text(
+                                'Book Now',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ),
-                        // ServiceTile(usersDetail: usersDetail, index: index),
-                        // ServiceTile(usersDetail: usersDetail, index: index),
                       ],
                     ),
                   ),

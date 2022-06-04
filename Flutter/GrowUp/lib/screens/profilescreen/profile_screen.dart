@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<UserDetailsResponseModel>? userDetails;
   String? userId;
-
+  bool updated = false;
   TextEditingController nameController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -46,359 +46,354 @@ class _ProfileState extends State<Profile> {
   Widget build(
     BuildContext context,
   ) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          child: FutureBuilder<UserDetailsResponseModel>(
-              future: userDetails,
-              builder:
-                  (context, AsyncSnapshot<UserDetailsResponseModel> snapshot) {
-                if (snapshot.data == null ||
-                    snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Container(
-                      child: CircularProgressIndicator(color: darkBlueColor),
-                    ),
-                  );
-                } else if (snapshot.hasData ||
-                    snapshot.data != null ||
-                    snapshot.connectionState == ConnectionState.done) {
-                  var userFinalDetails = snapshot.data;
-                  return Column(
-                    // "fullName": "Subin Gurung",
-                    // "address": "Kadaghari",
-                    // "gender": "Male",
-                    // "id": "0c188464-ba3d-4493-ac40-1ab1de31178c",
-                    // "userName": "nobig22@gmail.com",
-                    // "normalizedUserName": "NOBIG22@GMAIL.COM",
-                    // "email": "nobig22@gmail.com",
-                    // "normalizedEmail": "NOBIG22@GMAIL.COM",
-                    // "emailConfirmed": true,
-                    // "passwordHash": "AQAAAAEAACcQAAAAEMvs+jRkP02HSwGWF77uDpXFhFZnEB3yApvxSg/LICCUR+2+8BZijZEffy0G8igwQg==",
-                    // "securityStamp": "IVSRTA5AA6QYEDWKHRYIZNWLAUQQXN2J",
-                    // "concurrencyStamp": "d31b4c89-547a-47af-bc81-5b4f6f7a5e78",
-                    // "phoneNumber": null,
-                    // "phoneNumberConfirmed": false,
-                    // "twoFactorEnabled": false,
-                    // "lockoutEnd": null,
-                    // "lockoutEnabled": true,
-                    // "accessFailedCount": 0
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            child: FutureBuilder<UserDetailsResponseModel>(
+                future: userDetails,
+                builder: (context,
+                    AsyncSnapshot<UserDetailsResponseModel> snapshot) {
+                  if (snapshot.data == null ||
+                      snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Container(
+                        child: CircularProgressIndicator(color: darkBlueColor),
+                      ),
+                    );
+                  } else if (snapshot.hasData ||
+                      snapshot.data != null ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    var userFinalDetails = snapshot.data;
+                    return Column(
+                      // "fullName": "Subin Gurung",
+                      // "address": "Kadaghari",
+                      // "gender": "Male",
+                      // "id": "0c188464-ba3d-4493-ac40-1ab1de31178c",
+                      // "userName": "nobig22@gmail.com",
+                      // "normalizedUserName": "NOBIG22@GMAIL.COM",
+                      // "email": "nobig22@gmail.com",
+                      // "normalizedEmail": "NOBIG22@GMAIL.COM",
+                      // "emailConfirmed": true,
+                      // "passwordHash": "AQAAAAEAACcQAAAAEMvs+jRkP02HSwGWF77uDpXFhFZnEB3yApvxSg/LICCUR+2+8BZijZEffy0G8igwQg==",
+                      // "securityStamp": "IVSRTA5AA6QYEDWKHRYIZNWLAUQQXN2J",
+                      // "concurrencyStamp": "d31b4c89-547a-47af-bc81-5b4f6f7a5e78",
+                      // "phoneNumber": null,
+                      // "phoneNumberConfirmed": false,
+                      // "twoFactorEnabled": false,
+                      // "lockoutEnd": null,
+                      // "lockoutEnabled": true,
+                      // "accessFailedCount": 0
 
-                    children: [
-                      //for circle avtar image
-                      _getHeader(),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      children: [
+                        //for circle avtar image
+                        _getHeader(),
+                        const SizedBox(
+                          height: 10,
+                        ),
 
-                      _profileName(userFinalDetails!.fullName.toString()),
-                      //userFinalDetails['fullName'].toString()),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: const Divider(
-                          height: 10,
-                          color: Colors.black,
+                        _profileName(userFinalDetails!.fullName.toString()),
+                        //userFinalDetails['fullName'].toString()),
+                        const SizedBox(
+                          height: 14,
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _heading("Account Details"),
-                          // SizedBox(
-                          //   height: 6,
-                          // ),
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.edit))
-                        ],
-                      ),
-                      _detailsCard(userFinalDetails.userName.toString(),
-                          userFinalDetails.phoneNumber.toString()),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: const Divider(
-                          height: 10,
-                          color: Colors.black,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: const Divider(
+                            height: 10,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _heading("Profile Details"),
-                          IconButton(
-                              onPressed: () {
-                                Get.defaultDialog(
-                                    //barrierDismissible: false,
-                                    title: "Booking",
-                                    middleText:
-                                        "You will have your private class in zoom video calling app",
-                                    content: Column(
-                                      children: [
-                                        TextFormField(
-                                          controller: nameController,
-                                          //obscureText: isPassword,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            // labelText: "NabinGurung",
-                                            errorText: null,
-                                            // prefixIcon: Icon(
-                                            //  // icon,
-                                            //   color: iconColor,
-                                            // ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _heading("Account Details"),
+                            // SizedBox(
+                            //   height: 6,
+                            // ),
+                            IconButton(
+                                onPressed: () {}, icon: const Icon(Icons.edit))
+                          ],
+                        ),
+                        _detailsCard(userFinalDetails.userName.toString(),
+                            userFinalDetails.phoneNumber.toString()),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: const Divider(
+                            height: 10,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _heading("Profile Details"),
+                            IconButton(
+                                onPressed: () {
+                                  Get.defaultDialog(
+                                      //barrierDismissible: false,
+                                      title: "Update Profile",
+                                      middleText:
+                                          "You will have your private class in zoom video calling app",
+                                      content: Column(
+                                        children: [
+                                          TextFormField(
+                                            controller: nameController,
+                                            //obscureText: isPassword,
+                                            keyboardType: TextInputType.text,
+                                            decoration: InputDecoration(
+                                              // labelText: "NabinGurung",
+                                              errorText: null,
+                                              // prefixIcon: Icon(
+                                              //  // icon,
+                                              //   color: iconColor,
+                                              // ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.all(10),
+                                              hintText: "Your Name",
+                                              hintStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color.fromARGB(
+                                                      255, 136, 136, 136)),
                                             ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(10),
-                                            hintText: "Pete Davidson",
-                                            hintStyle: const TextStyle(
-                                                fontSize: 14,
-                                                color: Color.fromARGB(
-                                                    255, 136, 136, 136)),
+                                            // validator: (value) {
+                                            //   if (value!.isEmpty) {
+                                            //     print("====================================");
+                                            //     print("object");
+                                            //     setState(() {
+                                            //       isValid = !isValid;
+                                            //     });
+                                            //     return 'Please Enter Name';
+                                            //   }
+                                            //   return null;
+                                            // },
+                                            // onSaved: (String? value) {
+                                            //   textValue = value;
+                                            // },
                                           ),
-                                          // validator: (value) {
-                                          //   if (value!.isEmpty) {
-                                          //     print("====================================");
-                                          //     print("object");
-                                          //     setState(() {
-                                          //       isValid = !isValid;
-                                          //     });
-                                          //     return 'Please Enter Name';
-                                          //   }
-                                          //   return null;
-                                          // },
-                                          // onSaved: (String? value) {
-                                          //   textValue = value;
-                                          // },
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          controller: genderController,
-                                          //obscureText: isPassword,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            // labelText: "NabinGurung",
-                                            errorText: null,
-                                            // prefixIcon: Icon(
-                                            //  // icon,
-                                            //   color: iconColor,
-                                            // ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(10),
-                                            hintText: "Male",
-                                            hintStyle: const TextStyle(
-                                                fontSize: 14,
-                                                color: Color.fromARGB(
-                                                    255, 136, 136, 136)),
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                          // validator: (value) {
-                                          //   if (value!.isEmpty) {
-                                          //     print("====================================");
-                                          //     print("object");
-                                          //     setState(() {
-                                          //       isValid = !isValid;
-                                          //     });
-                                          //     return 'Please Enter Name';
-                                          //   }
-                                          //   return null;
-                                          // },
-                                          // onSaved: (String? value) {
-                                          //   textValue = value;
-                                          // },
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          //       initialValue:
-                                          //   userFinalDetails.address,
-                                          controller: phonenumberController,
-                                          //obscureText: isPassword,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            // labelText: "NabinGurung",
-                                            errorText: null,
-                                            // prefixIcon: Icon(
-                                            //  // icon,
-                                            //   color: iconColor,
-                                            // ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
+                                          TextFormField(
+                                            controller: genderController,
+                                            //obscureText: isPassword,
+                                            keyboardType: TextInputType.text,
+                                            decoration: InputDecoration(
+                                              // labelText: "NabinGurung",
+                                              errorText: null,
+                                              // prefixIcon: Icon(
+                                              //  // icon,
+                                              //   color: iconColor,
+                                              // ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.all(10),
+                                              hintText: "Male",
+                                              hintStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color.fromARGB(
+                                                      255, 136, 136, 136)),
                                             ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(10),
-                                            hintText: "9846458568",
-                                            hintStyle: const TextStyle(
-                                                fontSize: 14,
-                                                color: Color.fromARGB(
-                                                    255, 136, 136, 136)),
+                                            // validator: (value) {
+                                            //   if (value!.isEmpty) {
+                                            //     print("====================================");
+                                            //     print("object");
+                                            //     setState(() {
+                                            //       isValid = !isValid;
+                                            //     });
+                                            //     return 'Please Enter Name';
+                                            //   }
+                                            //   return null;
+                                            // },
+                                            // onSaved: (String? value) {
+                                            //   textValue = value;
+                                            // },
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          //       initialValue:
-                                          //   userFinalDetails.address,
-                                          controller: addressController,
-                                          //obscureText: isPassword,
-                                          keyboardType: TextInputType.text,
-                                          decoration: InputDecoration(
-                                            // labelText: "NabinGurung",
-                                            errorText: null,
-                                            // prefixIcon: Icon(
-                                            //  // icon,
-                                            //   color: iconColor,
-                                            // ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide:
-                                                  BorderSide(color: textColor1),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(35.0)),
-                                            ),
-                                            contentPadding:
-                                                const EdgeInsets.all(10),
-                                            hintText: "Balaju",
-                                            hintStyle: const TextStyle(
-                                                fontSize: 14,
-                                                color: Color.fromARGB(
-                                                    255, 136, 136, 136)),
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                        ),
+                                          // TextFormField(
+                                          //   //       initialValue:
+                                          //   //   userFinalDetails.address,
+                                          //   controller: phonenumberController,
+                                          //   //obscureText: isPassword,
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     // labelText: "NabinGurung",
+                                          //     errorText: null,
+                                          //     // prefixIcon: Icon(
+                                          //     //  // icon,
+                                          //     //   color: iconColor,
+                                          //     // ),
+                                          //     enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(
+                                          //           color: textColor1),
+                                          //       borderRadius:
+                                          //           const BorderRadius.all(
+                                          //               Radius.circular(35.0)),
+                                          //     ),
+                                          //     focusedBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(
+                                          //           color: textColor1),
+                                          //       borderRadius:
+                                          //           const BorderRadius.all(
+                                          //               Radius.circular(35.0)),
+                                          //     ),
+                                          //     contentPadding:
+                                          //         const EdgeInsets.all(10),
+                                          //     hintText: "9846458568",
+                                          //     hintStyle: const TextStyle(
+                                          //         fontSize: 14,
+                                          //         color: Color.fromARGB(
+                                          //             255, 136, 136, 136)),
+                                          //   ),
+                                          // ),
+                                          // const SizedBox(
+                                          //   height: 10,
+                                          // ),
+                                          TextFormField(
+                                            //       initialValue:
+                                            //   userFinalDetails.address,
+                                            controller: addressController,
+                                            //obscureText: isPassword,
+                                            keyboardType: TextInputType.text,
+                                            decoration: InputDecoration(
+                                              // labelText: "NabinGurung",
+                                              errorText: null,
+                                              // prefixIcon: Icon(
+                                              //  // icon,
+                                              //   color: iconColor,
+                                              // ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: textColor1),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(35.0)),
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.all(10),
+                                              hintText: "Your Address",
+                                              hintStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color.fromARGB(
+                                                      255, 136, 136, 136)),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        // RaisedButton(
+                                        //     color: Colors.red,
+                                        //     child: Text(
+                                        //       "Cancel",
+                                        //       style: TextStyle(
+                                        //           color: Colors.white,
+                                        //           fontSize: 18,
+                                        //           fontWeight: FontWeight.bold),
+                                        //     ),
+                                        //     onPressed: () {
+                                        //       print("MEETING HAS NOT ENDED");
+                                        //       Navigator.of(context,
+                                        //               rootNavigator: true)
+                                        //           .pop();
+                                        //     }),
+                                        RaisedButton(
+                                          color: Colors.red,
+                                          child: const Text(
+                                            "Update",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          // : CircularProgressIndicator(),
+                                          onPressed: () async {
+                                            //setState(() {});
+                                            const CircularProgressIndicator();
+                                            bool isUpdated =
+                                                await updateProfile(
+                                                    nameController.text,
+                                                    genderController.text,
+                                                    addressController.text,
+                                                    phonenumberController.text);
+                                            if (isUpdated) {
+                                              setState(() {});
+                                              getData();
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    "Your details has been updated",
+                                              );
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                msg:
+                                                    "Updating details unsuccessfull",
+                                              );
+                                            }
+                                          },
+                                        )
                                       ],
-                                    ),
-                                    actions: [
-                                      // RaisedButton(
-                                      //     color: Colors.red,
-                                      //     child: Text(
-                                      //       "Cancel",
-                                      //       style: TextStyle(
-                                      //           color: Colors.white,
-                                      //           fontSize: 18,
-                                      //           fontWeight: FontWeight.bold),
-                                      //     ),
-                                      //     onPressed: () {
-                                      //       print("MEETING HAS NOT ENDED");
-                                      //       Navigator.of(context,
-                                      //               rootNavigator: true)
-                                      //           .pop();
-                                      //     }),
-                                      RaisedButton(
-                                        color: Colors.red,
-                                        child:
-                                            // isBooked
-                                            const Text(
-                                          "Update",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        // : CircularProgressIndicator(),
-                                        onPressed: () async {
-                                          const CircularProgressIndicator();
-                                          bool isUpdated = await updateProfile(
-                                              nameController.text,
-                                              genderController.text,
-                                              addressController.text,
-                                              phonenumberController.text);
-                                          // Get.to(
-                                          //     () => const KhaltiPaymentApp());
-                                          // var name =
-                                          //     usersDetail?[index!].fullName;
-                                          // bool booked = await bookTutor(
-                                          //     zoomIdController.text,
-                                          //     zoomPasswordController.text,
-                                          //     finalDate.toString(),
-                                          //     _selectedTime!);
-                                          // setState(() {
-                                          //   isBooked = booked;
-                                          // });
-                                          isUpdated
-                                              ? Fluttertoast.showToast(
-                                                  msg:
-                                                      "Your details has been updated",
-                                                )
-                                              : Fluttertoast.showToast(
-                                                  msg:
-                                                      "Updating details unsuccessfull",
-                                                );
+                                      buttonColor: Colors.white);
+                                },
+                                icon: const Icon(Icons.edit))
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
 
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop();
-                                        },
-                                      )
-                                    ],
-                                    buttonColor: Colors.white);
-                              },
-                              icon: const Icon(Icons.edit))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-
-                      _settingsCard(userFinalDetails.fullName!,
-                          userFinalDetails.gender, userFinalDetails.address),
-                      const Spacer(),
-                      //logoutButton()
-                    ],
-                  );
-                }
-                return Container();
-              }),
+                        _settingsCard(userFinalDetails.fullName!,
+                            userFinalDetails.gender, userFinalDetails.address),
+                        const Spacer(),
+                        //logoutButton()
+                      ],
+                    );
+                  }
+                  return Container();
+                }),
+          ),
         ),
       ),
     );

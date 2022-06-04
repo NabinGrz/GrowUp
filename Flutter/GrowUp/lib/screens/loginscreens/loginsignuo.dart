@@ -20,6 +20,7 @@ class LoginSignupScreen extends StatefulWidget {
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
   var tokenData;
+  var userRole;
   bool isSignupScreen = true;
   bool isMale = true;
   bool isLogging = false;
@@ -48,27 +49,44 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   Timer? _timer;
 
   checkValue() async {
-    String value = await getData() ?? "";
-    if (await getData() == null) {
+    String value1 = await getData() ?? "";
+    String value2 = await getRole() ?? "";
+    if (await getData() == null && await getRole() == null) {
       print("IS NULL");
     } else {
       print("Token Available");
-      print(value);
+      print(value1);
+      print("Role Avialable");
+      print(value2);
       await Future.delayed(
-          const Duration(seconds: 0), () => Get.to(const HomePageScreen()));
+          const Duration(seconds: 0),
+          () => Navigator.push(context, MaterialPageRoute(builder: (context) {
+                if (value2 == "Student") {
+                  return const HomePageScreen();
+                } else if (value2 == "Teacher") {
+                  return TeacherPage();
+                } else {}
+                return TeacherPage();
+              })));
     }
-    setState(() {
-      finaltokenData = value;
-    });
   }
 
   Future getData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainedtokenData = sharedPreferences.getString("tokenData");
-    print("THE TOKEN OF THIS USER IS SAVED");
-    print(obtainedtokenData);
+    // print("THE TOKEN OF THIS USER IS SAVED");
+    // print(obtainedtokenData);
     return obtainedtokenData;
+  }
+
+  Future getRole() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var role = sharedPreferences.getString("userRole");
+    // print("THE ROLE OF THIS TOKEN IS");
+    // print(role);
+    return role;
   }
 
   @override
@@ -78,10 +96,37 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     checkValue();
   }
 
+  void showAlertDialog(BuildContext context, String title, String message,
+      Widget widget, Color c) {
+    // set up the button
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      insetPadding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height / 2.5),
+      title: Center(
+          child: Text(
+        title,
+        style: TextStyle(color: c),
+      )),
+      content: Center(child: Text(message)),
+      actions: [
+        widget,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print("BUUUUUUUUUUUUUIIIIIIIIIIIIIIIIIILLLLLLLLLLLLLLL");
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
@@ -110,7 +155,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Get.to(const ForgetPassword());
+                            // showAlertDialog(context);
                           },
                           child: const Text(
                             "Hello There!!",
@@ -126,17 +171,20 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () => Get.defaultDialog(
-                                  title: "Success!!",
-                                  middleText: "Login Successfull",
-                                  actions: [
-                                    const Icon(
-                                      Iconsax.chart_fail,
-                                      size: 35,
-                                      color: Color.fromARGB(255, 252, 25, 9),
-                                    )
-                                  ],
-                                  buttonColor: Colors.white),
+                              onTap: () {
+                                // Widget okButton = FlatButton(
+                                //   child: const Text("OK"),
+                                //   onPressed: () {
+                                //     //Navigator.pop(context);
+                                //   },
+                                // );
+                                // showAlertDialog(
+                                //     context,
+                                //     "OOPS!!",
+                                //     "Invalid Email / Password",
+                                //     okButton,
+                                //     Colors.red);
+                              },
                               child: RichText(
                                 text: TextSpan(
                                     text: "Welcome to",
@@ -377,7 +425,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                 ],
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForgetPassword()));
+                },
                 child: Text("Forgot Password?",
                     style: TextStyle(fontSize: 12, color: textColor1)),
               )
@@ -592,6 +645,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   void _onDropDownItemSelected(String newValueSelected) {
     setState(() {
       _currentItemSelected = newValueSelected;
+      print("SELECTED CB: " + _currentItemSelected);
     });
   }
 
@@ -668,51 +722,96 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   isLogging = false;
                                 });
                               }
-                              tokenData = await login(emailData, passwordData);
-                              print(
-                                  "THE tokenData IS::::::::::::::::::::::::::::::::::::::::::::::::::");
-                              print(tokenData);
-                              //  if (tokenData == "Invalid Password") {
-                              //     } else {
-                              final SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
-                              sharedPreferences.setString(
-                                  "tokenData", tokenData);
-                              await tokenDataStorage.write(
-                                  key: "tokenData", value: tokenData);
-                              obtainedtokenData = tokenData;
-                              setState(() {});
-                              if (tokenData != "Invalid Password") {
-                                Get.defaultDialog(
-                                    title: "Success!!",
-                                    middleText: "Login Successfull",
-                                    actions: [
-                                      const Icon(
-                                        Iconsax.tick_circle,
-                                        size: 35,
-                                        color: Color.fromARGB(255, 23, 204, 92),
-                                      )
-                                    ],
-                                    buttonColor: Colors.white);
-                                Get.off(const HomePageScreen());
-                                tokenPass();
-                              } else {
+                              var token =
+                                  await login(emailData, passwordData) ??
+                                      "EQWE";
+                              if (token == "Invalid Password") {
+                                Widget okButton = const Center(
+                                  child: Icon(
+                                    Iconsax.chart_fail,
+                                    color: Colors.red,
+                                  ),
+                                );
+                                showAlertDialog(
+                                    context,
+                                    "OOPS!!",
+                                    "Invalid Email / Password",
+                                    okButton,
+                                    Colors.red);
+
                                 setState(() {
                                   isLogging = false;
                                 });
-                                Get.defaultDialog(
-                                    title: "Oops!!",
-                                    middleText: "Invalid Password/Email",
-                                    actions: [
-                                      const Icon(
-                                        Iconsax.chart_fail,
-                                        size: 35,
-                                        color: Color.fromARGB(255, 252, 25, 9),
-                                      )
-                                    ],
-                                    buttonColor: Colors.white);
+                                final SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.remove("tokenData");
+
+                                final SharedPreferences sharedPreferences1 =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences1.remove("userRole");
+                              } else {
+                                //  if (await userRole == "Student") {
+                                tokenData = token.message;
+                                userRole = token.user;
+                                print(
+                                    "THE tokenData IS::::::::::::::::::::::::::::::::::::::::::::::::::");
+                                print(userRole);
+                                print(_currentItemSelected);
+                                //  if (tokenData == "EQWE") {
+                                //     } else {
+                                final SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(
+                                    "tokenData", tokenData);
+
+                                final SharedPreferences sharedPreferencesRole =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(
+                                    "userRole", userRole);
+
+                                obtainedtokenData = tokenData;
+                                setState(() {});
+                                Widget okButton = const Center(
+                                  child: Icon(
+                                    Iconsax.tick_circle,
+                                    color: Color.fromARGB(255, 57, 229, 0),
+                                    size: 20,
+                                  ),
+                                );
+                                showAlertDialog(
+                                    context,
+                                    "Success",
+                                    "Login Successfull",
+                                    okButton,
+                                    const Color.fromARGB(255, 82, 196, 0));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('Logged In'),
+                                ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomePageScreen()));
+                                tokenPass();
+                                // } else {
+                                //   setState(() {
+                                //     isLogging = false;
+                                //   });
+                                //   Widget okButton = const Center(
+                                //     child: Icon(
+                                //       Iconsax.chart_fail,
+                                //       color: Colors.red,
+                                //     ),
+                                //   );
+                                //   showAlertDialog(
+                                //       context,
+                                //       "User Not found!!",
+                                //       "No $_currentItemSelected found with this email",
+                                //       okButton,
+                                //       Colors.red);
+                                // }
                               }
-                              print("tokenData IS: $tokenDataStorage");
                               //  }
                             }
                             break;
@@ -734,32 +833,78 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               print("successful login");
                               String emailData = email.text.trim();
                               String passwordData = password.text;
-                              var tokenData =
-                                  await login(emailData, passwordData);
+                              var token =
+                                  await login(emailData, passwordData) ??
+                                      "EQWE";
+                              if (token == "Invalid Password") {
+                                Widget okButton = const Center(
+                                  child: Icon(
+                                    Iconsax.chart_fail,
+                                    color: Colors.red,
+                                  ),
+                                );
+                                showAlertDialog(
+                                    context,
+                                    "OOPS!!",
+                                    "Invalid Email / Password",
+                                    okButton,
+                                    Colors.red);
 
-                              final SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
-                              sharedPreferences.setString(
-                                  "tokenData", tokenData);
+                                setState(() {
+                                  isLogging = false;
+                                });
+                                final SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.remove("tokenData");
 
-                              // await tokenDataStorage.write(
-                              //     key: "tokenData", value: tokenData);
-                              tokenData != "Invalid Password"
-                                  ? Get.off(const HomePageScreen())
-                                  : Get.defaultDialog(
-                                      title: "Oops!!",
-                                      middleText: "Invalid Password/Email",
-                                      actions: [
-                                        const Icon(
-                                          Iconsax.chart_fail,
-                                          size: 35,
-                                          color:
-                                              Color.fromARGB(255, 25, 202, 93),
-                                        )
-                                      ],
-                                      buttonColor: Colors.white);
-                              Get.off(TeacherPage());
-                              print("tokenData IS: $tokenDataStorage");
+                                final SharedPreferences sharedPreferences1 =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences1.remove("userRole");
+                              } else {
+                                //  if (await userRole == "Student") {
+                                tokenData = token.message;
+                                userRole = token.user;
+                                print(
+                                    "THE tokenData IS::::::::::::::::::::::::::::::::::::::::::::::::::");
+                                print(userRole);
+                                print(_currentItemSelected);
+                                //  if (tokenData == "EQWE") {
+                                //     } else {
+                                final SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(
+                                    "tokenData", tokenData);
+
+                                final SharedPreferences sharedPreferencesRole =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.setString(
+                                    "userRole", userRole);
+
+                                obtainedtokenData = tokenData;
+                                setState(() {});
+                                Widget okButton = const Center(
+                                  child: Icon(
+                                    Iconsax.tick_circle,
+                                    color: Color.fromARGB(255, 57, 229, 0),
+                                    size: 20,
+                                  ),
+                                );
+                                showAlertDialog(
+                                    context,
+                                    "Success",
+                                    "Login Successfull",
+                                    okButton,
+                                    const Color.fromARGB(255, 82, 196, 0));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('Logged In'),
+                                ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TeacherPage()));
+                                tokenPass();
+                              }
                             }
                             break;
 
@@ -827,31 +972,49 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   setState(() {
                                     isLogging = false;
                                   });
-                                  Get.defaultDialog(
-                                      title: "Unsuccessfull",
-                                      middleText: "Account already existed",
-                                      actions: [
-                                        const Icon(Iconsax.chart_fail,
-                                            size: 35, color: Colors.red)
-                                      ],
-                                      buttonColor: Colors.white);
+                                  // Get.defaultDialog(
+                                  //     title: "Unsuccessfull",
+                                  //     middleText: "Account already existed",
+                                  //     actions: [
+                                  //       const Icon(Iconsax.chart_fail,
+                                  //           size: 35, color: Colors.red)
+                                  //     ],
+                                  //     buttonColor: Colors.white);
+                                  Widget okButton = const Center(
+                                    child: Icon(
+                                      Iconsax.chart_fail,
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                  showAlertDialog(
+                                      context,
+                                      "Unsuccessfull",
+                                      "Account already existed",
+                                      okButton,
+                                      Colors.red);
                                 } else {
                                   setState(() {
                                     isLogging = false;
                                   });
-                                  Get.defaultDialog(
-                                      title: "Success!!",
-                                      middleText: "Registration Successfull",
-                                      actions: [
-                                        const Icon(
-                                          Iconsax.tick_circle,
-                                          size: 35,
-                                          color:
-                                              Color.fromARGB(255, 25, 202, 93),
-                                        )
-                                      ],
-                                      buttonColor: Colors.white);
+                                  Widget okButton = const Center(
+                                    child: Icon(
+                                      Iconsax.tick_circle,
+                                      color: Color.fromARGB(255, 57, 229, 0),
+                                      size: 20,
+                                    ),
+                                  );
+                                  showAlertDialog(
+                                      context,
+                                      "Success",
+                                      "Registration Successfull",
+                                      okButton,
+                                      const Color.fromARGB(255, 82, 196, 0));
                                   //Get.off(LoginSignupScreen());
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const HomePageScreen()));
                                 }
                               }
 
@@ -908,10 +1071,73 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               sharedPreferences.setString("email", emailData);
                               await tokenDataStorage.write(
                                   key: "email", value: emailData);
-                              Get.off(LoginSignupScreen());
+                              // Get.off(LoginSignupScreen());
+                              print(
+                                  "000000000000000000000000000000000000000000000000000000000000000");
+                              print(mytokenData);
+                              if (mytokenData != null) {
+                                if (mytokenData ==
+                                    "Account registered already") {
+                                  setState(() {
+                                    isLogging = false;
+                                  });
+                                  // Get.defaultDialog(
+                                  //     title: "Unsuccessfull",
+                                  //     middleText: "Account already existed",
+                                  //     actions: [
+                                  //       const Icon(Iconsax.chart_fail,
+                                  //           size: 35, color: Colors.red)
+                                  //     ],
+                                  //     buttonColor: Colors.white);
+                                  Widget okButton = const Center(
+                                    child: Icon(
+                                      Iconsax.chart_fail,
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                  showAlertDialog(
+                                      context,
+                                      "Unsuccessfull",
+                                      "Account already existed",
+                                      okButton,
+                                      Colors.red);
+                                } else {
+                                  setState(() {
+                                    isLogging = false;
+                                  });
+                                  // Get.defaultDialog(
+                                  //     title: "Success!!",
+                                  //     middleText: "Registration Successfull",
+                                  //     actions: [
+                                  //       const Icon(
+                                  //         Iconsax.tick_circle,
+                                  //         size: 35,
+                                  //         color:
+                                  //             Color.fromARGB(255, 25, 202, 93),
+                                  //       )
+                                  //     ],
+                                  //     buttonColor: Colors.white);
+                                  Widget okButton = const Center(
+                                    child: Icon(
+                                      Iconsax.tick_circle,
+                                      color: Color.fromARGB(255, 57, 229, 0),
+                                      size: 20,
+                                    ),
+                                  );
+                                  showAlertDialog(
+                                      context,
+                                      "Success",
+                                      "Registration Successfull",
+                                      okButton,
+                                      const Color.fromARGB(255, 82, 196, 0));
+                                  //Get.off(LoginSignupScreen());
+                                }
+                              }
+
                               print("tokenData IS: $tokenDataStorage");
                             }
                           }
+
                           break;
                       }
                       print("IS SIGNUP");
