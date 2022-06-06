@@ -22,7 +22,9 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
   AudioCache? _audioCache;
   var _image;
   File? fileMedia;
+  File? videoImage;
   MediaSource? source;
+  MediaSourceImage? vidimage;
   bool isPosted = false;
   var skillID;
   var selectedIndex;
@@ -38,6 +40,24 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
   }
 
   Future GalleryImage() async {
+    XFile? image = await ImagePicker().pickImage(
+        source: ImageSource.gallery, maxWidth: 400, imageQuality: 100);
+
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
+
+  Future CamaraVideoImage() async {
+    XFile? image = await ImagePicker().pickImage(
+        source: ImageSource.camera, maxWidth: 400, imageQuality: 100);
+
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
+
+  Future GalleryVideoImage() async {
     XFile? image = await ImagePicker().pickImage(
         source: ImageSource.gallery, maxWidth: 400, imageQuality: 100);
 
@@ -121,7 +141,7 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
                       child: DropdownButton<String>(
                         // Step 3.
                         /// value: snapshot.data![0].name!,
-                        value: snapshot.data![0].title!,
+                        value: _currentItemSelected,
                         // Step 4.
                         items: nameList
                             .map<DropdownMenuItem<String>>((String value) {
@@ -188,6 +208,90 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
             const SizedBox(
               height: 20,
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                GalleryImage();
+              },
+              child: DottedBorder(
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(10),
+                dashPattern: const [10, 4],
+                strokeCap: StrokeCap.round,
+                color: Colors.blue.shade400,
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      color: Colors.blue.shade50.withOpacity(.3),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: _image == null
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Iconsax.folder_open,
+                              color: Colors.blue,
+                              size: 40,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              'Select your file',
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.grey.shade400),
+                            ),
+                          ],
+                        )
+                      : Image.file(
+                          _image,
+                          width: 200.0,
+                          height: 200.0,
+                          fit: BoxFit.contain,
+                        ),
+                ),
+              ),
+            ),
+            const Divider(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 9,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          CamaraVideoImage();
+                        },
+                        child: const Icon(Iconsax.camera4),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          GalleryVideoImage();
+                        },
+                        child: const Icon(Iconsax.gallery),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                ],
+              ),
+            ),
+
+            //FOR VIDEO
             GestureDetector(
               onTap: () {},
               child: DottedBorder(
@@ -270,10 +374,13 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
                     child: FlatButton(
                         onPressed: () async {
                           isPosted = true;
-                          setState(() {});
+                          setState(() {
+                            print("11111111111111111111111111111111111111");
+                            print(_titleControler.text);
+                          });
                           var id = skillID;
-                          await postSkillsVideo(
-                              id.toString(), _titleControler.text, fileMedia!);
+                          await postSkillsVideo(fileMedia!, id.toString(),
+                              _titleControler.text, _image!);
                           isPosted = false;
                           setState(() {});
                         },
@@ -337,6 +444,30 @@ class _SkillVideoPostState extends State<SkillVideoPost> {
     } else {
       setState(() {
         fileMedia = result;
+      });
+    }
+  }
+
+  Future captureImage(MediaSourceImage vidimage) async {
+    setState(() {
+      this.vidimage = vidimage;
+      videoImage = null;
+    });
+
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SourcePage(),
+        settings: RouteSettings(
+          arguments: source,
+        ),
+      ),
+    );
+
+    if (result == null) {
+      return;
+    } else {
+      setState(() {
+        videoImage = result;
       });
     }
   }

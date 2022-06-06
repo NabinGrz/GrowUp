@@ -8,7 +8,12 @@ var _postSkillsVideoData;
 var responsepostSkillsVideo;
 var reponseMessage;
 bool postSuccess = false;
-Future<bool> postSkillsVideo(String id, String videotitle, File file) async {
+Future<bool> postSkillsVideo(
+  File file,
+  String id,
+  String videoName,
+  File videoImage,
+) async {
   var request =
       http.MultipartRequest("POST", Uri.parse("$baseUrlGet/api/v1/video"));
   request.headers.addAll({
@@ -16,9 +21,13 @@ Future<bool> postSkillsVideo(String id, String videotitle, File file) async {
     'Authorization': 'Bearer $adminToken',
   });
   //SkillCategoryId
-  request.fields['VideoUrl'] = videotitle;
   request.files.add(await http.MultipartFile.fromPath('Video', file.path));
   request.fields['SkillId'] = id;
+  request.fields['VideoName'] = videoName;
+  request.fields['ImageUrl'] = "Image";
+  request.files
+      .add(await http.MultipartFile.fromPath('Image', videoImage.path));
+  request.fields['VideoUrl'] = "Video";
   await request.send().then((response) {
     http.Response.fromStream(response).then((onValue) {
       if (response.statusCode == 200) {

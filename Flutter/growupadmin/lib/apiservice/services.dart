@@ -20,10 +20,10 @@ getToken() async {
 }
 
 var adminToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5pYmFuZ3JnMjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2M2ZlZTQ0Yy0yMmY0LTQ3MTgtOTM0OC00MzMyN2E0YWM1YjciLCJleHAiOjE2NTIxODM1NjUsImlzcyI6Imh0dHA6Ly9tYWhhcmphbnNhY2hpbi5jb20ubnAiLCJhdWQiOiJodHRwOi8vbWFoYXJqYW5zYWNoaW4uY29tLm5wIn0.UrMgamdjnjfz6yGtRuHPTiUNbG3y_hN3yMuO1R20nCQ";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5pYmFuZ3JnMjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI3ZjBhOTgxMC0wNGYyLTRlNmEtOGI5MS1jZDAzMTcxMjQ2MjEiLCJleHAiOjE2NTY5MzA4MzIsImlzcyI6Imh0dHA6Ly9tYWhhcmphbnNhY2hpbi5jb20ubnAiLCJhdWQiOiJodHRwOi8vbWFoYXJqYW5zYWNoaW4uY29tLm5wIn0.kNG6kw-4iVy6C9WVwtiulbMXGqdBFLZPfwwGP6yjMkk";
 const baseUrlGet =
-    "https://09ee-2400-1a00-b020-3577-34c2-2e92-dc2-8c72.ngrok.io";
-const baseUrlPost = "09ee-2400-1a00-b020-3577-34c2-2e92-dc2-8c72.ngrok.io";
+    "https://31b3-2400-1a00-b020-164-2195-673c-67b6-414.ngrok.io";
+const baseUrlPost = "31b3-2400-1a00-b020-164-2195-673c-67b6-414.ngrok.io";
 var _loginResponseData;
 var responseLoginTokken;
 Future login(String email, String password) async {
@@ -262,4 +262,34 @@ Future<List<Quiz>> getQuiz(int skillID) async {
     return quiz;
   } else {}
   return quiz;
+}
+
+var _postNewsFeedData;
+var responsePostNewsFeed;
+Future<bool> postNewsFeed(String title, File file) async {
+  var request = http.MultipartRequest(
+      "POST", Uri.parse("$baseUrlGet/api/v1/addnewsfeed"));
+  request.headers.addAll({
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Authorization': 'Bearer $obtainedtokenData',
+  });
+  request.fields['Title'] = title;
+  request.files.add(await http.MultipartFile.fromPath('Image', file.path));
+  request.send().then((response) {
+    http.Response.fromStream(response).then((onValue) {
+      try {
+        // get your response here...
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        // handle exeption
+      }
+      print(postSuccess);
+    });
+  });
+  return true;
+//  return reponseMessage;
 }
