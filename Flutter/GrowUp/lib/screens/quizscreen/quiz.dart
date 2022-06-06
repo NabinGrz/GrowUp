@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:growup/adapters/quizhistory.dart';
 import 'package:growup/models/quizmodel.dart';
 import 'package:growup/screens/quizhistory/quizhistorylist.dart';
@@ -324,8 +323,14 @@ class _QuizScreenState extends State<QuizScreen> {
                                         marks.toString(),
                                         dateTime.toString(),
                                         "2 min"));
-                                    Get.to(QuizResultScreen(marks,
-                                        listQuiz.length, widget.skillID));
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return QuizResultScreen(marks,
+                                            listQuiz.length, widget.skillID);
+                                      },
+                                    ));
+                                    // Get.to(QuizResultScreen(marks,
+                                    //     listQuiz.length, widget.skillID));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: darkBlueColor,

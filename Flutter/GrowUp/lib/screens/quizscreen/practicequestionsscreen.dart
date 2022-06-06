@@ -265,312 +265,323 @@ class _PracticeQuestionScreenState extends State<PracticeQuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: darkBlueColor,
-        body: FutureBuilder<List<Practice>>(
-            future: practiceQuestions,
-            builder: (context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.data == null ||
-                  snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData ||
-                  snapshot.data != null ||
-                  snapshot.connectionState == ConnectionState.done) {
-                List<Practice> listPractice = snapshot.data;
-                return PageView.builder(
-                  onPageChanged: (index) {
-                    setState(() {
-                      pageChanged = index;
-                    });
-                  },
-                  controller: pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listPractice[widget.skillID - widget.skillID]
-                      .questions!
-                      .length,
-                  itemBuilder: (context, index) {
-                    var num = index + 1;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            //color: Colors.red,
-                            width: MediaQuery.of(context).size.width - 17,
-                            height: MediaQuery.of(context).size.height * 0.11,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "00:" + showtimer,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    _showModalBottomSheet(context);
-                                  },
-                                  child: const Text(
-                                    "END",
-                                    style: TextStyle(
+    return GetMaterialApp(
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: darkBlueColor,
+          body: FutureBuilder<List<Practice>>(
+              future: practiceQuestions,
+              builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.data == null ||
+                    snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasData ||
+                    snapshot.data != null ||
+                    snapshot.connectionState == ConnectionState.done) {
+                  List<Practice> listPractice = snapshot.data;
+                  return PageView.builder(
+                    onPageChanged: (index) {
+                      setState(() {
+                        pageChanged = index;
+                      });
+                    },
+                    controller: pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: listPractice[widget.skillID - widget.skillID]
+                        .questions!
+                        .length,
+                    itemBuilder: (context, index) {
+                      var num = index + 1;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              //color: Colors.red,
+                              width: MediaQuery.of(context).size.width - 17,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "00:" + showtimer,
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   ),
-                                ),
-                              ],
-                            )),
-                        Container(
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              color: Color.fromARGB(255, 254, 162, 87),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromARGB(255, 111, 115, 143),
-                                    blurRadius: 14,
-                                    spreadRadius: 1,
-                                    offset: Offset(3, 3)),
-                              ]),
-                          height: MediaQuery.of(context).size.height / 1.8,
-                          width: MediaQuery.of(context).size.width - 20,
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Question $num :",
-                                        style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 27),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        listPractice[
-                                                widget.skillID - widget.skillID]
-                                            .questions![index]
-                                            .text
-                                            .toString(),
-                                        textAlign: TextAlign.left,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 20),
-                                      ),
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showModalBottomSheet(context);
+                                    },
+                                    child: const Text(
+                                      "END",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Container(
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Color.fromARGB(255, 254, 162, 87),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromARGB(255, 111, 115, 143),
+                                      blurRadius: 14,
+                                      spreadRadius: 1,
+                                      offset: Offset(3, 3)),
+                                ]),
+                            height: MediaQuery.of(context).size.height / 1.8,
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Question $num :",
+                                          style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 27),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          listPractice[widget.skillID -
+                                                  widget.skillID]
+                                              .questions![index]
+                                              .text
+                                              .toString(),
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 3,
-                                width: MediaQuery.of(context).size.width - 35,
-                                // color: Colors.red,
-                                child: SingleChildScrollView(
-                                  physics: const ScrollPhysics(),
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: listPractice[
-                                              widget.skillID - widget.skillID]
-                                          .questions![index]
-                                          .options!
-                                          .length,
-                                      itemBuilder: (context, ansIndex) {
-                                        k = ['a', 'b', 'c', 'd'];
-                                        String selectedAns = listPractice[
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  width: MediaQuery.of(context).size.width - 35,
+                                  // color: Colors.red,
+                                  child: SingleChildScrollView(
+                                    physics: const ScrollPhysics(),
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: listPractice[
                                                 widget.skillID - widget.skillID]
                                             .questions![index]
-                                            .options![ansIndex]
-                                            .isCorrectOption
-                                            .toString();
-                                        return Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                choicebutton(
-                                                    k![ansIndex].toString(),
-                                                    selectedAns),
-                                                SizedBox(
-                                                  //color: Colors.red,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      150,
-                                                  height: 50,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 12.0),
-                                                    child: Text(
-                                                      listPractice[widget
-                                                                  .skillID -
-                                                              widget.skillID]
-                                                          .questions![index]
-                                                          .options![ansIndex]
-                                                          .text
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Color.fromARGB(
-                                                            255, 255, 255, 255),
+                                            .options!
+                                            .length,
+                                        itemBuilder: (context, ansIndex) {
+                                          k = ['a', 'b', 'c', 'd'];
+                                          String selectedAns = listPractice[
+                                                  widget.skillID -
+                                                      widget.skillID]
+                                              .questions![index]
+                                              .options![ansIndex]
+                                              .isCorrectOption
+                                              .toString();
+                                          return Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  choicebutton(
+                                                      k![ansIndex].toString(),
+                                                      selectedAns),
+                                                  SizedBox(
+                                                    //color: Colors.red,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            150,
+                                                    height: 50,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 12.0),
+                                                      child: Text(
+                                                        listPractice[widget
+                                                                    .skillID -
+                                                                widget.skillID]
+                                                            .questions![index]
+                                                            .options![ansIndex]
+                                                            .text
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              255),
+                                                        ),
+                                                        //textAlign: TextAlign.left,
+                                                        overflow:
+                                                            TextOverflow.clip,
                                                       ),
-                                                      //textAlign: TextAlign.left,
-                                                      overflow:
-                                                          TextOverflow.clip,
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        );
-                                      }),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          );
+                                        }),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 35,
-                        ),
-                        isClicked
-                            ? index ==
-                                    listPractice[
-                                                widget.skillID - widget.skillID]
-                                            .questions!
-                                            .length -
-                                        1
-                                ? Container(
-                                    width: 150,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color(0xffFE876C),
-                                          Color(0xffFD5D37),
-                                        ],
+                          const SizedBox(
+                            height: 35,
+                          ),
+                          isClicked
+                              ? index ==
+                                      listPractice[widget.skillID -
+                                                  widget.skillID]
+                                              .questions!
+                                              .length -
+                                          1
+                                  ? Container(
+                                      width: 150,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xffFE876C),
+                                            Color(0xffFD5D37),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          30.0,
+                                        ),
                                       ),
-                                      borderRadius: BorderRadius.circular(
-                                        30.0,
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          var datetime = DateTime.now();
+                                          Box<PracticeRecord> box =
+                                              Hive.box<PracticeRecord>(
+                                                  'practice');
+                                          print(
+                                              "==============================================");
+                                          print(box.length);
+                                          box.length;
+                                          box.add(PracticeRecord(
+                                              listPractice[widget.skillID -
+                                                      widget.skillID]
+                                                  .questions![0]
+                                                  .skill
+                                                  .toString(),
+                                              marks.toString(),
+                                              datetime.toString(),
+                                              "$timer Sec"));
+                                          Get.to(
+                                              const PracticeRecordListScreen());
+                                          Fluttertoast.showToast(
+                                            msg:
+                                                "Good jon you have cleard the practice",
+                                          );
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                        ),
+                                        child: Text(
+                                          'Finish',
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 18),
+                                        ),
                                       ),
-                                    ),
-                                    child: FlatButton(
-                                      onPressed: () {
-                                        var datetime = DateTime.now();
-                                        Box<PracticeRecord> box =
-                                            Hive.box<PracticeRecord>(
-                                                'practice');
-                                        print(
-                                            "==============================================");
-                                        print(box.length);
-                                        box.length;
-                                        box.add(PracticeRecord(
-                                            listPractice[widget.skillID -
-                                                    widget.skillID]
-                                                .questions![0]
-                                                .skill
-                                                .toString(),
-                                            marks.toString(),
-                                            datetime.toString(),
-                                            "$timer Sec"));
-                                        Get.to(
-                                            const PracticeRecordListScreen());
-                                        Fluttertoast.showToast(
-                                          msg:
-                                              "Good jon you have cleard the practice",
-                                        );
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(17),
+                                    )
+                                  : Container(
+                                      width: 150,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xffFE876C),
+                                            Color(0xffFD5D37),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          30.0,
+                                        ),
                                       ),
-                                      child: Text(
-                                        'Finish',
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    width: 150,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color(0xffFE876C),
-                                          Color(0xffFD5D37),
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                        30.0,
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      onPressed: () {
-                                        btnColor['a'] = const Color.fromARGB(
-                                            255, 230, 230, 230);
-                                        btnHeight['a'] = 23;
-                                        btnWidth['a'] = 23;
-                                        btnTextColor['a'] = Colors.black;
-                                        btnTextSize['a'] = 16;
-                                        btnColor['b'] = const Color.fromARGB(
-                                            255, 230, 230, 230);
-                                        btnHeight['b'] = 23;
-                                        btnWidth['b'] = 23;
-                                        btnTextColor['b'] = Colors.black;
-                                        btnTextSize['b'] = 16;
-                                        btnColor['c'] = const Color.fromARGB(
-                                            255, 230, 230, 230);
-                                        btnHeight['c'] = 23;
-                                        btnWidth['c'] = 23;
-                                        btnTextColor['c'] = Colors.black;
-                                        btnTextSize['c'] = 16;
-                                        btnColor['d'] = const Color.fromARGB(
-                                            255, 230, 230, 230);
-                                        btnHeight['d'] = 23;
-                                        btnWidth['d'] = 23;
-                                        btnTextColor['d'] = Colors.black;
-                                        btnTextSize['d'] = 16;
-                                        nextPage();
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          btnColor['a'] = const Color.fromARGB(
+                                              255, 230, 230, 230);
+                                          btnHeight['a'] = 23;
+                                          btnWidth['a'] = 23;
+                                          btnTextColor['a'] = Colors.black;
+                                          btnTextSize['a'] = 16;
+                                          btnColor['b'] = const Color.fromARGB(
+                                              255, 230, 230, 230);
+                                          btnHeight['b'] = 23;
+                                          btnWidth['b'] = 23;
+                                          btnTextColor['b'] = Colors.black;
+                                          btnTextSize['b'] = 16;
+                                          btnColor['c'] = const Color.fromARGB(
+                                              255, 230, 230, 230);
+                                          btnHeight['c'] = 23;
+                                          btnWidth['c'] = 23;
+                                          btnTextColor['c'] = Colors.black;
+                                          btnTextSize['c'] = 16;
+                                          btnColor['d'] = const Color.fromARGB(
+                                              255, 230, 230, 230);
+                                          btnHeight['d'] = 23;
+                                          btnWidth['d'] = 23;
+                                          btnTextColor['d'] = Colors.black;
+                                          btnTextSize['d'] = 16;
+                                          nextPage();
 
-                                        setState(() {
-                                          isClicked = false;
-                                        });
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(17),
+                                          setState(() {
+                                            isClicked = false;
+                                          });
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                        ),
+                                        child: Text(
+                                          'Submit',
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 18),
+                                        ),
                                       ),
-                                      child: Text(
-                                        'Submit',
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  )
-                            : Container()
-                      ],
-                    );
-                  },
-                );
-              }
-              return Container();
-            }),
+                                    )
+                              : Container()
+                        ],
+                      );
+                    },
+                  );
+                }
+                return Container();
+              }),
+        ),
       ),
     );
   }

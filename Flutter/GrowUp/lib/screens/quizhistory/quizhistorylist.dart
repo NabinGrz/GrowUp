@@ -191,7 +191,12 @@ class _QuizHistoryListScreenState extends State<QuizHistoryListScreen> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Get.to(const HomePageScreen());
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const HomePageScreen();
+                          },
+                        ));
+                        //Get.to(const HomePageScreen());
                       },
                       icon: Icon(
                         Iconsax.back_square,

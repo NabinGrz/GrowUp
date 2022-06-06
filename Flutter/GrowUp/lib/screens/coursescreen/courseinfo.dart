@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -619,10 +620,22 @@ class _CourseInfoState extends State<CourseInfo> {
                                                         //     );
                                                         //   },
                                                         // ),
-                                                        Image.network(
-                                                          _videosList![index]
-                                                              .imageUrl!,
+                                                        CachedNetworkImage(
+                                                          imageUrl:
+                                                              _videosList![
+                                                                      index]
+                                                                  .imageUrl!,
                                                           fit: BoxFit.cover,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Image.asset(
+                                                                  "images/error.png"),
+                                                          placeholder:
+                                                              (context, url) {
+                                                            return const Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          },
                                                         ),
                                                         // Image.network(
                                                         //   _videosList![index]
@@ -689,12 +702,12 @@ class _CourseInfoState extends State<CourseInfo> {
                                                                 child: Center(
                                                                   child: dowloadButton(
                                                                       _videosList![
-                                                                              tappedIndex]
+                                                                              index]
                                                                           .videoUrl!,
                                                                       fileDownloaderProvider,
                                                                       index,
                                                                       _videosList![
-                                                                              tappedIndex]
+                                                                              index]
                                                                           .videoName!),
                                                                 ),
                                                               )),

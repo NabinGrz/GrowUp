@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:growup/models/exammodel.dart';
 import 'package:growup/screens/testscreen/testgivingscreen.dart';
 import 'package:growup/services/testExamservices.dart';
@@ -51,7 +50,7 @@ class _ExamsListState extends State<ExamsList> {
                 return ListView.builder(
                     itemCount: examList.length,
                     itemBuilder: (context, index) {
-                      return quizHistoryViewItem(examList, index);
+                      return quizHistoryViewItem(examList, index, context);
                     });
               }
               return Container(
@@ -63,7 +62,7 @@ class _ExamsListState extends State<ExamsList> {
   }
 }
 
-Widget quizHistoryViewItem(var examsList, int index) {
+Widget quizHistoryViewItem(var examsList, int index, BuildContext context) {
   return Container(
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.all(10),
@@ -118,7 +117,13 @@ Widget quizHistoryViewItem(var examsList, int index) {
             padding: const EdgeInsets.only(top: 50.0),
             child: ElevatedButton(
                 onPressed: () {
-                  Get.to(TestScreen(int.parse(examsList[index].id.toString())));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestScreen(
+                            int.parse(examsList[index].id.toString())),
+                      ));
+                  // Get.to(TestScreen(int.parse(examsList[index].id.toString())));
                 },
                 style: ElevatedButton.styleFrom(
                     primary: darkBlueColor,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:growup/models/testmodel.dart';
 import 'package:growup/screens/homescreen/homepage_screen.dart';
 import 'package:growup/services/testExamservices.dart';
@@ -231,8 +230,17 @@ class _TestScreenState extends State<TestScreen> {
                           index == listExamTest.length - 1
                               ? ElevatedButton(
                                   onPressed: () {
-                                    Get.to(QuizResultScreen(marks,
-                                        listExamTest.length, widget.examID));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              QuizResultScreen(
+                                                  marks,
+                                                  listExamTest.length,
+                                                  widget.examID),
+                                        ));
+                                    // Get.to(QuizResultScreen(marks,
+                                    //     listExamTest.length, widget.examID));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: darkBlueColor,
@@ -359,7 +367,11 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
         children: [
           ElevatedButton(
             onPressed: () async {
-              Get.to(const HomePageScreen());
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePageScreen(),
+                  ));
             },
             style: ElevatedButton.styleFrom(
                 primary: darkBlueColor,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:growup/models/categorymodel.dart';
 import 'package:growup/models/schedulemodel.dart';
 import 'package:growup/services/apiservice.dart';
 import 'package:http/http.dart' as http;
@@ -163,5 +164,32 @@ Future<bool> postQuiz(String skillId, String question) async {
     return true;
   } else {
     return false;
+  }
+}
+
+late var responseCategory;
+List<CategoryModel>? name;
+var skillsVideo;
+//List<TestModel>? usersTestUser = [];
+//var finalCount;
+//var t ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5vYmlnMjJAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwYzE4ODQ2NC1iYTNkLTQ0OTMtYWM0MC0xYWIxZGUzMTE3OGMiLCJleHAiOjE2NDgwNDg5NDgsImlzcyI6Imh0dHA6Ly9tYWhhcmphbnNhY2hpbi5jb20ubnAiLCJhdWQiOiJodHRwOi8vbWFoYXJqYW5zYWNoaW4uY29tLm5wIn0.1RAi4fzWklh8jyLSMstRrF098RwjxwmXvztAq1rcBWY";
+Future<List<CategoryModel>> getSkillName(int skillID) async {
+  myUrl = Uri.parse(
+    "$baseUrlGet/api/v1/categoryname?id=$skillID",
+  );
+  responseCategory = await http.get(myUrl, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $obtainedtokenData',
+  });
+  if (responseCategory.statusCode == 200) {
+    var data = await responseCategory.body;
+    name = categoryModelFromJson(data);
+    // video = SkillsVideoResponseModel.fromJson(jsonDecode(data.toString()));
+    print("======================VIDEPO=======================");
+    print(name);
+    return name!;
+  } else {
+    return [];
   }
 }

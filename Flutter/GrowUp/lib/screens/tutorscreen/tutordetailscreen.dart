@@ -210,20 +210,6 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                             hintStyle:
                                 TextStyle(fontSize: 14, color: textColor1),
                           ),
-                          // validator: (value) {
-                          //   if (value!.isEmpty) {
-                          //     print("====================================");
-                          //     print("object");
-                          //     setState(() {
-                          //       isValid = !isValid;
-                          //     });
-                          //     return 'Please Enter Name';
-                          //   }
-                          //   return null;
-                          // },
-                          // onSaved: (String? value) {
-                          //   textValue = value;
-                          // },
                         ),
                       ),
                       const SizedBox(
@@ -240,10 +226,6 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                     borderRadius: BorderRadius.circular(10)),
                               ),
                               onPressed: () async {
-                                // setState(() {
-                                //   isUpdated = true;
-                                // });
-
                                 print("11111111111111111111111111111111");
                                 bool booked = await bookTutor(
                                     usersDetail?[index!].id,
@@ -259,25 +241,16 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                                       scheduleTime!,
                                       scheduleDate!);
                                   if (scheduled) {
-                                    // setState(() {
-                                    //   isUpdated = false;
-                                    // });
                                     Fluttertoast.showToast(
                                         msg: "Tutor has been Booked");
                                   } else {
-                                    // setState(() {
-                                    //   isUpdated = false;
-                                    // });
                                     Fluttertoast.showToast(
                                         msg: "Something went wrong");
                                   }
                                 } else {
-                                  // setState(() {
-                                  //   isUpdated = false;
-                                  // });
                                   Fluttertoast.showToast(msg: "Booking fail");
                                 }
-
+                                // _initPayment("");
                                 Navigator.of(context, rootNavigator: true)
                                     .pop();
                               },

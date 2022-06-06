@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:growup/colorpalettes/palette.dart';
+import 'package:growup/models/categorymodel.dart';
 import 'package:growup/screens/coursescreen/courseinfo.dart';
 import 'package:growup/screens/coursescreen/course_item.dart';
 import 'package:growup/services/apiservice.dart';
+import 'package:growup/services/testpaperbuild.dart';
 import 'package:growup/widgets/shimmer.dart';
 import 'package:searchfield/searchfield.dart';
 
@@ -21,6 +23,7 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   var _skillsVideos;
   String? _selectedItem;
   String? img;
+  bool first = false;
   var c;
   @override
   getVc() async {
@@ -420,18 +423,47 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 25, top: 15),
-                              child: Text(
-                                'Development Courses',
-                                style: TextStyle(
-                                    color:
-                                        const Color.fromARGB(255, 124, 124, 124)
-                                            .withOpacity(.8),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20),
-                              ),
-                            ),
+                            /**
+                           List<CategoryModel> dd = await getSkillVideos(1);
+                print(
+                    "==============================NAMMMMM=================================");
+                print(dd[0].name); */
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(1),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var name = snapshot.data![0].name;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25, top: 15),
+                                      child: Text(
+                                        name! + " Course",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                    255, 124, 124, 124)
+                                                .withOpacity(.8),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20),
+                                      ),
+                                    );
+                                  } else {}
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
                             SizedBox(
                               height: MediaQuery.of(context).size.width * 0.7,
                               //color: Colors.red,
@@ -439,17 +471,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _courseList.length,
                                 itemBuilder: (context, myindex) {
-                                  //  getVidCount(_courseList[myindex].id);
-                                  // print(
-                                  //     "000000000000000000000000000000000000000000000000000000000000000000000");
-                                  // print("Course Title: " +
-                                  //     _courseList[myindex].title);
-                                  // print("Skill ID: " +
-                                  //     _courseList[myindex].id.toString());
-                                  // print("SKILL CAT ID: " +
-                                  //     _courseList[myindex]
-                                  //         .skillCategoryId
-                                  //         .toString());
                                   return _courseList[myindex]
                                               .skillCategoryId
                                               .toString() ==
@@ -464,11 +485,6 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                               imageUrl: _courseList[myindex]
                                                   .titleImage,
                                               skillId: _courseList[myindex].id,
-                                              // imageUrl:
-                                              //   "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
-                                              //  "https://d861-2400-1a00-b020-932d-9ca7-220a-313f-4867.ngrok.io/Media/Images/1439ecf5-5f06-4afc-a538-c800712fbea2mobileapplication.png",
-                                              // noOfVideos: _courseList[myindex]
-                                              //      .noOfVideos,
                                               noOfVideos: getVideosCount(
                                                   _courseList[myindex].id),
                                               skill: _courseList[myindex]
@@ -484,18 +500,42 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                             // SizedBox(
                             //   height: 20,
                             // ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 25, top: 15),
-                              child: Text(
-                                'Design Courses',
-                                style: TextStyle(
-                                    color:
-                                        const Color.fromARGB(255, 124, 124, 124)
-                                            .withOpacity(.8),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20),
-                              ),
-                            ),
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(2),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var name = snapshot.data![0].name;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25, top: 15),
+                                      child: Text(
+                                        name! + " Course",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                    255, 124, 124, 124)
+                                                .withOpacity(.8),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20),
+                                      ),
+                                    );
+                                  } else {}
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
                             SizedBox(
                               height: MediaQuery.of(context).size.width * 0.7,
                               //color: Colors.red,
@@ -531,18 +571,45 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 25, top: 15),
-                              child: Text(
-                                'Marketing Courses',
-                                style: TextStyle(
-                                    color:
-                                        const Color.fromARGB(255, 124, 124, 124)
-                                            .withOpacity(.8),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20),
-                              ),
-                            ),
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(3),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var name = snapshot.data!.isEmpty
+                                        ? " "
+                                        : snapshot.data![0].name;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25, top: 15),
+                                      child: Text(
+                                        name! + " Course",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                    255, 124, 124, 124)
+                                                .withOpacity(.8),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20),
+                                      ),
+                                    );
+                                  } else {}
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+
                             SizedBox(
                               height: MediaQuery.of(context).size.width * 0.7,
                               //color: Colors.red,
@@ -576,6 +643,198 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
                                 },
                               ),
                             ),
+
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(10),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var name = snapshot.data!.isEmpty
+                                        ? " "
+                                        : snapshot.data![0].name.toString() +
+                                            " Course";
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25, top: 15),
+                                      child: Text(
+                                        name,
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                    255, 124, 124, 124)
+                                                .withOpacity(.8),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20),
+                                      ),
+                                    );
+                                  } else {}
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(10),
+                                builder: (context, snapshot) {
+                                  try {
+                                    if (snapshot.data!.isNotEmpty) {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        //color: Colors.red,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: _courseList.length,
+                                          itemBuilder: (context, myindex) {
+                                            return _courseList[myindex]
+                                                        .skillCategoryId
+                                                        .toString() ==
+                                                    "10"
+                                                ? Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      CourseItem(
+                                                        name:
+                                                            _courseList[myindex]
+                                                                .title,
+                                                        imageUrl:
+                                                            _courseList[myindex]
+                                                                .titleImage,
+                                                        skillId:
+                                                            _courseList[myindex]
+                                                                .id,
+                                                        noOfVideos:
+                                                            getVideosCount(
+                                                                _courseList[
+                                                                        myindex]
+                                                                    .id),
+                                                        skill: _courseList[
+                                                                myindex]
+                                                            .skillCategoryId,
+                                                        // skill: skillsdevelopment[index],
+                                                      )
+                                                    ],
+                                                  )
+                                                : Container();
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  } catch (ex) {}
+
+                                  return Container();
+                                }),
+
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(11),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var name = snapshot.data!.isEmpty
+                                        ? " "
+                                        : snapshot.data![0].name.toString() +
+                                            " Course";
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 25, top: 15),
+                                      child: Text(
+                                        name,
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                    255, 124, 124, 124)
+                                                .withOpacity(.8),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20),
+                                      ),
+                                    );
+                                  } else {}
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: buildShimmerEffect(
+                                      context,
+                                      Container(
+                                        height: 30,
+                                        width: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                            FutureBuilder<List<CategoryModel>>(
+                                future: getSkillName(11),
+                                builder: (context, snapshot) {
+                                  try {
+                                    if (snapshot.data!.isNotEmpty) {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        //color: Colors.red,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: _courseList.length,
+                                          itemBuilder: (context, myindex) {
+                                            return _courseList[myindex]
+                                                        .skillCategoryId
+                                                        .toString() ==
+                                                    "11"
+                                                ? Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      CourseItem(
+                                                        name:
+                                                            _courseList[myindex]
+                                                                .title,
+                                                        imageUrl:
+                                                            _courseList[myindex]
+                                                                .titleImage,
+                                                        skillId:
+                                                            _courseList[myindex]
+                                                                .id,
+                                                        noOfVideos:
+                                                            getVideosCount(
+                                                                _courseList[
+                                                                        myindex]
+                                                                    .id),
+                                                        skill: _courseList[
+                                                                myindex]
+                                                            .skillCategoryId,
+                                                        // skill: skillsdevelopment[index],
+                                                      )
+                                                    ],
+                                                  )
+                                                : Container();
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  } catch (ex) {}
+
+                                  return Container();
+                                }),
                           ],
                         );
                       }

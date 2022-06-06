@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:growup/colorpalettes/palette.dart';
 import 'package:growup/downloads/download.dart';
 import 'package:growup/downloads/download_provider.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -361,19 +358,6 @@ class _VideoInfoState extends State<VideoInfo> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      dowloadButton(
-                                          videoInfo[tappedIndex]["videoUrl"],
-                                          fileDownloaderProvider,
-                                          index,
-                                          videoInfo[tappedIndex]["videoName"]),
                                     ],
                                   ),
                                 ),

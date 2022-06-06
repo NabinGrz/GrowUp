@@ -44,7 +44,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   Widget build(BuildContext context) {
     print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     return Container(
-      width: 250,
+      width: 300,
       color: darkBlueColor,
       child: Padding(
         padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
@@ -82,6 +82,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       var name = snapshot.data!.fullName.toString();
                       var email = snapshot.data!.userName.toString();
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             name,
@@ -91,12 +92,18 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20),
                           ),
-                          Text(
-                            email,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal),
+                          SizedBox(
+                            height: 30,
+                            width: 180,
+                            //color: Colors.red,
+                            child: Text(
+                              email,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal),
+                            ),
                           ),
                         ],
                       );

@@ -90,9 +90,6 @@ class _ProfileState extends State<Profile> {
                       children: [
                         //for circle avtar image
                         _getHeader(),
-                        const SizedBox(
-                          height: 10,
-                        ),
 
                         _profileName(userFinalDetails!.fullName.toString()),
                         //userFinalDetails['fullName'].toString()),
