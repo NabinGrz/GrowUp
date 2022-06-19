@@ -1,5 +1,5 @@
 # GrowUp(Final Yaer Project)
-GrowUp is an E-Learning app built with Flutter and ASP.NET Core(Inspired from Byjus and Unacademy)
+GrowUp is an E-Learning app built with Flutter and ASP.NET Core <em>(Inspired from Byjus and Unacademy)</em>
 
 GrowUp is an online marketplace for passionate teachers and aspiring learners. GrowUp helps to bridge
 the gap between the skills needed and the industry expectations. This application
