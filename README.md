@@ -10,6 +10,6 @@ connected to internet. Students can lead themselves to self-learning, get traine
 learn on their own, get confidence to develop his personality.
 
 # Some Screenshots
-![](https://user-images.githubusercontent.com/81028182/174469855-da2f87de-c372-4f35-ac46-31ab71c75e9f.png)
-![](https://user-images.githubusercontent.com/81028182/174469857-7e5b8db7-1b86-4751-9d2a-afc09e45b3c5.png)
+![Group 33](https://user-images.githubusercontent.com/81028182/174471060-16c50cf0-120a-4cbc-b79a-8923edea3cd4.png)
+
 
