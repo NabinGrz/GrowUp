@@ -9,4 +9,4 @@ anytime, anyplace as per his ability to understand the particular topic when
 connected to internet. Students can lead themselves to self-learning, get trained to
 learn on their own, get confidence to develop his personality.
 
-#Some Screenshots
+# Some Screenshots
